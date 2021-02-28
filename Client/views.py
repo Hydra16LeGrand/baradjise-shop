@@ -107,7 +107,7 @@ class Acces:
 
 	def deconnexion(request):
 
-		auth.logout(request)
+		logout(request)
 		return redirect('accueil')
 
 class Panier:
