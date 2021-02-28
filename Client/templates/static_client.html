@@ -64,14 +64,14 @@
 							<div class="widget-header  mr-3 col-2">
 								<a href="{% url 'lister_envie' %}" title="Mes souhaits" class="icon icon-sm rounded-circle border">
 									<i class="fas fa-heart"></i>
-									<span class="notify">{{ request.user|nbre_pu }}</span>
+									<span class="notify">{{ request|nbre_pu }}</span>
 								</a>
 								<span class="badge badge-pill badge-danger notify"></span>
 							</div>
 							<div class="widget-header  mr-3 col-2 icon">
 								<a href="{% url 'lister_panier' %}" title="Mon panier" class="icon icon-sm rounded-circle border">
 									<i class="fa fa-shopping-cart"></i>
-									<span class="notify">{{ request.user|nbre_pp }}</span>
+									<span class="notify">{{ request|nbre_pp }}</span>
 								</a>
 								<span class="badge badge-pill badge-danger notify"></span>
 									

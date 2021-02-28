@@ -95,9 +95,13 @@ class Acces:
 			if user is not None:
 				login(request, user)
 				return redirect('accueil')
-
 			else:
-				return render(request, "Client/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
+				try:
+					client = models.User.objects.get(user=User.objects.get(username=form.get('username')))
+				except:
+					return render(request, "Client/authentification.html", {'message':"Compte inexistant"})
+				else:
+					return render(request, "Client/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
 
 		else:
 			return render(request, "Client/authentification.html")
@@ -830,12 +834,17 @@ class Vendeur:
 				return redirect('dashboard_vendeur')
 
 			else:
-				user = User.objects.get(username=form.get('username'))
-				if user.is_active:
-					return render(request, "Vendeur/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
+				try:
+					vendeur = models.Vendeur.objects.get(user=User.objects.get(username=form.get('username')))
+				except Exception as e:
+					return render(request, "Vendeur/authentification.html", {'message': "Compte inexistant"})
 				else:
-					return render(request, "Vendeur/authentification.html", {
-						'message': "Votre compte n'a pas encore ete active. Veuillez nous contacter, si cela prend trop de temp"})
+					if user.is_active:
+						return render(request, "Vendeur/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
+					else:
+						return render(request, "Vendeur/authentification.html", {
+							'message': "Votre compte n'a pas encore ete active. Veuillez nous contacter, si cela prend trop de temp"})
+					
 
 		else:
 			return render(request, "Vendeur/authentification.html")
