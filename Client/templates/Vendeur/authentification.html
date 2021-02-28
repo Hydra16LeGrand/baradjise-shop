@@ -15,24 +15,24 @@
   <div class="container">
       <div class="col col-sm col-md col-lg col-xg" style="padding-top:50%">
         <section class="section-content" >
-          <div class="card mx-auto" style="height: 30%;">
+          <div class="card mx-auto">
               <div class="card-body" >
                 <header class="mb-4">
                   <h4 class="card-title"><ins><center><h2>Authentification Vendeur</h2></center></ins></h4>
                 </header>
-                <form method="POST" action="{% url 'authentification_vendeur' %}" style="height: 250%;">
+                <form method="POST" action="{% url 'authentification_vendeur' %}">
                   {% csrf_token %}
-                    <div class="form-group" style="height: 10%;">
+                    <div class="form-group">
                        <label for="user"><h3>Nom d'utilisateur</h3></label>
                        <input id="user"  name="username" class="form-control form-control-lg" type="text" required>
                     </div> <!-- form-group// -->
-                    <div class="form-group" style="height: 10%;">
+                    <div class="form-group">
                       <a class="float-right" href="{% url 'mot_de_passe_oublie' %}"><h5>Mot de passe oublié?</h5></a>
                       <label for="mdp"><h3>Mot de passe</h3></label>
                       <input id="mdp" name="mdp" class="form-control form-control-lg" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required>
                     </div> <!-- form-group// --> 
                     
-                    <div class="form-group mt-3" style="height: 10%;">
+                    <div class="form-group mt-3">
                         <button type="submit" class="btn btn-primary btn-block"><h3> Connexion</h3>  </button>
                     </div> <!-- form-group// -->    
                 </form>
