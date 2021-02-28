@@ -52,6 +52,7 @@ class Historique(admin.ModelAdmin):
 	list_editable = ("status_paiement", "status_livraison", "livreur")
 
 
+<<<<<<< HEAD
 admin.site.register(models.User)
 <<<<<<< HEAD
 admin.site.register(models.ImageProduit)
@@ -63,3 +64,5 @@ admin.site.register(models.Avis)
 =======
 admin.site.register(models.Avis)
 >>>>>>> 4e60349141c5e2dca3adbc4298fe521b8af1fddc
+=======
+>>>>>>> d64106ce2bfa4eb9e33b91ad2c298c0ab648c584
