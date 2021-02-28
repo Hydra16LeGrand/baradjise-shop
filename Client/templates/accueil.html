@@ -1,0 +1,138 @@
+{% extends 'static_client.html' %}
+{% load static %}
+{% load mes_filtres %}
+{% if message %}
+<script type="text/javascript">alert('{{ message }}')</script>
+{% endif %}
+
+{% block static %}
+<!-- ========================= SECTION MAIN ========================= -->
+<section class="section-main bg padding-y">
+<div class="container">
+
+<div class="row">
+	<aside class="col-md-3">
+		<nav class="card">
+			<ul class="menu-category">
+				<li><a href="{% url 'rechercher_categorie' 'mode' %}">Mode</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'accessoires_telephonique' %}">Accéssoires Téléphonique</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'audio_visuel' %}">Audio-visuel</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'auto_moto' %}">Auto et Moto</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'beaute' %}">Beauté</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'jeux_video' %}">Jeux vidéo</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'Ordinateur_accessoire' %}">Ordinateurs et accéssoires</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'sport' %}">Sport</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'tablette' %}">Tablette</a></li>
+				<li><a href="{% url 'rechercher_categorie' 'telephone' %}">Téléphone</a></li>
+				<!-- <li class="has-submenu"><a href="#">More items</a>
+					<ul class="submenu">
+						
+					</ul>
+				</li> -->
+			</ul>
+		</nav><br>
+	</aside> <!-- col.// -->
+	<div class="col-md-9">
+		<article class="banner-wrap">
+			<img  src="{% static 'images/banners/promo25-02-2021.jpg' %}" class="w-100 rounded">
+		</article>
+	</div> <!-- col.// -->
+</div> <!-- row.// -->
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION MAIN END// ========================= -->
+
+<hr>
+<!-- ========================= SECTION SPECIAL ========================= -->
+<section class="section-specials padding-y border-bottom">
+<div class="container">	
+<div class="row">
+	<div class="col-md-4" style="margin-top: 5px;">	
+			<figure class="itemside">
+				<div class="aside">
+					<span class="icon-sm rounded-circle bg-primary">
+						<i class="fa fa-money-bill-alt white"></i>
+					</span>
+				</div>
+				<figcaption class="info">
+					<h6 class="title">Des prix raisonnables</h6>
+					<p class="text-muted">Les prix des produits de baradji's e-shop défient toutes conccurences. Cela n'affecte en rien négativement la qualité des produits.</p>
+				</figcaption>
+			</figure> <!-- iconbox // -->
+	</div><!-- col // -->
+	<div class="col-md-4" style="margin-top: 5px;">
+			<figure class="itemside">
+				<div class="aside">
+					<span class="icon-sm rounded-circle bg-success">
+						<i class="fa fa-truck white"></i>
+					</span>
+				</div>
+				<figcaption class="info">
+					<h6 class="title">Livraison express</h6>
+					<p class="text-muted">Toutes les livraisons se font en moins de 24h à Abidjan et 72h à l'interieur du pays de sorte à ce que vous soyez satisfait le plus rapidement possible. </p>
+				</figcaption>
+			</figure> <!-- iconbox // -->
+	</div><!-- col // -->
+	<div class="col-md-4" style="margin-top: 5px;">
+			<figure class="itemside">
+				<div class="aside">
+					<span class="icon-sm rounded-circle bg-danger">
+						<i class="fa fa-comment-dots white"></i>
+					</span>
+				</div>
+				<figcaption class="info">
+					<h6 class="title">Support client 24/7 </h6>
+					<p class="text-muted">Nous sommes disponibles à tout moment et faisons de vos préoccupations une satisfaction. </p>
+				</figcaption>
+			</figure> <!-- iconbox // -->
+	</div><!-- col // -->
+</div> <!-- row.// -->
+
+</div> <!-- container.// -->
+</section>
+<!-- ========================= SECTION SPECIAL END// ========================= -->
+
+<!-- ========================= SECTION  ========================= -->
+<section class="section-name padding-y-sm">
+<div class="container">
+
+	<header class="section-heading">
+		<a href="{% url 'tous_les_produits' %}" class="btn btn-outline-primary float-right">Tout voir</a>
+		<h3 class="section-title">Produits populaires</h3>
+	</header><!-- sect-heading -->
+
+		
+	<div class="row">
+		{% for produit in produits %}
+		<div class="col-md-3" style="height: 120%;">
+			<div href="{% url 'detail_produit' produit.id %}" class="card card-product-grid">
+				<div class="img-wrap">
+					<a href="{% url 'detail_produit' produit.id %}" class="img-wrap"> 
+						<img style="margin-top: 5px; height: 95%; width: 90%" src="{{ produit.get_image }}"> 
+					</a>
+					{% if produit.date_ajout|conversion_date_jour < 10 %}
+						<span class="badge badge-danger"> NOUVEAU </span>
+					{% endif %}
+					<a class="btn-overlay" href="{% url 'detail_produit' produit.id %}"><i class="fa fa-search-plus"></i> Détails </a>
+				</div>
+				<figcaption class="info-wrap">
+					<a href="#" class="title">{{ produit.libelle|truncatechars:30 }}</a>
+					<div class="price mt-1">{{ produit.prix }} F.CFA</div> <!-- price-wrap.// -->
+				</figcaption>
+			<a href="{% url 'ajouter_envie' produit.id %}" class="btn btn-block btn-primary">Ajouter aux souhaits </a>
+			<a href="{% url 'ajouter_panier' produit.id %}" class="btn btn-block btn-warning">Ajouter au panier </a>
+			</div>
+		</div> <!-- col.// -->
+		{% endfor %}
+		
+	</div> <!-- row.// -->
+
+	</div> <!-- col.// -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->
+
+
+<!-- ========================= SECTION  ========================= -->
+
+<!-- ========================= SECTION  END// ======================= -->
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'static_client_dashboard.html' %}
+
+{% load static %}
+
+{% block static_client_dashboard %}
+		<article class="card">
+			<div class="card-body">
+
+				<div class="row">
+					{% for pu in produit_user %}
+					<div class="col-md-6">
+						<figure class="itemside mb-4">
+							<div class="aside"><img src="{{ pu.produit.get_image }}" class="border img-md"></div>
+							<figcaption class="info">
+								<a href="#" class="title">{{ pu.produit.libelle|truncatechars:28 }}</a>
+								<p class="price mb-2">{{ pu.produit.prix }} F.CFA</p>
+								<a href="{% url 'ajouter_panier' pu.pk %}" class="btn btn-primary btn-sm"> Ajouter au panier </a>
+								<a href="{% url 'supprimer_envie' pu.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Supprimer des souhaits"> <i class="fa fa-times"></i> </a>
+							</figcaption>
+						</figure>
+					</div> <!-- col.// -->
+					{% empty %}
+					<article class="card card-body mb-3">
+						<p><h1><center>Aucun souhaits pour le moment</center></h1></p>
+					</article>	
+					{% endfor %}
+				</div> <!-- row .//  -->
+
+			</div> <!-- card-body.// -->
+		</article>
+{% endblock %}

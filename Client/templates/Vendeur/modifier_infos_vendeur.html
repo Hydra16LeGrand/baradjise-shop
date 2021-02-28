@@ -1,0 +1,99 @@
+{% extends 'static_vendeur.html' %}
+	<p>
+		<form action="{% url 'changer_profil_vendeur' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="file" name="profil" required>
+			<input type="submit" value="changer profil">
+		</form>
+	</p>
+	<p><img src="{{ vendeur.get_profil }}"></p>
+	<form action="{% url 'modifier_infos_vendeur' %}" method="post">
+		{% csrf_token %}
+		<input type="email" name="email" value="{{ vendeur.user.email }}" >
+		<input type="text" name="contact1" value="{{ vendeur.contact1 }}" >
+		<input type="text" name="contact2" value="{{ vendeur.contact2 }}" >
+		<input type="text" name="ville" value="{{ vendeur.ville }}" >
+		<input type="text" name="commune" value="{{ vendeur.commune }}" >
+		<input type="text" name="quartier" value="{{ vendeur.quartier }}" >
+		<input type="password" name="mdp" placeholder="Nouveau mot de passe" required>
+		<input type="password" name="c_mdp" placeholder="Confirmer" required>
+		<input type="submit">
+	</form>
+{% block static_vendeur %}
+	{% if message %}
+		<script type="text/javascript">
+			alert('{{ message }}');
+		</script>
+	{% endif %}
+
+<div class="col-md-9">
+	<div class="card">
+	    <div class="card-body">
+			<div class="row">
+				<div class="col-md-9">
+				    <form class="row" method="POST" action="{% url 'modifier_infos_vendeur' %}">
+				     	{% csrf_token %}
+				     	<div class="col-md-12">
+				     		
+			     		<div class="form-row">
+							<div class="col form-group">
+								<label>Contact 1</label>
+							  	<input type="text" name="contact1" class="form-control" value="{{ vendeur.contact1 }}" required>
+							</div> <!-- form-group end.// -->
+							<div class="col form-group">
+								<label>contact 2</label>
+							  	<input type="text" name="contact2" class="form-control" value="{{ vendeur.contact2 }}">
+							</div> <!-- form-group end.// -->
+						</div> <!-- form-row.// -->
+						
+						<div class="form-row">
+							<div class="form-group col-md-4">
+							  <label>Country</label>
+							  <input type="text" name="ville" class="form-control" value="{{ vendeur.ville }}" required>
+							</div> <!-- form-group end.// -->
+							<div class="form-group col-md-4">
+							  <label>Commune</label>
+							  <input type="text" name="commune" class="form-control" value="{{ vendeur.commune }}">
+							</div> <!-- form-group end.// -->
+							<div class="form-group col-md-4">
+							  <label>Quartier</label>
+							  <input type="text" name="quartier" class="form-control" value="{{ vendeur.quartier }}" required>
+							</div> <!-- form-group end.// -->
+						</div> <!-- form-row.// -->
+						<div class="form-row">
+							<div class="form-group col-md-12">
+								<label>Email</label>
+							  	<input type="email" name="email" class="form-control" value="{{ vendeur.user.email }}" required>
+							 </div>
+						</div> <!-- form-group end.// -->
+						<div class="form-row">
+							<div class="form-group col-md-6">
+							  <label>Nouveau mot de passe</label>
+							  <input type="password" name="mdp" class="form-control" required>
+							</div> <!-- form-group end.// -->
+							<div class="form-group col-md-6">
+							  <label>Confirmer</label>
+							  <input type="password" name="c_mdp" class="form-control" required>
+							</div> <!-- form-group end.// -->
+						</div> <!-- form-row.// -->
+
+						<center><button type="submit" class="btn btn-success">Modifier</button></center><br>
+				     	</div>
+			      	</form>
+			      </div>
+		     	<div class="col-md">
+		     		<center>	
+		     			<img src="{{ vendeur.get_profil }}" class="img-md rounded-circle border">
+		     		</center><br>
+		     		<div>
+		     		<form action="{% url 'changer_profil_vendeur' %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<input class="form-control" type="file" name="profil" required><br>
+						<center><input type="submit" value="changer profil" class="btn btn-outline-success"></center>
+					</form>
+		     	</div>  <!-- col.// -->
+  			</div>
+ 		</div> <!-- card-body.// -->
+	</div> <!-- card .// -->
+</div>
+{% endblock %}

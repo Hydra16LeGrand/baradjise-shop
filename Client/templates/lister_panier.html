@@ -1,0 +1,167 @@
+{% extends 'static_client.html' %}
+{% load static %}
+{% load mes_filtres %}
+
+{% if message %}
+<script type="text/javascript">alert('{{ message }}')</script>
+{% endif %}
+{% block static %}
+
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-pagetop bg">
+<div class="container">
+	<h2 class="title-page">Mon compte</h2>
+</div> <!-- container //  -->
+</section>
+<!-- ========================= SECTION INTRO END// ========================= -->
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-content padding-y">
+<div class="container">
+
+<div class="row">
+	<aside class="col-md-3">
+		<ul class="list-group">
+			{% if active == 'dashboard' %}
+			<a class="list-group-item active" href="{% url 'dashboard_client' %}"> Aperçu du compte </a>
+			<a class="list-group-item" href="{% url 'lister_envie' %}"> Mes souhaits </a>
+			<a class="list-group-item" href="{% url 'lister_panier' %}"> Mon panier </a>
+			<a class="list-group-item" href="{% url 'mes_commandes' %}"> Mes commandes </a>
+			<a class="list-group-item" href="{% url 'changer_infos_user' %}"> Paramètre </a>
+			{% elif active == "souhait" %}
+			<a class="list-group-item" href="{% url 'dashboard_client' %}"> Aperçu du compte </a>
+			<a class="list-group-item active" href="{% url 'lister_envie' %}"> Mes souhaits </a>
+			<a class="list-group-item" href="{% url 'lister_panier' %}"> Mon panier </a>
+			<a class="list-group-item" href="{% url 'mes_commandes' %}"> Mes commandes </a>
+			<a class="list-group-item" href="{% url 'changer_infos_user' %}"> Paramètre </a>
+			{% elif active == 'panier' %}
+			<a class="list-group-item" href="{% url 'dashboard_client' %}"> Aperçu du compte </a>
+			<a class="list-group-item" href="{% url 'lister_envie' %}"> Mes souhaits </a>
+			<a class="list-group-item active" href="{% url 'lister_panier' %}"> Mon panier </a>
+			<a class="list-group-item" href="{% url 'mes_commandes' %}"> Mes commandes </a>
+			<a class="list-group-item" href="{% url 'changer_infos_user' %}"> Paramètre </a>
+			{% elif active == 'commande' %}
+			<a class="list-group-item" href="{% url 'dashboard_client' %}"> Aperçu du compte </a>
+			<a class="list-group-item" href="{% url 'lister_envie' %}"> Mes souhaits </a>
+			<a class="list-group-item" href="{% url 'lister_panier' %}"> Mon panier </a>
+			<a class="list-group-item active" href="{% url 'mes_commandes' %}"> Mes commandes </a>
+			<a class="list-group-item" href="{% url 'changer_infos_user' %}"> Paramètre </a>
+			{% elif active == 'parametre' %}
+			<a class="list-group-item" href="{% url 'dashboard_client' %}"> Aperçu du compte </a>
+			<a class="list-group-item" href="{% url 'lister_envie' %}"> Mes souhaits </a>
+			<a class="list-group-item" href="{% url 'lister_panier' %}"> Mon panier </a>
+			<a class="list-group-item" href="{% url 'mes_commandes' %}"> Mes commandes </a>
+			<a class="list-group-item active" href="{% url 'changer_infos_user' %}"> Paramètre </a>
+			{% endif %}
+		</ul><br>
+			<a class="btn btn-light btn-block" href="{% url 'deconnexion' %}"> 
+				<i class="fa fa-power-off"></i> 
+				<span class="text">Déconnexion</span> 
+			</a><br>
+	</aside> <!-- col.// -->
+	<main class="col-md-6">
+<!-- ============================ COMPONENT CART ================================= -->
+		<div class="row">
+				{% for pp in panier_produit %}
+
+				<article class="card card-body mb-3">
+					<div class="row align-items-center">
+						<div class="col-md-5">
+							<figure class="itemside">
+								<div class="aside"><img src="{{ pp.produit.get_image }}" class="border img-sm"></div>
+								<figcaption class="info">
+									<span class="text-muted">{{ pp.produit.categorie.nom }}</span>
+									<a href="#" class="title"> {{ pp.produit.libelle|truncatechars:20 }} </a>
+								</figcaption>
+							</figure> 
+						</div> <!-- col.// -->
+						<div class="col-md-3"> 
+							<!-- <div class="input-group input-spinner"> -->
+							<form class="form-row" method="post" action="{% url 'modifier_panier' pp.produit.id %}">
+								{% csrf_token %}
+								<input name="quantite" type="number" class="col-md-5 form-control"  value="{{ pp.quantite }}" max="{{ pp.produit.quantite }}" min="1">
+								<input type="submit" class="col-md-7 form-control" value="changer">
+							</form>
+								
+							<!-- </div>  --><!-- input-group.// -->
+						</div> <!-- col.// -->
+						<div class="col">
+							<div class="price h6"> {{ pp.produit.prix }} F.CFA </div>
+						</div>
+						<div class="col flex-grow-0 text-right">
+							<a href="{% url 'supprimer_panier' pp.produit.pk %}" data-original-title="Supprimer de la liste" class="btn btn-light"> <i class="fa fa-times"></i></a>
+						</div>
+					</div> <!-- row.// -->
+				</article> <!-- card .// -->
+				{% empty %}
+					<article class="card card-body mb-3">
+						<p><h1><center>Le panier est vide</center></h1></p>
+					</article>				
+				{% endfor %}
+		</div>
+	</main>
+			<aside class="col-md-3">
+				<div class="card">
+				<div class="card-body">
+					<form action="{% url 'finaliser_commande' %}" method="post">
+						{% csrf_token %}
+							<label for="adresse_livraison"><h6>Adresse de livraison</h6></label>
+						<div class="input-group mb-3">
+							<select class="form-control" id="adresse_livraison" name="adresse_livraison" required>
+								<option onclick="choix_abidjan()" value="abidjan">Abidjan</option>
+								<option onclick="choix_interieur()" value="interieur">Interieur du pays</option>
+							</select>
+							
+						</div>
+						<dl class="dlist-align">
+						  Sous total:
+						  <dd style="text-align: right;">{{ panier_produit|sous_total }} F.CFA</dd>
+						</dl>
+						<dl class="dlist-align">
+						  <dt>Frais:</dt>
+						  <dd class="text-right text-danger"><span id="_frais"></span> F.CFA</dd>
+						</dl>
+						<dl class="dlist-align">
+						  Grand Total:
+						  <dd class="text-right text-dark"><strong><span id="total">{{ panier_produit|sous_total }}</span> FCFA</strong></dd>
+						</dl>
+
+						<hr>
+						{% if gain >= 2000 %}
+							<button type="submit" class="btn btn-outline-warning btn-block">Finaliser la commande</button>
+						{% else %}
+							<center><p class="btn btn-danger">Cette commande est trop peu pour être livrée</p></center>
+						{% endif %}
+					</form>
+					<p class="small my-3 text-muted"><center>S'il y a des spécifications à faire telle que la taille de la chaussure, veuillez nous le dire lorsque nous vous contacterons</center></p>
+				</div> <!-- card-body.// -->
+					<center>
+					<a href="{% url 'tous_les_produits' %}" ><button class="btn btn-primary btn-large" style="width: 90%;">Poursuivre les achats</button> </a>
+				</center>
+				&nbsp;
+				</div> <!-- card.// -->
+			</aside> <!-- col.// -->
+		</main> <!-- col.// -->
+</div>
+
+</div> <!-- container .//  -->
+</section>
+<script type="text/javascript">
+	
+	var frais = 0;
+	document.getElementById("_frais").innerHTML = 0;
+	function choix_abidjan(){
+		frais = 0;
+		document.getElementById("_frais").innerHTML = frais;
+		document.getElementById("total").innerHTML = {{ panier_produit|sous_total }}+ frais;
+	}
+	function choix_interieur(){
+		frais = 3000;
+		document.getElementById("_frais").innerHTML = frais;
+		document.getElementById("total").innerHTML = {{ panier_produit|sous_total }}+ frais;
+	}
+
+
+</script>
+<!-- ============================ COMPONENT CART END .// ================================= -->
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'static_client_dashboard.html' %}
+{% load static %}
+{% if message %}
+<script type="text/javascript">alert('{{ message }}')</script>
+{% endif %}
+{% block static_client_dashboard %}
+	
+	<div class="card">
+	    <div class="card-body">
+	     	<div class="row">
+	     		<div class="col-md-9">
+				    <form class="row" method="POST" action="{% url 'changer_infos_user' %}">
+				     	{% csrf_token %}
+				     	<div class="col-md-12">
+				     		<div class="form-row">
+								<div class="col form-group">
+									<label>Contact 1</label>
+								  	<input type="text" name="contact1" class="form-control" value="{{ user.contact1 }}" required>
+								</div> <!-- form-group end.// -->
+								<div class="col form-group">
+									<label>contact 2</label>
+								  	<input type="text" name="contact2" class="form-control" value="{{ user.contact2 }}">
+								</div> <!-- form-group end.// -->
+							</div> <!-- form-row.// -->
+							
+							<div class="form-row">
+								<div class="form-group col-md-4">
+								  <label>Country</label>
+								  <input type="text" name="ville" class="form-control" value="{{ user.ville }}" required>
+								</div> <!-- form-group end.// -->
+								<div class="form-group col-md-4">
+								  <label>Commune</label>
+								  <input type="text" name="commune" class="form-control" value="{{ user.commune }}">
+								</div> <!-- form-group end.// -->
+								<div class="form-group col-md-4">
+								  <label>Quartier</label>
+								  <input type="text" name="quartier" class="form-control" value="{{ user.quartier }}" required>
+								</div> <!-- form-group end.// -->
+							</div> <!-- form-row.// -->
+							<div class="form-row">
+								<div class="form-group col-md-12">
+									<label>Email</label>
+								  	<input type="email" name="email" class="form-control" value="{{ user.user.email }}" required>
+								 </div>
+							</div> <!-- form-group end.// -->
+							<div class="form-row">
+								<div class="form-group col-md-6">
+								  <label>Nouveau mot de passe</label>
+								  <input type="password" name="mdp" class="form-control" required>
+								</div> <!-- form-group end.// -->
+								<div class="form-group col-md-6">
+								  <label>Confirmer</label>
+								  <input type="password" name="c_mdp" class="form-control" required>
+								</div> <!-- form-group end.// -->
+							</div> <!-- form-row.// -->
+
+							<button type="submit" class="btn btn-primary">Modifier</button>
+				     	</div> <!-- col.// -->
+				    </form>
+				</div>
+		     	<div class="col-md">
+		     		<center>	
+		     			<img src="{{ user.get_profil }}" class="img-md rounded-circle border">
+		     		</center><br>
+		     		<form action="{% url 'changer_profil_user' %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+						<input class="form-control" type="file" name="profil" required><br>
+						<center><input type="submit" value="changer profil" class="btn btn-outline-primary"></center>
+					</form>
+		     	</div>  <!-- col.// -->
+		    </div>
+	    </div> <!-- card-body.// -->
+	</div> <!-- card .// -->
+
+{% endblock %}   

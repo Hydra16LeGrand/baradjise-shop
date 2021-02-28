@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="fr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="author" content="Bootstrap-ecommerce by Vosidiy M.">
+
+	<title>Website title - bootstrap html template</title>
+
+	<!-- jQuery -->
+	<script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+
+	<!-- Bootstrap4 files-->
+	<script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+
+	<!-- Fonticons -->
+	<link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+	<link href="{% static 'fonts/feathericons/css/iconfont.css' %}" rel="stylesheet" type="text/css" />
+	<link href="{% static 'fonts/material-icons/css/materialdesignicons.css' %}" rel="stylesheet" type="text/css" />
+
+	<!-- custom style -->
+	<link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css"/>
+	<link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+
+	<!-- custom javascript -->
+	<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+
+
+</head>
+<body>
+	<header class="section-header">
+		<section class="header-main border-bottom">
+			<div class="container">
+				<div class="col-12" style="height: 70px; text-align: center;">
+					<a href="{% url 'dashboard_vendeur' %}" class="brand-wrap">
+						<img height="120px" style="margin-top: -20px;" src="{% static 'images/mon_logo.png' %}">
+					</a> <!-- brand-wrap.// -->
+				</div>
+			</div> <!-- container.// -->
+		</section>
+	</header> <!-- section-header.// -->
+
+	<!-- ========================= SECTION PAGETOP ========================= -->
+	<section class="section-pagetop bg">
+		<div class="container">
+			<h2 class="title-page">Mon compte</h2>
+		</div> <!-- container //  -->
+	</section>
+	<!-- ========================= SECTION INTRO END// ========================= -->
+
+	<section class="section-content padding-y">
+		<div class="container">
+			<div class="row">
+				<aside class="col-md-3">
+					<ul class="list-group">
+						{% if active == "dashboard_vendeur" %}
+							<a class="list-group-item active" href="{% url 'dashboard_vendeur' %}"> Dashboard  </a>
+							<a class="list-group-item" href="{% url 'liste_produits_vendeur' %}"> Liste de mes produits </a>
+							<a class="list-group-item" href="{% url 'ajouter_produit_vendeur' %}"> Ajouter produit </a>
+							<a class="list-group-item" href="{% url 'historique_paiement_vendeur' %}"> Historique des ventes </a>
+							<a class="list-group-item" href="{% url 'modifier_infos_vendeur' %}">Paramètres </a>
+							<a class="list-group-item" href="{% url 'rechercher_boutique' request.user %}">Ma boutique</a>
+						{% elif active == "liste_produits_vendeur" %}
+							<a class="list-group-item " href="{% url 'dashboard_vendeur' %}"> Dashboard  </a>
+							<a class="list-group-item active" href="{% url 'liste_produits_vendeur' %}"> Liste de mes produits </a>
+							<a class="list-group-item" href="{% url 'ajouter_produit_vendeur' %}"> Ajouter produit </a>
+							<a class="list-group-item" href="{% url 'historique_paiement_vendeur' %}"> Historique des ventes </a>
+							<a class="list-group-item" href="{% url 'modifier_infos_vendeur' %}">Paramètres </a>
+							<a class="list-group-item" href="{% url 'rechercher_boutique' request.user %}">Ma boutique</a>
+						{% elif active == "ajouter_produit_vendeur" %}
+							<a class="list-group-item " href="{% url 'dashboard_vendeur' %}"> Dashboard  </a>
+							<a class="list-group-item" href="{% url 'liste_produits_vendeur' %}"> Liste de mes produits </a>
+							<a class="list-group-item active" href="{% url 'ajouter_produit_vendeur' %}"> Ajouter produit </a>
+							<a class="list-group-item" href="{% url 'historique_paiement_vendeur' %}"> Historique des ventes </a>
+							<a class="list-group-item" href="{% url 'modifier_infos_vendeur' %}">Paramètres </a>
+							<a class="list-group-item" href="{% url 'rechercher_boutique' request.user %}">Ma boutique</a>
+						{% elif active == "historique_paiement_vendeur" %}
+							<a class="list-group-item " href="{% url 'dashboard_vendeur' %}"> Dashboard  </a>
+							<a class="list-group-item" href="{% url 'liste_produits_vendeur' %}"> Liste de mes produits </a>
+							<a class="list-group-item" href="{% url 'ajouter_produit_vendeur' %}"> Ajouter produit </a>
+							<a class="list-group-item active" href="{% url 'historique_paiement_vendeur' %}"> Historique des ventes </a>
+							<a class="list-group-item" href="{% url 'modifier_infos_vendeur' %}">Paramètres </a>
+							<a class="list-group-item" href="{% url 'rechercher_boutique' request.user %}">Ma boutique</a>
+						{% elif active == "parametres" %}
+							<a class="list-group-item " href="{% url 'dashboard_vendeur' %}"> Dashboard  </a>
+							<a class="list-group-item" href="{% url 'liste_produits_vendeur' %}"> Liste de mes produits </a>
+							<a class="list-group-item" href="{% url 'ajouter_produit_vendeur' %}"> Ajouter produit </a>
+							<a class="list-group-item" href="{% url 'historique_paiement_vendeur' %}"> Historique des ventes </a>
+							<a class="list-group-item active" href="{% url 'modifier_infos_vendeur' %}">Paramètres </a>
+							<a class="list-group-item" href="{% url 'rechercher_boutique' request.user %}">Ma boutique</a>
+						{% else %}
+							<a class="list-group-item " href="{% url 'dashboard_vendeur' %}"> Dashboard  </a>
+							<a class="list-group-item" href="{% url 'liste_produits_vendeur' %}"> Liste de mes produits </a>
+							<a class="list-group-item" href="{% url 'ajouter_produit_vendeur' %}"> Ajouter produit </a>
+							<a class="list-group-item" href="{% url 'historique_paiement_vendeur' %}"> Historique des ventes </a>
+							<a class="list-group-item" href="{% url 'modifier_infos_vendeur' %}">Paramètres </a>
+							<a class="list-group-item" href="{% url 'rechercher_boutique' request.user %}">Ma boutique</a>
+						{% endif %}
+					</ul><br>
+
+					<a class="btn btn-light btn-block" href="{% url 'deconnexion_vendeur' %}"> <i class="fa fa-power-off"></i> <span class="text">Déconnexion</span> </a><br>
+				</aside> <!-- col.// -->
+
+	{% block static_vendeur %}
+	{% endblock %}
+			</div>
+		</div>
+	</section>
+	<!-- ========================= FOOTER ========================= -->
+	<footer class="section-footer border-top padding-y">
+		<div class="container">
+			<section class="row">
+				
+				<p class="col-md-3 float-md-right" style="text-align: center;"> 
+					&copy Copyright 2021 All rights reserved
+				</p>
+				<a href="{% url 'accueil' %}" class="col-md-5" style="text-align: center;">
+					<img style="height: 180px; width: 230px; margin-top: -30px;" src="{% static 'images/mon_logo.png' %}">
+				</a>
+				<p class="col-md" style="text-align: center;">
+					<a href="#">Termes et conditions</a>
+				</p>
+			</section>
+			<section class="footer-bottom border-top row">
+				<div class="col-md-2" style="text-align: center;">
+					<p class="text-muted"> &copy 2021 baradji's e-shop </p>
+				</div>
+				<div class="col-md-6 text-md-center">
+					<span  class="px-2 mail">baradjis.eshop@gmail.com</span>
+
+					<span  class="px-2">+225 05-56-74-85-29</span>
+				</div>
+
+				<div class="col-md-4 text-md-right text-muted">
+					<i>Futurs moyens de paiement : </i>
+					<i>Mobile Money </i>
+					<i class="fab fa-lg fa-cc-visa"></i>
+					<i class="fab fa-lg fa-cc-paypal"></i>
+					<i class="fab fa-lg fa-cc-mastercard"></i>
+				</div>
+			</section>
+		</div><!-- //container -->
+	</footer>
+	<!-- ========================= FOOTER END // ========================= -->
+</body>
+</html>
+
+
+<!-- Vendeur
+-------
+dashboard page_profile_main
+ajouter produit formulaire a creer
+lister ok u_a.html
+detail produit ok _produit_detail
+modifier formulaire a creer
+auth sign in 1 ok
+insc sign up 1 ok
+historique paiement tableau a creer
+settings voir user_account.html -->
+
+

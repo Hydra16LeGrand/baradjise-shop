@@ -1,0 +1,55 @@
+{% extends 'static_vendeur.html' %}
+{% block static_vendeur %}
+<main class="col-md-9">
+	<div class="card">
+		<div class="row no-gutters " style="margin-top: 20px; margin-left: 20px; margin-right: 20px;">
+			<aside class="col-sm-6 border-right">
+				<article class="gallery-wrap"> 
+					<div class="img-big-wrap">
+					   <img importance="high" src="{{ produit.get_image }}">
+					</div> <!-- img-big-wrap.// -->
+					<div class="thumbs-wrap" style="">
+					  {% for img in produit.imageproduit_set.all %}
+					  	<a href="{{ img.get_image }}" class="item-thumb"> <img src="{{ img.get_image }}"></a>
+					  	<a href="{% url 'supprimer_image_produit' img.id %}" class="btn btn-danger btn-sm" title="Supprimer l'image?"><i class="fa fa-times"></i></a>
+					  {% endfor %}
+					</div> <!-- thumbs-wrap.// -->
+				</article> <!-- gallery-wrap .end// -->
+			</aside>
+			<main class="col-sm-6">
+				<article class="content-body">
+					<h2 class="title">{{ produit.libelle }}</h2>
+
+					<p>{{ produit.description }}.</p>
+					<ul class="list-normal cols-one">
+						<li>Categorie: {{ produit.categorie.nom }} </li>
+						<li>{{ produit.quantite }} pc(s) restante(s) </li>
+						<li>Prix de revente: {{ produit.prix }}</li>
+						{% if produit.status %}
+							<li>Visibilite: Visible</li>
+						{% else %}
+							<li>Visibilite: Non-Visible</li>
+						{% endif %}
+						<li>Date de creation du produit: {{ produit.date_ajout }}</li>
+					</ul>
+
+					<div class="h3 mb-4"> 
+						<var class="price h4">Prix: {{ produit.prix_vendeur }} F.CFA</var> 
+					</div> <!-- price-wrap.// -->
+					<form  action="{% url 'ajouter_image_produit' produit.id %}"  method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+							<div class="form-group">
+								<label for="img"></label>
+								<input class="form-control" id="img" type="file" name="image" required>
+							</div> <!-- col.// -->
+							<div class="form-group" style="margin-right: 5px;">
+								<input class="btn btn-success" type="submit" value="Ajouter une image">
+							</div>
+					</form>
+				</article> <!-- product-info-aside .// -->
+			</main> <!-- col.// -->
+		</div> <!-- row.// -->
+	</div> <!-- card.// -->
+</main>
+<!-- ============================ COMPONENT 2 END .// ================================= -->
+{% endblock %}

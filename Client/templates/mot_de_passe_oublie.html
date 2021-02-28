@@ -1,0 +1,54 @@
+{% load static %}
+
+{% if message %}
+	<script type="text/javascript">alert('{{ message }}')</script>
+{% endif %}
+<html lang="fr">
+<head>
+	<title>Réinitialisation de mot de passe</title>
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<section class="section-content padding-y bg">
+<!-- ============================ COMPONENT LOGIN 1  ================================= -->
+<div class="container" >
+	
+	<div class="card mx-auto" style="max-width: 500px; margin-top:230px;">
+      <div class="card-body">
+      <h4 class="card-title mb-4"><ins><center>Réinitialisation de mot de passe</center></ins></h4>
+      <form method="POST" action="{% url 'mot_de_passe_oublie' %}">
+      	{% csrf_token %}
+          <div class="form-group">
+             <label>Nom d'utilisateur</label>
+             <input name="username" class="form-control" type="text" required value="{{ form.username }}">
+          </div> <!-- form-group// -->
+          <div class="form-group">
+              <label>Email</label>
+              <input name="email" type="email" class="form-control" placeholder="" required value="{{ form.email }}">
+            </div> <!-- form-group end.// -->
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Nouveau mot de passe</label>
+                <input name="mdp" class="form-control" type="password" required>
+                <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
+            </div> <!-- form-group end.// --> 
+            <div class="form-group col-md-6">
+              <label>Repétez le mot de passe</label>
+                <input name="c_mdp" class="form-control" type="password" required>
+                <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
+            </div> <!-- form-group end.// -->  
+          </div>
+          
+          <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block"> Réinitialiser  </button>
+          </div> <!-- form-group// -->    
+      </form>
+      </div> <!-- card-body.// -->
+    </div> <!-- card .// -->
+</div>
+<!-- ============================ COMPONENT LOGIN 1  END.// ================================= -->
+</section>
+</body>
+
+

@@ -1,0 +1,61 @@
+{% extends 'static_client.html' %}
+{% load static %}
+{% load mes_filtres %}
+{% block static %}
+<!-- ============================ COMPONENT 2 ================================= -->
+<div class="container" style="margin-top: 70px;">
+	<div class="card">
+		<div class="row no-gutters " style="margin-top: 20px; margin-left: 20px; margin-right: 20px;">
+			<aside class="col-sm-6 border-right">
+				<article class="gallery-wrap"> 
+					<div class="img-big-wrap">
+					   <img importance="high" src="{{ produit.get_image }}">
+					</div> <!-- img-big-wrap.// -->
+					<div class="thumbs-wrap" style="">
+					  {% for img in produit.imageproduit_set.all %}
+					  	<a href="{{ img.get_image }}" class="item-thumb"> <img src="{{ img.get_image }}"></a>
+					  {% endfor %}
+					</div> <!-- thumbs-wrap.// -->
+				</article> <!-- gallery-wrap .end// -->
+						</aside>
+			<main class="col-sm-6">
+				<article class="content-body">
+					<h2 class="title">{{ produit.libelle }}</h2>
+
+					<p>{{ produit.description }}.</p>
+					<ul class="list-normal cols-one">
+						<li class="b">Categorie: {{ produit.categorie.nom }} </li>
+						<li class="b">Vendeur : {{ produit.vendeur.user.username }} </li>
+						{% if produit.quantite <= 3 %}
+							<li> <span style="color: red;">Quantité restante : {{ produit.quantite }} pc(s) restante(s)</span> </li>
+						{% else %}
+							<li > <span style="color: orange;">Quantité restante : {{ produit.quantite }} pc(s) restante(s) </span></li>
+						{% endif %}
+						<li class="b">Livraison Express à abidjan en 24h</li>
+						<li ><span class="b btn-success">Livraison gratuite : {{ 'promo'|promo }} jours restants</span></li>
+					</ul>
+
+				<div class="h3 mb-4"> 
+					<var class="price h4"> Prix : {{ produit.prix }} F.CFA</var> 
+				</div> <!-- price-wrap.// -->
+				<div class="form-row" style="margin-top: 40%;">
+					<div class="col-5">
+						
+					</div> <!-- col.// -->
+
+					<div class="col-2">
+						<a href="{% url 'ajouter_envie' produit.id %}" class="btn  btn-light"> <i class="fas fa-heart"></i>  </a>
+					</div> <!-- col.// -->
+					<div class="col-5">
+						<a href="{% url 'ajouter_panier' produit.id %}" class="btn  btn-primary w-100">Ajouter   <i class="fas fa-shopping-cart"></i>  </a>
+					</div> <!-- col.// -->
+				</div> <!-- row.// -->
+
+				</article> <!-- product-info-aside .// -->
+			</main> <!-- col.// -->
+		</div> <!-- row.// -->
+	</div> <!-- card.// -->
+</div>
+<!-- ============================ COMPONENT 2 END .// ================================= -->
+<br><br>
+{% endblock %}

@@ -1,0 +1,45 @@
+
+{% load static %}
+
+{% if message %}
+	<script type="text/javascript">alert('{{ message }}')</script>
+{% endif %}
+<html lang="fr">
+<head>
+	<title>Connexion client</title>
+	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<section class="section-content padding-y bg">
+<!-- ============================ COMPONENT LOGIN 1  ================================= -->
+<div class="container" >
+	
+	<div class="card mx-auto" style="max-width: 500px; margin-top:230px;">
+      <div class="card-body">
+      <h4 class="card-title mb-4"><ins><center>Authentification Client</center></ins></h4>
+      <form method="POST" action="{% url 'authentification' %}">
+      	{% csrf_token %}
+          <div class="form-group">
+             <label>Nom d'utilisateur</label>
+             <input name="username" class="form-control" type="text" required>
+          </div> <!-- form-group// -->
+          <div class="form-group">
+            <a class="float-right" href="{% url 'mot_de_passe_oublie' %}">Mot de passe oublié?</a>
+            <label>Mot de passe</label>
+            <input name="mdp" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required>
+          </div> <!-- form-group// --> 
+          
+          <div class="form-group">
+              <button type="submit" class="btn btn-primary btn-block"> Connexion  </button>
+          </div> <!-- form-group// -->    
+      </form>
+      </div> <!-- card-body.// -->
+      <div class="card-footer text-center">Vous n'avez pas de compte? <a href="{% url 'inscription' %}">Inscription</a></div>
+    </div> <!-- card .// -->
+</div>
+<!-- ============================ COMPONENT LOGIN 1  END.// ================================= -->
+</section>
+</body>
+
+

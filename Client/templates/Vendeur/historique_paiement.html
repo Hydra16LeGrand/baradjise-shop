@@ -1,0 +1,74 @@
+{% extends 'static_vendeur.html' %}
+{% load mes_filtres %}
+
+<table border="1">
+	<thead>
+		<tr>
+			
+			<td>Num commande</td>
+			<td>Produit</td>
+			<td>Quantite</td>
+			<td>Prix de vente</td>
+			<td>Montant a recevoir</td>
+			<td>Date commande</td>
+			<td>Date Paiement</td>
+			<td>Status Paiement</td>
+		</tr>
+	</thead>
+	<tbody>
+		{% for his in historiques %}
+			
+			<tr>
+				<td>{{ his.num_cmd }}</td>
+				<td>{{ his.libelle }}</td>
+				<td>{{ his.quantite }}</td>
+				<td>{{ his.prix_vendeur }}</td>
+				<td>{{ his.quantite|multiplication:his.prix_vendeur }}</td>
+				<td>{{ his.date_cmd|date:"D d M y" }}</td>
+				<td>{{ his.date_paiement|date:"D d M y" }}</td>
+				<td>{{ his.status_paiement }}</td>
+			</tr>
+
+		{% endfor %}
+	</tbody>
+</table>
+{% block static_vendeur %}
+<div class="col-md-9">
+	{% for his in historiques %}
+	<article class="card order-group" style="margin-top: 5px;">
+	<header class="card-header">
+		<b class="d-inline-block mr-3">ID Commande: {{ his.num_cmd }}</b>
+		<span>Date: {{ his.date_cmd|date:"D d M Y" }}</span>
+	</header>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md">
+				<h6 class="text-muted">Produit</h6>
+				<p>Titre : {{ his.libelle }}<br>
+					prix : {{ his.prix_vendeur }}<br>
+					Quantité vendus : {{ his.quantite }}.<br>
+					{% if his.status_paiement == 'fait' %}
+					<span class="b">Montant à recevoir : {{ his.quantite|multiplication:his.prix_vendeur }}</span>
+					{% else %}
+					<span class="b">Montant réçu : {{ his.quantite|multiplication:his.prix_vendeur }}</span>
+					{% endif %}
+				</p><br>
+			</div>
+			<div class="col-md">
+				<h6 class="text-muted">Paiement</h6>
+				<span class="text-success">
+				    Cash à la livraison 
+				</span>
+
+				<p>livraison : {{ his.status_livraison }} <br>
+				 Paiement : {{ his.status_paiment }} <br> 
+				 Date paiement : {{ his.date_paiement }}
+				</p>
+				
+			</div>
+		</div> <!-- row.// -->
+	</div> <!-- card-body .// -->
+	</article><br>
+	{% endfor %}
+</div>
+{% endblock %}
