@@ -54,4 +54,8 @@ class Historique(admin.ModelAdmin):
 
 admin.site.register(models.User)
 admin.site.register(models.ImageProduit)
+<<<<<<< HEAD
 admin.site.register(models.Avis)
+=======
+admin.site.register(models.Avis)
+>>>>>>> 4e60349141c5e2dca3adbc4298fe521b8af1fddc
