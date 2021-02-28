@@ -53,5 +53,5 @@ class Historique(admin.ModelAdmin):
 
 
 admin.site.register(models.User)
-admin.ste.register(models.ImageProduit)
+admin.sIte.register(models.ImageProduit)
 admin.site.register(models.Avis)
