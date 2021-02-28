@@ -10,8 +10,8 @@
 					<form enctype="multipart/form-data" action="{% url 'ajouter_produit_vendeur' %}" method="post">
 						{% csrf_token %}
 						<div class="form-group">
-							<label>Nom du produit</label>
-							<input name="libelle" type="text" class="form-control" placeholder="Polo Gris Hugo Boss" required>
+							<label for="nom">Nom du produit</label>
+							<input id="nom" name="libelle" type="text" class="form-control" placeholder="Polo Gris Hugo Boss" required>
 							<small class="form-text text-muted"><center>Le titre du produit qui séra vu par les clients.<br>Il doit comporter la marque, la couleur, le type de produit</center></small>
 						</div> <!-- form-group end.// -->
 						<div class="form-group">
