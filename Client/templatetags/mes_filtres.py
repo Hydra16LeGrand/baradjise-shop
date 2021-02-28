@@ -2,7 +2,6 @@ from django import template
 from Client import models
 from datetime import date
 from django.contrib.auth.models import User
-from django.contrib.auth import logout
 from django.shortcuts import render, redirect
 
 register = template.Library()
@@ -154,8 +153,7 @@ def nbre_pp(requete):
 		user = models.User.objects.get(user = User.objects.get(username=requete.user))
 		panier = models.Panier.objects.get(user=user)
 	except Exception as e:
-		logout(requete)
-		return redirect('accueil')
+		return redirect('deconnexion')
 	else:
 		nbre_pp = 0
 		for pp in models.PanierProduit.objects.filter(panier=panier).exclude(status=1):
@@ -170,8 +168,7 @@ def nbre_pu(requete):
 	try:
 		user = models.User.objects.get(user = User.objects.get(username=requete.user))
 	except Exception as e:
-		logout(requete)
-		return redirect('accueil')
+		return redirect('deconnexion')
 	else:
 		nbre_pu = 0
 		for pp in models.ProduitUser.objects.filter(user=user):

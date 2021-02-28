@@ -90,16 +90,15 @@ class Acces:
 
 			form = request.POST
 			# authenticate renvoi None si le auth_user n'existe pas et le champ de auth_user sinon
-			user = authenticate(username=form.get('username'), password=form.get('mdp'))
-
-			if user is not None:
-				login(request, user)
-				return redirect('accueil')
+			try:
+				client = models.User.objects.get(user=User.objects.get(username=form.get('username')))
+			except:
+				return render(request, "Client/authentification.html", {'message':"Compte inexistant"})
 			else:
-				try:
-					client = models.User.objects.get(user=User.objects.get(username=form.get('username')))
-				except:
-					return render(request, "Client/authentification.html", {'message':"Compte inexistant"})
+				user = authenticate(username=form.get('username'), password=form.get('mdp'))
+				if user is not None:
+					login(request, user)
+					return redirect('accueil')
 				else:
 					return render(request, "Client/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
 
@@ -827,24 +826,21 @@ class Vendeur:
 
 			form = request.POST
 			# authenticate renvoi None si le auth_user n'existe pas et le champ de auth_user sinon
-			user = authenticate(username=form.get('username'), password=form.get('mdp'))
-
-			if user is not None:
-				login(request, user)
-				return redirect('dashboard_vendeur')
-
+			try:
+				vendeur = models.Vendeur.objects.get(user=User.objects.get(username=form.get('username')))
+			except Exception as e:
+				return render(request, "Vendeur/authentification.html", {'message': "Compte inexistant"})
 			else:
-				try:
-					vendeur = models.Vendeur.objects.get(user=User.objects.get(username=form.get('username')))
-				except Exception as e:
-					return render(request, "Vendeur/authentification.html", {'message': "Compte inexistant"})
+				user = authenticate(username=form.get('username'), password=form.get('mdp'))
+				if user is not None:
+					login(request, user)
+					return redirect('dashboard_vendeur')
 				else:
 					if user.is_active:
 						return render(request, "Vendeur/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
 					else:
 						return render(request, "Vendeur/authentification.html", {
 							'message': "Votre compte n'a pas encore ete active. Veuillez nous contacter, si cela prend trop de temp"})
-					
 
 		else:
 			return render(request, "Vendeur/authentification.html")
