@@ -16,8 +16,6 @@
   <!-- ============================ COMPONENT LOGIN 1  ================================= -->
   <div class="container" >
     <div class="row">
-      <div class="col-md-2 col-2 col-sm-2"></div>
-      <div class="col-md-8 col-8 col-sm-8">
         <section class="section-content">
           <div class="card mx-auto" >
               <div class="card-body">
@@ -26,11 +24,11 @@
             </header>
               <form method="POST" action="{% url 'authentification_vendeur' %}">
                 {% csrf_token %}
-                  <div class="form-group">
+                  <div class="form-group col-sm-6 col-md-6 col-6">
                      <label for="user">Nom d'utilisateur</label>
                      <input id="user"  name="username" class="form-control" type="text" required>
                   </div> <!-- form-group// -->
-                  <div class="form-group">
+                  <div class="form-group col-sm-6 col-md-6 col-6">
                     <a class="float-right" href="{% url 'mot_de_passe_oublie' %}">Mot de passe oublié?</a>
                     <label for="mdp">Mot de passe</label>
                     <input id="mdp" name="mdp" class="form-control" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required>
@@ -44,8 +42,6 @@
               <div class="card-footer text-center">Vous n'avez pas de compte? <a href="{% url 'inscription_vendeur' %}">Inscription</a></div>
           </div> <!-- card .// -->
       </section>
-    </div>
-    <div class="col-md-2 col-2 col-sm-2"></div>
   </div>
   </div>
   <!-- ============================ COMPONENT LOGIN 1  END.// ================================= -->
