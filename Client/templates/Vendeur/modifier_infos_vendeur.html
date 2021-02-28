@@ -1,24 +1,4 @@
 {% extends 'static_vendeur.html' %}
-	<p>
-		<form action="{% url 'changer_profil_vendeur' %}" method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			<input type="file" name="profil" required>
-			<input type="submit" value="changer profil">
-		</form>
-	</p>
-	<p><img src="{{ vendeur.get_profil }}"></p>
-	<form action="{% url 'modifier_infos_vendeur' %}" method="post">
-		{% csrf_token %}
-		<input type="email" name="email" value="{{ vendeur.user.email }}" >
-		<input type="text" name="contact1" value="{{ vendeur.contact1 }}" >
-		<input type="text" name="contact2" value="{{ vendeur.contact2 }}" >
-		<input type="text" name="ville" value="{{ vendeur.ville }}" >
-		<input type="text" name="commune" value="{{ vendeur.commune }}" >
-		<input type="text" name="quartier" value="{{ vendeur.quartier }}" >
-		<input type="password" name="mdp" placeholder="Nouveau mot de passe" required>
-		<input type="password" name="c_mdp" placeholder="Confirmer" required>
-		<input type="submit">
-	</form>
 {% block static_vendeur %}
 	{% if message %}
 		<script type="text/javascript">

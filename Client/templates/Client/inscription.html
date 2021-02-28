@@ -1,4 +1,3 @@
-
 {% load static %}
 
 {% if message %}
@@ -12,79 +11,83 @@
 <body>
 	<section class="section-content padding-y bg">
 		<div class="container">
-			<div class="card mx-auto" style="max-width:600px; margin-top:100px;">
-				<article class="card-body">
-					<header class="mb-4">
-						<h4 class="card-title"><ins><center>Inscription Client </center></ins></h4>
-					</header>
-					<form method="post" action="{% url 'inscription' %}">
-						{% csrf_token %}
-						<div class="form-row">
-							<div class="col form-group">
-								<label>Prénom</label>
-							  	<input name="prenom" type="text" class="form-control" required>
-							</div> <!-- form-group end.// -->
-							<div class="col form-group">
-								<label>Nom</label>
-							  	<input name="nom" type="text" class="form-control" placeholder="" required>
-							</div> <!-- form-group end.// -->
-						</div> <!-- form-row end.// -->
-						<div class="form-group">
-							<label>Email</label>
-							<input name="email" type="email" class="form-control" placeholder="" required>
-							<small class="form-text text-muted"><center>Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center></small>
-						</div> <!-- form-group end.// -->
-						<div class="form-row">
-							<div class="form-group col-md-4">
-							  <label>Ville</label>
-							  <input name="ville" type="text" class="form-control" required>
-							</div> <!-- form-group end.// -->
-							<div class="form-group col-md-4">
-							  <label>Commune</label>
-							  <input name="commune" type="text" class="form-control">
-							</div> <!-- form-group end.// -->
-							<div class="form-group col-md-4">
-							  <label>Quartier</label>
-							  <input name="quartier" type="text" class="form-control" required>
-							</div> <!-- form-group end.// -->
-						</div> <!-- form-row.// -->
-						<div class="form-row">
-							<div class="form-group col-md-6">
-							  <label>Numéro de télephone</label>
-							  <input name="contact1" type="text" class="form-control" required>
-							</div> <!-- form-group end.// -->
-							<div class="form-group col-md-6">
-							  <label>Autre numéro de télephone</label>
-							  <input name="contact2" type="text" class="form-control">
-							</div> <!-- form-group end.// -->
-						</div> <!-- form-row.// -->
-							<small class="form-text text-muted"><center>Numéros de téléphone à 10 chiffres.</center></small><br>
-						<div class="form-row">
-							<div class="form-group col-md-4">
-							  <label>Nom d'utilisateur</label>
-							  <input name="username" type="text" class="form-control" required>
-							  <small class="form-text text-muted"><center>En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifié(connecté). Noter le bien.</center></small>
-							</div> <!-- form-group end.// -->
-							<div class="form-group col-md-4">
-								<label>Mot de passe</label>
-							    <input name="mdp" class="form-control" type="password" required>
-							    <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
-							</div> <!-- form-group end.// --> 
-							<div class="form-group col-md-4">
-								<label>Repétez le mot de passe</label>
-							    <input name="c_mdp" class="form-control" type="password" required>
-							    <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
-							</div> <!-- form-group end.// -->  
-						</div>
-					    <div class="form-group mt-3">
-					        <button type="submit" class="btn btn-primary btn-block"> Inscription  </button>
-					    </div> <!-- form-group// -->      
-					                                              
-					</form>
-					<hr>
-					<p class="text-center">Avez vous un compte? Connectez-vous <a href="{% url 'authentification' %}">Connexion</a></p>
-				</article> <!-- card-body end .// -->
-			</div> <!-- card.// -->
+			<div class="row">
+				<div class="col-md-12 col-12 col-lg-12">
+					<div class="card mx-auto" style="max-width:600px; margin-top:100px;">
+						<article class="card-body">
+							<header class="mb-4">
+								<h4 class="card-title"><ins><center>Inscription Client </center></ins></h4>
+							</header>
+							<form method="post" action="{% url 'inscription' %}">
+								{% csrf_token %}
+								<div class="form-row">
+									<div class="col form-group">
+										<label for="pre">Prénom</label>
+									  	<input id="pre" name="prenom" type="text" class="form-control" required>
+									</div> <!-- form-group end.// -->
+									<div class="col form-group">
+										<label for="nom">Nom</label>
+									  	<input id="nom" name="nom" type="text" class="form-control" placeholder="" required>
+									</div> <!-- form-group end.// -->
+								</div> <!-- form-row end.// -->
+								<div class="form-group">
+									<label for="email">Email</label>
+									<input id="email" name="email" type="email" class="form-control" placeholder="" required>
+									<small class="form-text text-muted"><center>Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center></small>
+								</div> <!-- form-group end.// -->
+								<div class="form-row">
+									<div class="form-group col-md-4">
+									  <label for="ville">Ville</label>
+									  <input id="ville" name="ville" type="text" class="form-control" required>
+									</div> <!-- form-group end.// -->
+									<div class="form-group col-md-4">
+									  <label for="commune">Commune</label>
+									  <input id="commune" name="commune" type="text" class="form-control">
+									</div> <!-- form-group end.// -->
+									<div class="form-group col-md-4">
+									  <label for="quartier">Quartier</label>
+									  <input id="quartier" name="quartier" type="text" class="form-control" required>
+									</div> <!-- form-group end.// -->
+								</div> <!-- form-row.// -->
+								<div class="form-row">
+									<div class="form-group col-md-6">
+									  <label for="num">Numéro de télephone</label>
+									  <input id="num" name="contact1" type="text" class="form-control" required>
+									</div> <!-- form-group end.// -->
+									<div class="form-group col-md-6">
+									  <label for="num2">Autre numéro de télephone</label>
+									  <input id="num2" name="contact2" type="text" class="form-control">
+									</div> <!-- form-group end.// -->
+								</div> <!-- form-row.// -->
+									<small class="form-text text-muted"><center>Numéros de téléphone à 10 chiffres.</center></small><br>
+								<div class="form-row">
+									<div class="form-group col-md-4">
+									  <label for="user">Nom d'utilisateur</label>
+									  <input id="user" name="username" type="text" class="form-control" required>
+									  <small class="form-text text-muted"><center>En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifié(connecté). Noter le bien.</center></small>
+									</div> <!-- form-group end.// -->
+									<div class="form-group col-md-4">
+										<label for="mdp">Mot de passe</label>
+									    <input id="mdp" name="mdp" class="form-control" type="password" required>
+									    <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
+									</div> <!-- form-group end.// --> 
+									<div class="form-group col-md-4">
+										<label for="cmdp">Repétez le mot de passe</label>
+									    <input id="cmdp" name="c_mdp" class="form-control" type="password" required>
+									    <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
+									</div> <!-- form-group end.// -->  
+								</div>
+							    <div class="form-group mt-3">
+							        <button type="submit" class="btn btn-primary btn-block"> Inscription  </button>
+							    </div> <!-- form-group// -->      
+							                                              
+							</form>
+							<hr>
+							<p class="text-center">Avez vous un compte? Connectez-vous <a href="{% url 'authentification' %}">Connexion</a></p>
+						</article> <!-- card-body end .// -->
+					</div> <!-- card.// -->
+				</div>
+			</div>
 		</div>
 	</section>
 </body>
