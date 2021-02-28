@@ -7,89 +7,120 @@
 <head>
 	<title>Inscription client</title>
 	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+	<!-- jQuery -->
+	<script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
+
+	<!-- Bootstrap4 files-->
+	<script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+
+	<!-- Font awesome 5 -->
+	<link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+
+	<!-- custom style -->
+	<link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css"/>
+	<link href="{% static 'css/responsive.css' %}" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+
+	<!-- custom javascript -->
+	<script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+
+	<script type="text/javascript">
+	/// some script
+
+	// jquery ready start
+	$(document).ready(function() {
+		// jQuery code
+
+	}); 
+	// jquery end
+	</script>
 </head>
 <body>
-	<section class="section-content padding-y bg">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12 col-12 col-lg-12">
-					<div class="card mx-auto" style="margin-top: 30px;">
-						<article class="card-body">
-							<header class="">
-								<h4 class="card-title"><ins><center>Inscription Client </center></ins></h4>
-							</header>
-							<form method="post" action="{% url 'inscription' %}">
-								{% csrf_token %}
-								<div class="form-row">
-									<div class="col form-group">
-										<label for="pre">Prénom</label>
-									  	<input id="pre" name="prenom" type="text" class="form-control" required>
-									</div> <!-- form-group end.// -->
-									<div class="col form-group">
-										<label for="nom">Nom</label>
-									  	<input id="nom" name="nom" type="text" class="form-control" placeholder="" required>
-									</div> <!-- form-group end.// -->
-								</div> <!-- form-row end.// -->
-								<div class="form-group">
-									<label for="email">Email</label>
-									<input id="email" name="email" type="email" class="form-control" placeholder="" required>
-									<small class="form-text text-muted"><center>Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center></small>
-								</div> <!-- form-group end.// -->
-								<div class="form-row">
-									<div class="form-group col-md-4">
-									  <label for="ville">Ville</label>
-									  <input id="ville" name="ville" type="text" class="form-control" required>
-									</div> <!-- form-group end.// -->
-									<div class="form-group col-md-4">
-									  <label for="commune">Commune</label>
-									  <input id="commune" name="commune" type="text" class="form-control">
-									</div> <!-- form-group end.// -->
-									<div class="form-group col-md-4">
-									  <label for="quartier">Quartier</label>
-									  <input id="quartier" name="quartier" type="text" class="form-control" required>
-									</div> <!-- form-group end.// -->
-								</div> <!-- form-row.// -->
-								<div class="form-row">
-									<div class="form-group col-md-6">
-									  <label for="num">Numéro de télephone</label>
-									  <input id="num" name="contact1" type="text" class="form-control" required>
-									</div> <!-- form-group end.// -->
-									<div class="form-group col-md-6">
-									  <label for="num2">Autre numéro de télephone</label>
-									  <input id="num2" name="contact2" type="text" class="form-control">
-									</div> <!-- form-group end.// -->
-								</div> <!-- form-row.// -->
-									<small class="form-text text-muted"><center>Numéros de téléphone à 10 chiffres.</center></small><br>
-								<div class="form-row">
-									<div class="form-group col-md-4">
-									  <label for="user">Nom d'utilisateur</label>
-									  <input id="user" name="username" type="text" class="form-control" required>
-									  <small class="form-text text-muted"><center>En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifié(connecté). Noter le bien.</center></small>
-									</div> <!-- form-group end.// -->
-									<div class="form-group col-md-4">
-										<label for="mdp">Mot de passe</label>
-									    <input id="mdp" name="mdp" class="form-control" type="password" required>
-									    <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
-									</div> <!-- form-group end.// --> 
-									<div class="form-group col-md-4">
-										<label for="cmdp">Repétez le mot de passe</label>
-									    <input id="cmdp" name="c_mdp" class="form-control" type="password" required>
-									    <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
-									</div> <!-- form-group end.// -->  
-								</div>
-							    <div class="form-group mt-3">
-							        <button type="submit" class="btn btn-primary btn-block"> Inscription  </button>
-							    </div> <!-- form-group// -->      
-							                                              
-							</form>
-							<hr>
-							<p class="text-center">Avez vous un compte? Connectez-vous <a href="{% url 'authentification' %}">Connexion</a></p>
-						</article> <!-- card-body end .// -->
-					</div> <!-- card.// -->
+
+		<div class="container" style="margin-top: 5%;">
+			<header class="mb-4">
+				<h4 class="card-title"><ins><center>Inscription Client</center></ins></h4>
+			</header>
+			<form method="post" action="{% url 'inscription' %}">
+				{% csrf_token %}
+				<div class="form-row">
+					<div class="col">
+						<label for="pre">Prénom</label>
+						<input id="pre" class="form-control" type="text" name="prenom" required>
+					</div>
+					<div class="col">
+						<label for="nom">Nom</label>
+					  	<input id="nom" name="nom" type="text" class="form-control" placeholder="" required>
+					</div>
+				</div><br>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input id="email" name="email" type="email" class="form-control" placeholder="" required>
+					<small class="form-text text-muted"><center>Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center></small>
+				</div><br>
+				<div class="form-row">
+					<div class="col">
+						<label for="ville">Ville</label>
+					  	<input id="ville" name="ville" type="text" class="form-control" required>
+					</div>
+					<div class="col">
+						<label for="commune">Commune</label>
+						<input id="commune" name="commune" type="text" class="form-control">
+					</div>
+					<div class="col">
+						<label for="quartier">Quartier</label>
+						<input id="quartier" name="quartier" type="text" class="form-control" required>
+					</div>
+				</div><br>
+				<div class="form-row">
+					<div class="col col-md-5">
+						<label for="num">Numéro de télephone</label>
+						<div class="row">
+							<div class="col-3 text-center" style="margin-top: 3px;">
+						  		<span class="h5" >+225</span>
+						  	</div>
+						  	<div class="col">
+						  		<input id="num" name="contact1" type="text" class="form-control" required>
+						  	</div>
+					  	</div>
+					</div>
+					<div class="col-md-2">
+					</div>
+					<div class="col col-md-5">
+					  	<label for="num2">Autre Numéro</label>
+						<div class="row">
+							<div class="col-3 text-center" style="margin-top: 3px;">
+						  		<span class="h5">+225</span>
+						  	</div>
+						  	<div class="col">
+						  		<input id="num2" name="contact2" type="text" class="form-control">
+						  	</div>
+					  	</div>
+					</div>
 				</div>
-			</div>
+				<small class="form-text text-muted"><center>Numéros de téléphone à 10 chiffres.</center></small><br>
+				<div class="form-row">
+					<div class="col">
+						<label for="user">Nom d'utilisateur</label>
+						<input id="user" name="username" type="text" class="form-control" required>
+						<small class="form-text text-muted"><center>En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifié(connecté). Noter le bien.</center></small>
+					</div>
+					<div class="col">
+						<label for="mdp">Mot de passe</label>
+					    <input id="mdp" name="mdp" class="form-control" type="password" required>
+					    <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
+					</div>
+					<div class="col">
+						<label for="cmdp">Repétez</label>
+					    <input id="cmdp" name="c_mdp" class="form-control" type="password" required>
+					    <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
+					</div>
+				</div><br>
+				<button type="submit" class="btn btn-primary btn-block"> Inscription  </button>
+			</form>
 		</div>
-	</section>
+
 </body>
 
 
+
+			
