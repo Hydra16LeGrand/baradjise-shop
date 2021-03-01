@@ -493,7 +493,7 @@ class Recherche:
 		try:
 			categorie = models.Categorie.objects.get(cle=categorie)
 		except Exception as e:
-			return redirect('rechercher_produit', 'grid', "On ne veut trouver aucun produit")
+			return redirect('rechercher_produit', 'grid', categorie)
 		else:
 			return redirect('rechercher_produit', 'grid', categorie.nom)
 
