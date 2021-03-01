@@ -6,15 +6,35 @@
 <html lang="fr">
 <head>
 	<title>Réinitialisation de mot de passe</title>
-	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
-</head>
-<body>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Bootstrap-ecommerce by Vosidiy M.">
+  <!-- jQuery -->
+  <script src="{% static 'js/jquery-2.0.0.min.js' %}" type="text/javascript"></script>
 
-<section class="section-content padding-y bg">
+  <!-- Bootstrap4 files-->
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}" type="text/javascript"></script>
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type="text/css"/>
+
+  <!-- Fonticons -->
+  <link href="{% static 'fonts/fontawesome/css/all.min.css' %}" type="text/css" rel="stylesheet">
+  <link href="{% static 'fonts/feathericons/css/iconfont.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'fonts/material-icons/css/materialdesignicons.css' %}" rel="stylesheet" type="text/css" />
+
+  <!-- custom style -->
+  <link href="{% static 'css/ui.css' %}" rel="stylesheet" type="text/css"/>
+  <link href="{% static 'css/responsive.css' %}" rel="stylesheet" />
+
+  <!-- custom javascript -->
+  <script src="{% static 'js/script.js' %}" type="text/javascript"></script>
+</head>
+<body class="bg">
+
+<section class="section-content padding-y">
 <!-- ============================ COMPONENT LOGIN 1  ================================= -->
 <div class="container" >
 	
-	<div class="card mx-auto" style="max-width: 500px; margin-top:230px;">
+	<div class="card mx-auto">
       <div class="card-body">
       <h4 class="card-title mb-4"><ins><center>Réinitialisation de mot de passe</center></ins></h4>
       <form method="POST" action="{% url 'mot_de_passe_oublie' %}">

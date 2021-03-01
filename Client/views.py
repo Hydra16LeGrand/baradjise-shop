@@ -56,7 +56,9 @@ class Acces:
 									is_active=True)
 
 							except Exception as e:
-								raise e
+								return render(request, "Client/authentification.html", {
+								'message': "Erreur lors de la création du compte.\nSi cela persiste Veuillez contacter le service client au 0556748529"
+								})
 							else:
 								try:
 									client = models.User.objects.create(
@@ -68,7 +70,9 @@ class Acces:
 										user = user)
 								except Exception as e:
 									user.delete()
-									raise e
+									return render(request, "Client/authentification.html", {
+								'message': "Erreur lors de la création du compte.\nSi cela persiste Veuillez contacter le service client au 0556748529"
+								})
 								else:
 									models.Panier.objects.create(user=client)
 									return render(request, "Client/authentification.html", {'message': "Votre compte a été creer avec succès"})
@@ -127,7 +131,7 @@ class Panier:
 					panier = models.Panier.objects.get(user=client)
 					produit = models.Produit.objects.get(id=id_produit)
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 				else:
 					# On tente de reccuperer le produit lie au panier. Histoire de voir s'il na pas encore ete ajoute
 					try:
@@ -137,7 +141,7 @@ class Panier:
 						try:
 							models.PanierProduit.objects.create(produit = produit, panier = panier)
 						except Exception as e:
-							raise e
+							return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 						else:
 							return redirect('lister_panier')
 					else:
@@ -162,7 +166,7 @@ class Panier:
 					for pp in models.PanierProduit.objects.filter(panier=panier, status=0):
 						gain += pp.quantite*(pp.produit.prix-pp.produit.prix_vendeur)
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 				else:
 					return render(request, "lister_panier.html",{'panier': panier, 'panier_produit': panier_produit, 'gain': gain, 'active':"panier"})
 
@@ -182,7 +186,7 @@ class Panier:
 					produit = models.Produit.objects.get(id=id_produit)
 					produit_a_supprimer = models.PanierProduit.objects.get(panier=panier, produit=produit, status=0)
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 				else:
 					produit_a_supprimer.delete()
 					return redirect('lister_panier')
@@ -209,7 +213,7 @@ class Panier:
 					panier_produit.quantite = form.get('quantite')
 				panier_produit.save()
 			except Exception as e:
-				raise e
+				return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 			else:
 				return redirect('lister_panier')
 
@@ -231,7 +235,7 @@ class Panier:
 						montant += pp.quantite*pp.produit.prix
 
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 				else:
 					# Creation de la commande
 
@@ -249,7 +253,7 @@ class Panier:
 							pp.save()
 
 					except Exception as e:
-						raise e
+						return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 					else:
 						# Creation de la livraison
 						try:
@@ -282,7 +286,7 @@ class Panier:
 									status = 'en_cours'
 									)
 						except Exception as e:
-							raise e
+							return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 						else:
 							# Creation du paiement
 							try:
@@ -292,7 +296,7 @@ class Panier:
 									montant_total=montant_total,
 									status='en_cours')
 							except Exception as e:
-								raise e
+								return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 							else:
 								try:
 
@@ -323,7 +327,7 @@ class Panier:
 									# paiement.delete()
 									# livraison.delete()
 									commande.delete()
-									raise e
+									return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 								else:
 									return redirect('mes_commandes')
 
@@ -489,7 +493,7 @@ class Recherche:
 		try:
 			categorie = models.Categorie.objects.get(cle=categorie)
 		except Exception as e:
-			raise e
+			return redirect('rechercher_produit', 'grid', "On ne veut trouver aucun produit")
 		else:
 			return redirect('rechercher_produit', 'grid', categorie.nom)
 
@@ -499,15 +503,10 @@ class Recherche:
 		try:
 			user = User.objects.get(username=vendeur)
 		except Exception as e:
-			raise e
+			return HttpResponse("boutique introuvable")
 		else:
 			logout(request)
-			try:
-				vendeur = models.Vendeur.objects.get(user=user)
-			except Exception as e:
-				raise e
-			else:
-				return redirect('rechercher_produit', 'list', user.username)
+			return redirect('rechercher_produit', 'list', user.username)
 
 	# methode de renvois de tous les produits
 	def tous_les_produits(request):
@@ -550,7 +549,7 @@ def dashboard_client(request):
 					nbre_souhait+=1
 
 			except Exception as e:
-				raise e
+				return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 			else:
 				return render(request, "Client/dashboard.html", {
 					'client': client, 
@@ -586,7 +585,7 @@ def accueil(request):
 
 
 	except Exception as e:
-		raise e
+		return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
 	else:
 		return render(request, "accueil.html", {'produits':produits_temp, 'requete': ""})
 
@@ -604,7 +603,7 @@ def mes_commandes(request):
 			try:
 				historiques = models.Historique.objects.filter(client=request.user).order_by("-date_cmd")
 			except Exception as e:
-				raise e
+				return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
 			else:
 				return render(request, "Client/mes_commandes.html", {
 							'historiques': historiques, 'active':"commande"})
@@ -615,7 +614,7 @@ def detail_produit(request, id_produit):
 	try:
 		produit = models.Produit.objects.get(pk=id_produit)
 	except Exception as e:
-		raise e
+		return HttpResponse("Produit introuvable")
 	else:
 		return render(request, "Client/detail_produit.html", {'produit':produit})
 
@@ -629,7 +628,7 @@ class Envie:
 			try:
 				produit = models.Produit.objects.get(pk=id_produit, status=1)
 			except Exception as e:
-				raise e
+				return HttpResponse("Produit introuvable")
 			else:
 				try:
 					client = models.User.objects.get(user=request.user)
@@ -652,12 +651,12 @@ class Envie:
 			try:
 				client = models.User.objects.get(user=request.user)
 			except Exception as e:
-				raise e
+				return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
 			else:
 				try:
 					produit_user = models.ProduitUser.objects.filter(user=client)
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
 				else:
 					return render(request, "Client/mes_envies.html", {'produit_user':produit_user, 'active':"souhait"})
 
@@ -669,12 +668,12 @@ class Envie:
 			try:
 				client = models.User.objects.get(user=request.user)
 			except Exception as e:
-				raise e
+				return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
 			else:
 				try:
 					produit_user = models.ProduitUser.objects.get(pk=id_produit_user)
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 				else:
 					produit_user.delete()
 					return redirect('lister_envie')
@@ -690,7 +689,7 @@ class Compte:
 			try:
 				client = models.User.objects.get(user=request.user)
 			except Exception as e:
-				raise e
+				return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
 			else:
 				if request.method == 'POST':
 					form = request.POST
@@ -706,7 +705,7 @@ class Compte:
 							client.user.save()
 							client.save()
 						except Exception as e:
-							raise e
+							return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
 						else:
 							if form.get('mdp') and form.get('c_mdp'):
 								if form.get('mdp') == form.get('c_mdp'):
@@ -744,12 +743,10 @@ class Compte:
 					form_profil = request.FILES
 					try:
 						client.profil = form_profil.get('profil')
-						
-					except Exception as e:
-						raise e
-					else:
 						client.save()
-
+					except Exception as e:
+						return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
+					else:
 						return render(request, "Client/changer_infos_user.html", {
 							'user': client, 'message': "Votre profil a ete mis a jour",
 							'active':"parametre"})
@@ -790,7 +787,9 @@ class Vendeur:
 									first_name=form.get('prenom'),
 									is_active=False)
 							except Exception as e:
-								raise e
+								return render(request, "Vendeur/inscription.html", {
+									'message': "Erreur lors de la création du compte. Si le problème persiste, veuillez nous contacter au 0556748529"
+									})
 							else:
 								# On cree le vendeur associe
 								try:
@@ -803,7 +802,9 @@ class Vendeur:
 										user = user)
 								except Exception as e:
 									user.delete()
-									raise e
+									return render(request, "Vendeur/inscription.html", {
+									'message': "Erreur lors de la création du compte. Si le problème persiste, veuillez nous contacter au 0556748529"
+									})
 								else:
 									return render(request, "Vendeur/authentification.html", {
 										'message': "Votre compte a ete enregistrer. Vous serez contacte pour la confirmation"})
@@ -875,7 +876,7 @@ class Vendeur:
 					for his in models.Historique.objects.filter(vendeur=vendeur.user.username):
 						nbre_art_vendu += 1
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur, si le problème persiste veuillez nous contacter au 0556748529")
 				else:
 					return render(request, "Vendeur/dashboard.html", {
 						'vendeur': vendeur,
@@ -949,7 +950,9 @@ class Vendeur:
 							vendeur = vendeur,
 							)	
 					except Exception as e:
-						raise e
+						return render(request, "Vendeur/ajouter_produit.html", {
+							'message':"Erreur lors de l'ajout de produit. Si le problème persiste veuillez nous contacter au 0556748529"
+							})
 					else:
 						return redirect('liste_produits_vendeur')
 
@@ -970,10 +973,9 @@ class Vendeur:
 				return redirect('authentification_vendeur')
 			else:
 				try:
-					
 					produit_a_supprimer = models.Produit.objects.get(pk = id_produit, vendeur = vendeur)
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur produit introuvable, Si le problème persiste, veuillez contacter le service client au 0556748529")
 				else:
 					produit_a_supprimer.status = 0
 					produit_a_supprimer.delete()
@@ -994,7 +996,7 @@ class Vendeur:
 				try:
 					produit_a_modifier = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur produit introuvable, Si le problème persiste, veuillez contacter le service client au 0556748529")
 				else:
 					
 					if request.method == 'POST':
@@ -1022,7 +1024,7 @@ class Vendeur:
 								produit_a_modifier.image = form_image.get('image')
 
 						except Exception as e:
-							raise e
+							return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
 						else:
 							produit_a_modifier.save()
 							return redirect("liste_produits_vendeur")
@@ -1051,7 +1053,7 @@ class Vendeur:
 					try:
 						produit_a_modifier = models.Produit.objects.get(pk= id_produit, vendeur=vendeur)
 					except Exception as e:
-						raise e
+						return HttpResponse("Erreur produit introuvable, Si le problème persiste, veuillez contacter le service client au 0556748529")
 					else:
 						if  request.POST.get('status') is not None:
 							produit_a_modifier.status = True
@@ -1079,7 +1081,7 @@ class Vendeur:
 					produit = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
 					image_produit = models.ImageProduit.objects.filter(produit=produit)
 				except Exception as e:
-					raise e
+					return HttpResponse("Erreur produit introuvable, Si le problème persiste, veuillez contacter le service client au 0556748529")
 				else:
 					return render(request, "Vendeur/detail_produit.html", {'produit': produit, 'image_produit':image_produit})
 
@@ -1151,7 +1153,7 @@ class Vendeur:
 								vendeur.commune = form.get('commune')
 								vendeur.quartier = form.get('quartier')
 							except Exception as e:
-								raise e
+								return HttpResponse("Erreur lors de la modification, Si le problème persiste, veuillez contacter le service client au 0556748529")
 							else:
 								vendeur.user.save()
 								vendeur.save()
@@ -1182,12 +1184,11 @@ class Vendeur:
 					
 					try:
 						vendeur.profil = form_profil.get('profil')
-						
-					except Exception as e:
-						raise e
-					else:
 						vendeur.save()
-
+					except Exception as e:
+						return HttpResponse(
+							"Erreur lors de la mise à jour du profil, Si le problème persiste, veuillez contacter le service client au 0556748529")
+					else:
 						return render(request, "Vendeur/modifier_infos_vendeur.html", {
 							'vendeur': vendeur, 'message': "Votre profil a ete mis a jour",
 							'active':"parametres"})

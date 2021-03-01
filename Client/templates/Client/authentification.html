@@ -37,7 +37,7 @@
   <div class="container">
       <div class="col col-sm col-md col-lg col-xg">
         <section class="section-content" >
-          <div class="card mx-auto">
+          <div class="card mx-auto" style="max-width:500px;">
               <div class="card-body" >
                 <header class="mb-4">
                   <h3 class="card-title"><ins><center>Authentification Client</center></ins></h3>
@@ -49,9 +49,9 @@
                        <input id="user"  name="username" class="form-control form-control-lg" type="text" required>
                     </div> <!-- form-group// -->
                     <div class="form-group">
-                      <a class="float-right" href="{% url 'mot_de_passe_oublie' %}">Mot de passe oublié?</a>
                       <label for="mdp">Mot de passe</label>
                       <input id="mdp" name="mdp" class="form-control form-control-lg" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required>
+                      <a class="float-right" href="{% url 'mot_de_passe_oublie' %}">Mot de passe oublié?</a>
                     </div> <!-- form-group// --> 
                     
                     <div class="form-group mt-3">
@@ -60,7 +60,7 @@
                 </form>
               </div> <!-- card-body.// -->
             <div class="card-footer text-center">
-            Vous n'avez pas de compte?< <a href="{% url 'inscription' %}">Inscription</a>
+            Vous n'avez pas de compte? <a href="{% url 'inscription' %}">Inscription</a>
               </div>
           </div> <!-- card .// -->
       </section>
