@@ -37,27 +37,27 @@
           <div class="card mx-auto">
               <div class="card-body" >
                 <header class="mb-4">
-                  <h4 class="card-title"><ins><center><h2>Authentification Vendeur</h2></center></ins></h4>
+                  <h3 class="card-title"><ins><center>Authentification Vendeur</center></ins></h3>
                 </header>
                 <form method="POST" action="{% url 'authentification_vendeur' %}">
                   {% csrf_token %}
                     <div class="form-group">
-                       <label for="user"><h3>Nom d'utilisateur</h3></label>
+                       <label for="user">Nom d'utilisateur</label>
                        <input id="user"  name="username" class="form-control form-control-lg" type="text" required>
                     </div> <!-- form-group// -->
                     <div class="form-group">
-                      <a class="float-right" href="{% url 'mot_de_passe_oublie' %}"><h5>Mot de passe oublié?</h5></a>
-                      <label for="mdp"><h3>Mot de passe</h3></label>
+                      <a class="float-right" href="{% url 'mot_de_passe_oublie' %}">Mot de passe oublié?</a>
+                      <label for="mdp">Mot de passe</label>
                       <input id="mdp" name="mdp" class="form-control form-control-lg" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required>
                     </div> <!-- form-group// --> 
                     
                     <div class="form-group mt-3">
-                        <button type="submit" class="btn btn-primary btn-block"><h3> Connexion</h3>  </button>
+                        <button type="submit" class="btn btn-primary btn-block"> Connexion  </button>
                     </div> <!-- form-group// -->    
                 </form>
               </div> <!-- card-body.// -->
             <div class="card-footer text-center">
-            <h5>Vous n'avez pas de compte?</h5> <a href="{% url 'inscription_vendeur' %}"><h4>Inscription</h4></a>
+            Vous n'avez pas de compte? <a href="{% url 'inscription_vendeur' %}">Inscription</a>
               </div>
           </div> <!-- card .// -->
       </section>
