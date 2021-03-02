@@ -63,14 +63,14 @@
 			      </div>
 		     	<div class="col-md">
 		     		<center>	
-			     		<input name="avatar-url" class="form-control" type="file" id="file_input"/>
+			     		<input class="form-control" type="file" id="file_input"/>
 			     		<p id="status">Selectionner une image svp</p>
 		     			<img id="preview"  src="{{ vendeur.get_profil }}" class="img-md rounded-circle border">
 		     		</center><br>
 		     		<div>
 		     		<form action="{% url 'changer_profil_vendeur' %}" method="post" enctype="multipart/form-data">
 						{% csrf_token %}
-						<input type="hidden" id="avatar-url" name="avatar-url" value="{{ vendeur.get_profil }}">
+						<input type="hidden" id="avatar-url" name="avatar-url">
 						<center><input type="submit" value="changer profil" class="btn btn-outline-success"></center>
 					</form>
 		     	</div>  <!-- col.// -->
