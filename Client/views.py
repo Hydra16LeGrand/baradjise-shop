@@ -1190,9 +1190,8 @@ class Vendeur:
 					file_type = request.GET.get('file_type')
 					print(f"FILE TYPE : {file_type}")
 
-					# s3 = boto3.client('s3')
-
-					s3 = boto3.client('s3', config = Config(signature_version = 's3v4'))
+					s3 = boto3.client('s3')	
+					# s3 = boto3.client('s3', config = Config(signature_version = 's3v4'))
 					print(f"S3 : {s3}")
 					presigned_post = s3.generate_presigned_post(
 						Bucket = S3_BUCKET,
