@@ -5,7 +5,9 @@ from datetime import  date
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse, JsonResponse
 import random
+import os, json, boto3
 # import pyrebase
 
 from . import models
@@ -1170,6 +1172,45 @@ class Vendeur:
 		else:
 			return redirect('authentification_vendeur')
 
+
+	def changer_profil_vendeur_s3(request):
+
+		if request.user.is_authenticated:
+			try:
+				vendeur = models.Vendeur.objects.get(user=request.user)
+			except Exception as e:
+				return redirect('authentification')
+			else:
+				print("Ici aussi")
+				try:
+					S3_BUCKET = os.environ.get('S3_BUCKET')
+					print(f"s3 bucket : {S3_BUCKET}")
+					file_name = request.POST.get('file_name')
+					file_type = request.POST.get('file_type')
+
+					s3 = boto3.client('s3')
+
+					# s3 = boto3.client('s3', config = Config(signature_version = 's3v4'))
+					print("Ici")
+					presigned_post = s3.generate_presigned_post(
+						Bucket = S3_BUCKET,
+						Key = file_name,
+						Fields = {"acl": "public-read", "Content-Type": file_type},
+					    Conditions = [
+					      {"acl": "public-read"},
+					      {"Content-Type": file_type}
+					    ],
+					    ExpiresIn = 3600
+					)
+				except Exception as e:
+					raise e
+				else:
+					return JsonResponse({
+								'data': presigned_post,
+								'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+							})
+
+
 	def changer_profil_vendeur(request):
 
 		if request.user.is_authenticated:
@@ -1183,7 +1224,8 @@ class Vendeur:
 					form_profil = request.FILES
 					
 					try:
-						vendeur.profil = form_profil.get('profil')
+						print(form_profil.get('avatar-url'))
+						vendeur.profil = form_profil.get('avatar-url')
 						vendeur.save()
 					except Exception as e:
 						return HttpResponse(

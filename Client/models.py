@@ -20,7 +20,7 @@ class Vendeur(models.Model):
 		if self.profil and hasattr(self.profil, 'url'):
 			return self.profil.url
 		else:
-			return "media/profil_vendeur/profil_inconnu.jpg"	
+			return "/media/profil_vendeur/profil_inconnu.jpg"	
 
 	def __str__(self):
 
