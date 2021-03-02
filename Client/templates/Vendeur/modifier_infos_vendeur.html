@@ -122,11 +122,13 @@
 	  xhr.onreadystatechange = function() {
 	    if(xhr.readyState === 4){
 	      if(xhr.status === 200 || xhr.status === 204 || xhr.status === 0 || xhr.status === 400){
+	      	alert(document.getElementById("preview").src)
+	      	alert(document.getElementById("avatar-url").value)
 	        document.getElementById("preview").src = url;
 	        document.getElementById("avatar-url").value = url;
 	      }
 	      else{
-	    	console.lo(xhr.status)
+	    	console.log(xhr.status)
 	        alert("Ce fichier ne peut etre téléchargé.");
 	      }
 	   }
