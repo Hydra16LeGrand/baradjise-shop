@@ -1207,10 +1207,15 @@ class Vendeur:
 				except Exception as e:
 					raise e
 				else:
-					return JsonResponse({
-								'data': presigned_post,
-								'url': 'https://{}.s3.amazonaws.com/{}'.format(S3_BUCKET, file_name)
-							})
+					# return JsonResponse({
+					# 			'data': presigned_post,
+					# 			'url': 'https://{}.s3.amazonaws.com/{}'.format(S3_BUCKET, file_name)
+					# 		})
+
+					return HttpResponse(json.dumps(
+						'data': presigned_post,
+    					'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+						))
 
 
 	def changer_profil_vendeur(request):
