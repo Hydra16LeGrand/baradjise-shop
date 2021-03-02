@@ -1226,7 +1226,7 @@ class Vendeur:
 					form_profil = request.FILES
 					
 					try:
-						print(form_profil.get('avatar-url'))
+						print("Avatar url : ",form_profil.get('avatar-url'))
 						vendeur.profil = form_profil.get('avatar-url')
 						vendeur.save()
 					except Exception as e:
