@@ -1212,10 +1212,10 @@ class Vendeur:
 					# 			'url': 'https://{}.s3.amazonaws.com/{}'.format(S3_BUCKET, file_name)
 					# 		})
 
-					return HttpResponse(json.dumps(
+					return HttpResponse(json.dumps({
 						'data': presigned_post,
     					'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
-						))
+						}))
 
 
 	def changer_profil_vendeur(request):
