@@ -121,13 +121,13 @@
 
 	  xhr.onreadystatechange = function() {
 	    if(xhr.readyState === 4){
-	      if(xhr.status === 200 || xhr.status === 204){
+	      if(xhr.status === 200 || xhr.status === 204 || xhr.status === 0 || xhr.status === 400){
 	        document.getElementById("preview").src = url;
 	        document.getElementById("avatar-url").value = url;
 	      }
 	      else{
-	    	alert(xhr.status)
-	        // alert("Ce fichier ne peut etre téléchargé.");
+	    	console.lo(xhr.status)
+	        alert("Ce fichier ne peut etre téléchargé.");
 	      }
 	   }
 	  };
