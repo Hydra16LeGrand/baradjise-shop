@@ -1185,8 +1185,10 @@ class Vendeur:
 				try:
 					S3_BUCKET = os.environ.get('S3_BUCKET')
 					print(f"s3 bucket : {S3_BUCKET}")
-					file_name = request.POST.get('file_name')
-					file_type = request.POST.get('file_type')
+					file_name = request.GET.get('file_name')
+					print("file_name : {}".format(request.GET.get('file_name')))
+					file_type = request.GET.get('file_type')
+					print(f"FILE TYPE : {file_type}")
 
 					s3 = boto3.client('s3')
 
