@@ -1219,9 +1219,9 @@ class Vendeur:
 								'data': presigned_post,
     							'url': 'https://baradjieshop.s3.amazonaws.com/profil_vendeur/poy.jpg'
 						})
-					print("Reponse : ", reponse)
-					print("Reponse2 : ", reponse2)
-					print("Reponse3 : ", reponse3)
+					print("Reponse : ", reponse.content)
+					print("Reponse2 : ", reponse2.content)
+					print("Reponse3 : ", reponse3.content)
 
 					return reponse
 
