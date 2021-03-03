@@ -118,7 +118,7 @@
 	    postData.append(key, s3Data.fields[key]);
 	  }
 	  postData.append('file', file);
-
+	  alert("PostData: "+postData);
 	  xhr.onreadystatechange = function() {
 	    if(xhr.readyState === 4){
 	      if(xhr.status === 200 || xhr.status === 204){
