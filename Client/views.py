@@ -1223,7 +1223,7 @@ class Vendeur:
 					print("Reponse2 : ", reponse2.content)
 					print("Reponse3 : ", reponse3.content)
 
-					return reponse2
+					return reponse
 
 					# return HttpResponse(json.dumps({
 					# 	'data': presigned_post,
