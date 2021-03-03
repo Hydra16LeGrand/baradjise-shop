@@ -1207,10 +1207,23 @@ class Vendeur:
 				except Exception as e:
 					raise e
 				else:
-					return JsonResponse({
+					reponse = JsonResponse({
 								'data': presigned_post,
     							'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
 							})
+					reponse2 = JsonResponse({
+								'data': presigned_post,
+    							'url': 'https://%s.s3.amazonaws.com/profil_vendeur/%s' % (S3_BUCKET, file_name)
+						})
+					reponse3 = JsonResponse({
+								'data': presigned_post,
+    							'url': 'https://baradjieshop.s3.amazonaws.com/profil_vendeur/poy.jpg'
+						})
+					print("Reponse : ", reponse['url'])
+					print("Reponse2 : ", reponse2['url'])
+					print("Reponse3 : ", reponse3['url'])
+					
+					return reponse
 
 					# return HttpResponse(json.dumps({
 					# 	'data': presigned_post,
