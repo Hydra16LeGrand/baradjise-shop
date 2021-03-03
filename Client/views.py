@@ -1219,10 +1219,10 @@ class Vendeur:
 								'data': presigned_post,
     							'url': 'https://baradjieshop.s3.amazonaws.com/profil_vendeur/poy.jpg'
 						})
-					print("Reponse : ", reponse['url'])
-					print("Reponse2 : ", reponse2['url'])
-					print("Reponse3 : ", reponse3['url'])
-					
+					print("Reponse : ", reponse)
+					print("Reponse2 : ", reponse2)
+					print("Reponse3 : ", reponse3)
+
 					return reponse
 
 					# return HttpResponse(json.dumps({
