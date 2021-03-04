@@ -1194,7 +1194,7 @@ class Vendeur:
 					# s3 = boto3.client('s3', config = Config(signature_version = 's3v4'))
 					print(f"S3 : {s3}")
 					presigned_post = s3.generate_presigned_post(
-						Url = f"https://baradjie-shop-bucket.s3.eu-west-2.amazonaws.com/{file_name}"
+						Url = f"https://baradjie-shop-bucket.s3.eu-west-2.amazonaws.com/{file_name}",
 						# Bucket = S3_BUCKET_NAME,
 						# Key = file_name,
 						Fields = {"acl": "public-read", "Content-Type": file_type},
