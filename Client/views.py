@@ -1209,7 +1209,7 @@ class Vendeur:
 				else:
 					reponse = JsonResponse({
 								'data': presigned_post,
-    							'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+    							'url': 'https://%s.s3.us-east-2.amazonaws.com/%s' % (S3_BUCKET, file_name)
 							})
 					reponse2 = JsonResponse({
 								'data': presigned_post,
@@ -1219,7 +1219,7 @@ class Vendeur:
 								'data': presigned_post,
     							'url': 'https://baradjie-shop.s3.amazonaws.com/media/profil_vendeur/poy.jpg'
 						})
-					print("Reponsee : ", reponse.content)
+					print("Reponse : ", reponse.content)
 					print("Reponse2 : ", reponse2.content)
 					print("Reponse3 : ", reponse3.content)
 
