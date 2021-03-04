@@ -1209,7 +1209,7 @@ class Vendeur:
 				else:
 					reponse = JsonResponse({
 								'data': presigned_post,
-    							'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
+    							'url': 'https://%s.s3.eu-west-2.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
 							})
 					reponse2 = JsonResponse({
 								'data': presigned_post,
