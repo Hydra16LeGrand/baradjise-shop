@@ -162,10 +162,10 @@ if os.environ.get('ENV') == 'PRODUCTION':
     # AWS_SECRET_ACCESS_KEY = 'xLsEYDeCKPsQB3kic3XYQkwDx5vYqfqFvAAwjuK4'
     # AWS_STORAGE_BUCKET_NAME = 'baradjiseshop'
 
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    # DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
     # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
-    AWS_S3_FILE_OVERWRITE = False
-    AWS_DEFAULT_ACL = None
+    # AWS_S3_FILE_OVERWRITE = False
+    # AWS_DEFAULT_ACL = None
 
     # Static files settings
     PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))

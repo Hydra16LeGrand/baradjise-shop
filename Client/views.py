@@ -1183,8 +1183,8 @@ class Vendeur:
 			else:
 				print("Ici aussi")
 				try:
-					S3_BUCKET = os.environ.get('S3_BUCKET')
-					print(f"s3 bucket : {S3_BUCKET}")
+					S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+					print(f"s3 bucket : {S3_BUCKET_NAME}")
 					file_name = request.GET.get('file_name')
 					print("file_name : {}".format(request.GET.get('file_name')))
 					file_type = request.GET.get('file_type')
@@ -1194,7 +1194,7 @@ class Vendeur:
 					# s3 = boto3.client('s3', config = Config(signature_version = 's3v4'))
 					print(f"S3 : {s3}")
 					presigned_post = s3.generate_presigned_post(
-						Bucket = S3_BUCKET,
+						Bucket = S3_BUCKET_NAME,
 						Key = file_name,
 						Fields = {"acl": "public-read", "Content-Type": file_type},
 					    Conditions = [
@@ -1209,15 +1209,15 @@ class Vendeur:
 				else:
 					reponse = JsonResponse({
 								'data': presigned_post,
-    							'url': 'https://%s.s3.us-east-2.amazonaws.com/%s' % (S3_BUCKET, file_name)
+    							'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
 							})
 					reponse2 = JsonResponse({
 								'data': presigned_post,
-    							'url': 'https://%s.s3.us-east-2.amazonaws.com/profil_vendeur/%s' % (S3_BUCKET, file_name)
+    							'url': 'https://%s.s3.us-east-2.amazonaws.com/profil_vendeur/%s' % (S3_BUCKET_NAME, file_name)
 						})
 					reponse3 = JsonResponse({
 								'data': presigned_post,
-    							'url': 'https://baradjie-shop.s3.amazonaws.com/media/profil_vendeur/poy.jpg'
+    							'url': 'https://baradjie-shop-bucket.s3.amazonaws.com/media/profil_vendeur/poy.jpg'
 						})
 					print("Reponse : ", reponse.content)
 					print("Reponse2 : ", reponse2.content)
@@ -1227,7 +1227,7 @@ class Vendeur:
 
 					# return HttpResponse(json.dumps({
 					# 	'data': presigned_post,
-    	# 				'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET, file_name)
+    	# 				'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
 					# 	}))
 
 
