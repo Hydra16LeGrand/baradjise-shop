@@ -1200,7 +1200,8 @@ class Vendeur:
 					    Conditions = [
 					      {"acl": "public-read"},
 					      {"Content-Type": file_type}
-					    ]
+					    ],
+					    ExpiresIn = 3600
 					)
 					print(f"P.P: {presigned_post}")
 				except Exception as e:
