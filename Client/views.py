@@ -1183,7 +1183,7 @@ class Vendeur:
 			else:
 				print("Ici aussi")
 				try:
-					S3_BUCKET_NAME = os.environ.get('S3_BUCKET_NAME')
+					S3_BUCKET_NAME = os.environ.get('BUCKETEER_BUCKET_NAME')
 					print(f"s3 bucket : {S3_BUCKET_NAME}")
 					file_name = request.GET.get('file_name')
 					print("file_name : {}".format(request.GET.get('file_name')))
@@ -1209,7 +1209,7 @@ class Vendeur:
 				else:
 					reponse = JsonResponse({
 								'data': presigned_post,
-    							'url': 'https://%s.s3.eu-west-2.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
+    							'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
 							})
 					reponse2 = JsonResponse({
 								'data': presigned_post,
