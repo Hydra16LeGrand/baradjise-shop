@@ -9,6 +9,7 @@ from django.http import HttpResponse, JsonResponse
 import random
 import os, json, boto3
 import pyrebase
+from django.core.mail import send_mail
 
 # import firebase_admin
 
