@@ -55,4 +55,5 @@ urlpatterns = [
 	path('Vendeur/historique-paiement/', views.Vendeur.historique_paiement, name='historique_paiement_vendeur'),
 
 	path('mot-de-passe-oublie', views.mot_de_passe_oublie, name='mot_de_passe_oublie'),
+	path('contactez-nous', views.contactez_nous, name='contactez-nous'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

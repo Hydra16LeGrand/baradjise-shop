@@ -1270,3 +1270,27 @@ def mot_de_passe_oublie(request):
 
 	else:
 		return render(request, "mot_de_passe_oublie.html")
+
+
+def contactez_nous(request):
+
+	if request.method == 'POST':
+
+		form = request.POST
+		try:
+
+			message = f"Nom : {form.get['nom']}\nContact : {form.get['contact']}\nMessage : {form.get('message')}"
+			send_mail(
+				form.get['objet'],
+				message,
+				form.get('email'),
+				['baradjis.eshop@gmail.com'],
+				fail_silently=False
+				)
+		except Exception as e:
+			raise e
+		else:
+			return render(request, "contactez-nous.html", {"message": "Votre message à bien été envoyé."})
+
+	else:
+		return render(request, "contactez-nous.html")
