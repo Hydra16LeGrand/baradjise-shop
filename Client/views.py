@@ -1279,13 +1279,14 @@ def contactez_nous(request):
 		form = request.POST
 		try:
 
-			message = f"Nom : {form.get['nom']}\nContact : {form.get['contact']}\nMessage : {form.get('message')}"
+			message = f"Nom : {form.get['nom']} Contact : {form.get['contact']} Message : {form.get('message')}"
 			send_mail(
-				form.get['objet'],
-				message,
+				form.get('objet'),
+				form.get('message'),
 				form.get('email'),
 				['baradjis.eshop@gmail.com'],
-				fail_silently=False
+				fail_silently=False,
+				html_message=message
 				)
 		except Exception as e:
 			raise e
