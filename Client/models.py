@@ -5,22 +5,24 @@ from django.contrib.auth.models import User as User_p
 # La table d'enregistrement des vendeurs
 class Vendeur(models.Model):
 
-	profil = models.ImageField(upload_to='profil_vendeur', null=True, blank=True)
+	profil = models.TextField(null=True, blank=True)
 	contact1 = models.CharField(max_length=20)
 	contact2 = models.CharField(max_length=20, blank=True, null=True)
 	ville = models.CharField(max_length=20)
 	commune = models.CharField(max_length=20, blank = True, null = True)
 	quartier = models.CharField(max_length=20)
 
+	produits_vendu = models.TextField()
+
 	# Liaison un a un avec la table User
 	user = models.OneToOneField(User_p, on_delete=models.CASCADE)
 	# Methode qui va permettre de reccuperer le profil du vendeur
-	def get_profil(self):
+	# def get_profil(self):
 
-		if self.profil and hasattr(self.profil, 'url'):
-			return self.profil.url
-		else:
-			return "/media/profil_vendeur/profil_inconnu.jpg"	
+	# 	if self.profil and hasattr(self.profil, 'url'):
+	# 		return self.profil.url
+	# 	else:
+	# 		return "/media/profil_vendeur/profil_inconnu.jpg"	
 
 	def __str__(self):
 
@@ -56,7 +58,7 @@ class Produit(models.Model):
 
 	# Permettant de definir si le produit est disponible ou pas
 	status = models.BooleanField()
-	image = models.ImageField(upload_to="image_produit", null=True)
+	image = models.TextField(null=True)
 	date_ajout = models.DateField(auto_now_add=True)
 	date_modification = models.DateField(auto_now=True)
 	# Liaison un a plusieurs avec la table vendeur
@@ -67,11 +69,11 @@ class Produit(models.Model):
 	def __str__(self):
 		return self.libelle
 
-	def get_image(self):
-		if self.image and hasattr(self.image, 'url'):
-			return self.image.url
-		else:
-			return "media/image_produit/pas_d_image.jpg"
+	# def get_image(self):
+	# 	if self.image and hasattr(self.image, 'url'):
+	# 		return self.image.url
+	# 	else:
+	# 		return "media/image_produit/pas_d_image.jpg"
 
 
 # La classe servant a enregistrer des images supplementaires de produit 
@@ -79,13 +81,13 @@ class ImageProduit(models.Model):
 
 	produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
 
-	image = models.ImageField(upload_to="image_produit")
+	image = models.TextField()
 
-	def get_image(self):
-		if self.image and hasattr(self.image, 'url'):
-			return self.image.url
-		else:
-			return "media/image_produit/pas_d_image.jpg"
+	# def get_image(self):
+	# 	if self.image and hasattr(self.image, 'url'):
+	# 		return self.image.url
+	# 	else:
+	# 		return "media/image_produit/pas_d_image.jpg"
 
 
 # La classe d'enregistrement des clients. J'aurai du l'appeler client Pfff.
@@ -96,19 +98,19 @@ class User(models.Model):
 	ville = models.CharField(max_length=20)
 	commune = models.CharField(max_length=20, blank = True, null = True)
 	quartier = models.CharField(max_length=20)
-	profil = models.ImageField(upload_to='profil_client', null=True, blank=True)
+	profil = models.TextField(null=True, blank=True)
 	# Relation plusieurs a plusieurs avec produits. avec le widget through nous allons redefinir la nouvelle relation creer
 	# Remarque, Cette redefinition n'est pas obligatoire. Mais je l'ai fait au cas ou je voudrais ajouter de nouvelles colonnes
 	produit = models.ManyToManyField(Produit, through="ProduitUser")
 	# Liaison un a un avec la table User
 	user = models.OneToOneField(User_p, on_delete=models.CASCADE)
 
-	def get_profil(self):
+	# def get_profil(self):
 
-		if self.profil and hasattr(self.profil, 'url'):
-			return self.profil.url
-		else:
-			return "/media/profil_client/profil_inconnu.jpg"
+	# 	if self.profil and hasattr(self.profil, 'url'):
+	# 		return self.profil.url
+	# 	else:
+	# 		return "/media/profil_client/profil_inconnu.jpg"
 
 	def __str__(self):
 

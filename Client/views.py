@@ -8,27 +8,34 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 import random
 import os, json, boto3
-# import pyrebase
+import pyrebase
+
+# import firebase_admin
 
 from . import models
+# from firebase_admin import credentials, storage
 
 # Create your views here.
 
 # Les Configurations Firebase pour l'authentification et l'inscription des clients
+firebaseConfig = {
+    "apiKey": "AIzaSyAcIgIdfW6JQOwi7fVjsPV54ouOVfBQgdI",
+    "authDomain": "projet-commerce.firebaseapp.com",
+    "databaseURL": "https://projet-commerce.firebaseio.com",
+    "projectId": "projet-commerce",
+    "storageBucket": "projet-commerce.appspot.com",
+    "messagingSenderId": "647035456259",
+    "appId": "1:647035456259:web:2c61b586513be282fff736",
+    "measurementId": "G-4XKQVRYXT9"
+    }
 # firebaseConfig = {
-#     "apiKey": "AIzaSyAcIgIdfW6JQOwi7fVjsPV54ouOVfBQgdI",
-#     "authDomain": "projet-commerce.firebaseapp.com",
-#     "databaseURL": "https://projet-commerce.firebaseio.com",
-#     "projectId": "projet-commerce",
 #     "storageBucket": "projet-commerce.appspot.com",
-#     "messagingSenderId": "647035456259",
-#     "appId": "1:647035456259:web:2c61b586513be282fff736",
-#     "measurementId": "G-4XKQVRYXT9"
 #     }
-# firebase = pyrebase.initialize_app(firebaseConfig)
-# firebase_auth = firebase.auth()
-# database = firebase.database()
 
+# cred = credentials.Certificate("projet-commerce-firebase-adminsdk.json")
+# default_app = pyrebase.initialize_app(firebaseConfig)
+firebase = pyrebase.initialize_app(firebaseConfig)
+storage = firebase.storage()
 
 # Classe permettant de gerer le systeme d'authentification du client
 class Acces:
@@ -532,7 +539,6 @@ def dashboard_client(request):
 				att_livr = 0
 				livree = 0
 				nbre_produit_panier = 0
-
 				num_cmd = []
 				for his in models.Historique.objects.filter(client=user.username):
 					if not his.num_cmd in num_cmd:
@@ -542,7 +548,6 @@ def dashboard_client(request):
 						att_livr +=1
 					if his.status_livraison == 'faite':
 						livree +=1
-
 				for pp in models.PanierProduit.objects.filter(panier=panier, status=0):
 					nbre_produit_panier += 1
 
@@ -744,7 +749,9 @@ class Compte:
 
 					form_profil = request.FILES
 					try:
-						client.profil = form_profil.get('profil')
+						chemin_firebase = f"Profils Clients/{request.user}/{form_profil.get('profil')}"
+						chemin = storage.child(chemin_firebase).put(form_profil.get('profil'))
+						client.profil = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
 						client.save()
 					except Exception as e:
 						return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
@@ -801,6 +808,7 @@ class Vendeur:
 										ville = form.get('ville'),
 										commune = form.get('commune'),
 										quartier = form.get('quartier'),
+										produits_vendu = form.get('produits_vendu'),
 										user = user)
 								except Exception as e:
 									user.delete()
@@ -922,7 +930,6 @@ class Vendeur:
 		else:
 			return redirect('authentification_vendeur')
 
-
 	def ajouter_produit(request):
 
 		if request.user.is_authenticated:
@@ -937,6 +944,10 @@ class Vendeur:
 					return redirect('authentification_vendeur')
 				else:
 					try:
+						chemin_firebase = f"Produits/{request.user}/{form_image.get('image')}"
+						chemin = storage.child(chemin_firebase).put(form_image.get('image'))
+						image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
+
 						categorie = models.Categorie.objects.get(cle=form.get('categorie'))
 						prix = float(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
 						produit = models.Produit.objects.create(
@@ -948,7 +959,7 @@ class Vendeur:
 							quantite =form.get('quantite'),
 							moq = 1,
 							status = True,
-							image = form_image.get('image'),
+							image = image,
 							vendeur = vendeur,
 							)	
 					except Exception as e:
@@ -1023,7 +1034,14 @@ class Vendeur:
 								produit_a_modifier.status = 0
 
 							if form_image.get('image'):
-								produit_a_modifier.image = form_image.get('image')
+								try:
+									chemin_firebase = f"Produits/{request.user}/{form_image.get('image')}"
+									chemin = storage.child(chemin_firebase).put(form_image.get('image'))
+									image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
+								except Exception as e:
+									raise e
+								else:
+									produit_a_modifier.image = image
 
 						except Exception as e:
 							return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
@@ -1103,10 +1121,15 @@ class Vendeur:
 
 				try:
 					produit = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
-					models.ImageProduit.objects.create(produit=produit, image=request.FILES.get('image'))
+
+					chemin_firebase = f"ProduitsImagesSup/{request.user}/{request.FILES.get('image')}"
+					chemin = storage.child(chemin_firebase).put(request.FILES.get('image'))
+					image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
+
 				except Exception as e:
 					return redirect('detail_produit_vendeur', id_produit)
 				else:
+					models.ImageProduit.objects.create(produit=produit, image=image)
 					return redirect('detail_produit_vendeur', id_produit)
 
 		else:
@@ -1172,65 +1195,6 @@ class Vendeur:
 		else:
 			return redirect('authentification_vendeur')
 
-
-	def changer_profil_vendeur_s3(request):
-
-		if request.user.is_authenticated:
-			try:
-				vendeur = models.Vendeur.objects.get(user=request.user)
-			except Exception as e:
-				return redirect('authentification')
-			else:
-				print("Ici aussi")
-				try:
-					S3_BUCKET_NAME = os.environ.get('BUCKETEER_BUCKET_NAME')
-					print(f"s3 bucket : {S3_BUCKET_NAME}")
-					file_name = request.GET.get('file_name')
-					print("file_name : {}".format(request.GET.get('file_name')))
-					file_type = request.GET.get('file_type')
-					print(f"FILE TYPE : {file_type}")
-
-					s3 = boto3.client('s3')	
-					# s3 = boto3.client('s3', config = Config(signature_version = 's3v4'))
-					print(f"S3 : {s3}")
-					presigned_post = s3.generate_presigned_post(
-						Bucket = S3_BUCKET_NAME,
-						Key = file_name,
-						Fields = {"acl": "public-read", "Content-Type": file_type},
-					    Conditions = [
-					      {"acl": "public-read"},
-					      {"Content-Type": file_type}
-					    ],
-					    ExpiresIn = 3600
-					)
-					print(f"P.P: {presigned_post}")
-				except Exception as e:
-					raise e
-				else:
-					reponse = JsonResponse({
-								'data': presigned_post,
-    							'url': 'https://%s.s3.amazonaws.com/public/%s' % (S3_BUCKET_NAME, file_name)
-							})
-					reponse2 = JsonResponse({
-								'data': presigned_post,
-    							'url': 'https://%s.s3.us-east-2.amazonaws.com/profil_vendeur/%s' % (S3_BUCKET_NAME, file_name)
-						})
-					reponse3 = JsonResponse({
-								'data': presigned_post,
-    							'url': 'https://baradjie-shop-bucket.s3.amazonaws.com/media/profil_vendeur/poy.jpg'
-						})
-					print("Reponse : ", reponse.content)
-					print("Reponse2 : ", reponse2.content)
-					print("Reponse3 : ", reponse3.content)
-
-					return reponse
-
-					# return HttpResponse(json.dumps({
-					# 	'data': presigned_post,
-    	# 				'url': 'https://%s.s3.amazonaws.com/%s' % (S3_BUCKET_NAME, file_name)
-					# 	}))
-
-
 	def changer_profil_vendeur(request):
 
 		if request.user.is_authenticated:
@@ -1244,12 +1208,14 @@ class Vendeur:
 					form_profil = request.FILES
 					
 					try:
-						print("Avatar url : ",form_profil.get('avatar-url'))
-						vendeur.profil = form_profil.get('avatar-url')
+						chemin_firebase = f"Profils Vendeurs/{request.user}/{form_profil.get('profil')}"
+						chemin = storage.child(chemin_firebase).put(form_profil.get('profil'))
+						vendeur.profil = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
 						vendeur.save()
 					except Exception as e:
-						return HttpResponse(
-							"Erreur lors de la mise à jour du profil, Si le problème persiste, veuillez contacter le service client au 0556748529")
+						# return HttpResponse(
+						# 	"Erreur lors de la mise à jour du profil, Si le problème persiste, veuillez contacter le service client au 0556748529")
+						raise e
 					else:
 						return render(request, "Vendeur/modifier_infos_vendeur.html", {
 							'vendeur': vendeur, 'message': "Votre profil a ete mis a jour",

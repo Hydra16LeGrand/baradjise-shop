@@ -46,6 +46,13 @@
 							  	<input type="email" name="email" class="form-control" value="{{ vendeur.user.email }}" required>
 							 </div>
 						</div> <!-- form-group end.// -->
+						<div class="form-group">
+							<label for="pv">Les produits que je vends</label>
+							<textarea class="form-control" id="pv" rows="4" readonly>{{ vendeur.produits_vendu }}</textarea>
+						</div>
+						<small class="form-text text-muted">
+							<center style="color: red;">Si voulez modifier les produits que vous vendez, veuillez nous contacter.</center>
+						</small>
 						<div class="form-row">
 							<div class="form-group col-md-6">
 							  <label>Nouveau mot de passe</label>
@@ -63,14 +70,12 @@
 			      </div>
 		     	<div class="col-md">
 		     		<center>	
-			     		<input class="form-control" type="file" id="file_input"/>
-			     		<p id="status">Selectionner une image svp</p>
-		     			<img id="preview" src="https://bucketeer-f1e8f9df-959f-48a6-8e81-bde5863ab276.s3.amazonaws.com/public/poy.jpg" class="img-md rounded-circle border">
+		     			<img id="preview" src="{{ vendeur.profil }}" class="img-md rounded-circle border">
 		     		</center><br>
 		     		<div>
 		     		<form action="{% url 'changer_profil_vendeur' %}" method="post" enctype="multipart/form-data">
 						{% csrf_token %}
-						<input type="hidden" id="avatar-url" name="avatar-url" value="{{ vendeur.get_profil }}">
+						<input class="form-control" type="file" name="profil" value="{{ vendeur.profil }}" required><br>
 						<center><input type="submit" value="changer profil" class="btn btn-outline-success"></center>
 					</form>
 		     	</div>  <!-- col.// -->
@@ -79,61 +84,4 @@
 	</div> <!-- card .// -->
 </div>
 
-<script type="text/javascript">
-
-	(function() {
-	  document.getElementById("file_input").onchange = function(){
-	    var files = document.getElementById("file_input").files;
-	    var file = files[0];
-	    if(!file){
-	      return alert("Aucun fichier selectionné.");
-	    }
-	    getSignedRequest(file);
-	  };
-	})();
-
-	function getSignedRequest(file){
-	  var xhr = new XMLHttpRequest();
-	  xhr.open("GET", "{% url 'changer_profil_vendeur_s3' %}?file_name="+file.name+"&file_type="+file.type);
-	  xhr.onreadystatechange = function(){
-	    if(xhr.readyState === 4){
-	      if(xhr.status === 200){
-	        var response = JSON.parse(xhr.responseText);
-	        uploadFile(file, response.data, response.url);
-	      }
-	      else{
-	      	console.log()
-	        alert("Impossible d'obtenir l'url signé.");
-	      }
-	    }
-	  };
-	  xhr.send();
-	}
-
-	function uploadFile(file, s3Data, url){
-	  var xhr = new XMLHttpRequest();
-	  xhr.open("POST", s3Data.url);
-	  alert("s3Data : "+s3Data+"\nURL : "+url)
-	  var postData = new FormData();
-	  for(key in s3Data.fields){
-	    postData.append(key, s3Data.fields[key]);
-	  }
-	  postData.append('file', file);
-	  xhr.onreadystatechange = function() {
-	    if(xhr.readyState === 4){
-	      if(xhr.status === 200 || xhr.status === 204){
-	        document.getElementById("preview").src = url;
-	        document.getElementById("avatar-url").value = url;
-	      }
-	      else{
-	      	console.log(xhr)
-	    	alert("Status code : "+xhr.status)
-	        // alert("Ce fichier ne peut etre téléchargé.");
-	      }
-	   }
-	  };
-	  xhr.send(postData);
-	}
-
-</script>
 {% endblock %}

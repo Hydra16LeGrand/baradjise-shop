@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
 
-    'storages',
+    # 'storages',
+    # 'gdstorage',
 
     'Client',
 ]
@@ -81,6 +82,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Baradji.wsgi.application'
 
+#Configuration google django-googledrive-storage
+# GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = 'sustained-pod-306722-dff1955920ba.json'
+# GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = os.path.join(BASE_DIR, 'media/') # OPTIONAL
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

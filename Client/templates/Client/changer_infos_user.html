@@ -60,7 +60,7 @@
 				</div>
 		     	<div class="col-md">
 		     		<center>	
-		     			<img src="{{ user.get_profil }}" class="img-md rounded-circle border">
+		     			<img src="{{ user.profil }}" class="img-md rounded-circle border">
 		     		</center><br>
 		     		<form action="{% url 'changer_profil_user' %}" method="post" enctype="multipart/form-data">
 						{% csrf_token %}

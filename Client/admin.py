@@ -51,6 +51,11 @@ class Historique(admin.ModelAdmin):
 	list_display_links = ("num_cmd", "montant_cmd")
 	list_editable = ("status_paiement", "status_livraison", "livreur")
 
+@admin.register(models.Categorie)
+class Categorie(admin.ModelAdmin):
+	list_display = ("nom", "cle", "commission")
+	empty_value_display = '-vide-'
+
 
 admin.site.register(models.User)
 admin.site.register(models.ImageProduit)

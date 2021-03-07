@@ -12,7 +12,7 @@
 					{% for pu in produit_user %}
 					<div class="col-md-6">
 						<figure class="itemside mb-4">
-							<div class="aside"><img src="{{ pu.produit.get_image }}" class="border img-md"></div>
+							<div class="aside"><img src="{{ pu.produit.image }}" class="border img-md"></div>
 							<figcaption class="info">
 								<a href="#" class="title">{{ pu.produit.libelle|truncatechars:28 }}</a>
 								<p class="price mb-2">{{ pu.produit.prix }} F.CFA</p>

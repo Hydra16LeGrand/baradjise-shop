@@ -8,7 +8,7 @@
 	<meta http-equiv="cache-control" content="max-age=604800" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title><b>Baradji's e-shop</b></title>
+	<title>Baradji's e-shop</title>
 
 	<link href="{% static 'images/mon_logo.png' %}" rel="shortcut icon" type="image/x-icon">
 
@@ -64,14 +64,22 @@
 							<div class="widget-header  mr-3 col-2">
 								<a href="{% url 'lister_envie' %}" title="Mes souhaits" class="icon icon-sm rounded-circle border">
 									<i class="fas fa-heart"></i>
-									<span class="notify">{{ request|nbre_pu }}</span>
+									{% if request|nbre_pu %}
+									{% endif %}
+									<span class="notify">
+										{{ request|nbre_pu }}
+									</span>
 								</a>
 								<span class="badge badge-pill badge-danger notify"></span>
 							</div>
 							<div class="widget-header  mr-3 col-2 icon">
 								<a href="{% url 'lister_panier' %}" title="Mon panier" class="icon icon-sm rounded-circle border">
 									<i class="fa fa-shopping-cart"></i>
-									<span class="notify">{{ request|nbre_pp }}</span>
+									{% if request|nbre_pp %}
+									{% endif %}
+									<span class="notify">
+										{{ request|nbre_pp }}
+									</span>
 								</a>
 								<span class="badge badge-pill badge-danger notify"></span>
 									

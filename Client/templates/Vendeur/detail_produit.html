@@ -6,11 +6,11 @@
 			<aside class="col-sm-6 border-right">
 				<article class="gallery-wrap"> 
 					<div class="img-big-wrap">
-					   <img importance="high" src="{{ produit.get_image }}">
+					   <img importance="high" src="{{ produit.image }}">
 					</div> <!-- img-big-wrap.// -->
 					<div class="thumbs-wrap" style="">
 					  {% for img in produit.imageproduit_set.all %}
-					  	<a href="{{ img.get_image }}" class="item-thumb"> <img src="{{ img.get_image }}"></a>
+					  	<a href="{{ img.image }}" class="item-thumb"> <img src="{{ img.image }}"></a>
 					  	<a href="{% url 'supprimer_image_produit' img.id %}" class="btn btn-danger btn-sm" title="Supprimer l'image?"><i class="fa fa-times"></i></a>
 					  {% endfor %}
 					</div> <!-- thumbs-wrap.// -->

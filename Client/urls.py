@@ -52,7 +52,6 @@ urlpatterns = [
 	path('Vendeur/supprimer-image-produit/<int:id_image>', views.Vendeur.supprimer_image_produit, name='supprimer_image_produit'),
 	path('Vendeur/modifier-infos-vendeur/', views.Vendeur.modifier_infos_vendeur, name='modifier_infos_vendeur'),
 	path('Vendeur/changer-profil-vendeur/', views.Vendeur.changer_profil_vendeur, name='changer_profil_vendeur'),
-	path('Vendeur/changer-profil-vendeur-s3/', views.Vendeur.changer_profil_vendeur_s3, name='changer_profil_vendeur_s3'),
 	path('Vendeur/historique-paiement/', views.Vendeur.historique_paiement, name='historique_paiement_vendeur'),
 
 	path('mot-de-passe-oublie', views.mot_de_passe_oublie, name='mot_de_passe_oublie'),

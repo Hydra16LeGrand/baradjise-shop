@@ -90,10 +90,15 @@
 				<td> Vendeur <br> {{ his.vendeur }} </td>
 				
 			</tr>
+					
 			{% endfor %}
 		</table>
 	</div> <!-- table-responsive .end// -->
 </article> <!-- order-group.// --> <br><br>
+{% empty %}
+				<article class="card card-body mb-3">
+					<tr><h1><center>Aucune commande pour le moment</center></h1></tr>
+				</article>
 {% endfor %}
 <!-- =========================  COMPONENT MYORDER 1 END.// ========================= --> 
 {% endblock %}

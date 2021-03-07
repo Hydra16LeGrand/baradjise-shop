@@ -1,37 +1,5 @@
 {% extends 'static_vendeur.html' %}
 {% load mes_filtres %}
-
-<table border="1">
-	<thead>
-		<tr>
-			
-			<td>Num commande</td>
-			<td>Produit</td>
-			<td>Quantite</td>
-			<td>Prix de vente</td>
-			<td>Montant a recevoir</td>
-			<td>Date commande</td>
-			<td>Date Paiement</td>
-			<td>Status Paiement</td>
-		</tr>
-	</thead>
-	<tbody>
-		{% for his in historiques %}
-			
-			<tr>
-				<td>{{ his.num_cmd }}</td>
-				<td>{{ his.libelle }}</td>
-				<td>{{ his.quantite }}</td>
-				<td>{{ his.prix_vendeur }}</td>
-				<td>{{ his.quantite|multiplication:his.prix_vendeur }}</td>
-				<td>{{ his.date_cmd|date:"D d M y" }}</td>
-				<td>{{ his.date_paiement|date:"D d M y" }}</td>
-				<td>{{ his.status_paiement }}</td>
-			</tr>
-
-		{% endfor %}
-	</tbody>
-</table>
 {% block static_vendeur %}
 <div class="col-md-9">
 	{% for his in historiques %}
@@ -69,6 +37,10 @@
 		</div> <!-- row.// -->
 	</div> <!-- card-body .// -->
 	</article><br>
+	{% empty %}
+		<div class="col-md">
+			<h1><center>Aucune vente pour le moment</center></h1>
+		</div>
 	{% endfor %}
 </div>
 {% endblock %}
