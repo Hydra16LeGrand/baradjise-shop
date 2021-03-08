@@ -80,7 +80,6 @@ class Produit(models.Model):
 class ImageProduit(models.Model):
 
 	produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-
 	image = models.TextField()
 
 	# def get_image(self):
