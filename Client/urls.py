@@ -7,7 +7,8 @@ from . import views
 
 urlpatterns = [
 	
-	path('', views.accueil, name='accueil'),
+	path("", views.accueil, name = "accueil"),
+	# url(r'^$', views.accueil, name='accueil'),
 
 	url(r'^inscription/$', views.Acces.inscription, name='inscription'),
 	url(r'^authentification/$', views.Acces.authentification, name='authentification'),

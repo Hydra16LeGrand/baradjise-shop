@@ -589,9 +589,6 @@ def accueil(request):
 
 		# nombre_page = request.GET.get('page')
 		# page_obj = paginator.get_page(nombre_page)
-
-
-
 	except Exception as e:
 		return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
 	else:

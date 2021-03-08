@@ -133,7 +133,7 @@
 					<a class="btn-overlay" href="{% url 'detail_produit' produit.id %}"><i class="fa fa-search-plus"></i> Détails </a>
 				</div>
 				<figcaption class="info-wrap">
-					<a href="{% url '' %}" class="title">{{ produit.libelle|truncatechars:30 }}</a>
+					<a href="{% url 'detail_produit' produit.id %}" class="title">{{ produit.libelle|truncatechars:30 }}</a>
 					<div class="price mt-1">{{ produit.prix }} F.CFA</div> <!-- price-wrap.// -->
 				</figcaption>
 			<a href="{% url 'ajouter_envie' produit.id %}" class="btn btn-block btn-primary">Ajouter aux souhaits </a>
