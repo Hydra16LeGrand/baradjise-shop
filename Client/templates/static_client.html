@@ -112,13 +112,12 @@
 					<div class="widget-header dropdown">
 						{% if request.user.is_authenticated %}
 							<a data-toggle="dropdown" class="dropdown-toggle"  data-offset="20,10" href="{% url 'dashboard_client' %}">
-								<div class="icon icon-sm rounded-circle border">
-									<!-- <i class="fa fa-user"></i> -->
-									{% if request|obtenir_profil %}
-									{% endif %}
-									<img src="{{ request|obtenir_profil }}">
-								</div>
-								<span class="sr-only">Actions</span>
+								
+								<!-- <i class="fa fa-user"></i> -->
+								{% if request|obtenir_profil %}
+								{% endif %}
+								<img class="icon icon-sm rounded-circle border" src="{{ request|obtenir_profil }}">
+								<span class="sr-only">Compte</span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" href="{% url 'dashboard_client' %}">Dashboard</a>
@@ -133,7 +132,7 @@
 								<div class="icon icon-sm rounded-circle border">
 									<i class="fa fa-user"></i>
 								</div>
-								<span class="sr-only">Actions</span>
+								<span class="sr-only">Compte</span>
 							</a>
 							<div class="dropdown-menu dropdown-menu-left">
 								<a class="dropdown-item" href="{% url 'authentification' %}">Connexion</a>
