@@ -21,13 +21,13 @@
 						<div class="text">
 							<strong> {{ vendeur.user.first_name }} {{ vendeur.user.last_name }}</strong> <br> 
 							{{ vendeur.user.email }} <br> 
+							<a href="{% url 'modifier_infos_vendeur' %}" class="btn-link"> Modifier</a><br>
 						</div>
 				</figure>
 				<hr>
 				<p>
 					<i class="fa fa-map-marker text-muted"></i> &nbsp; Mon adresse:  
 					 {{ vendeur.ville }}, {% if vendeur.commune %}{{ vendeur.commune }},{% endif %} {{vendeur.quartier}}
-					<a href="{% url 'modifier_infos_vendeur' %}" class="btn-link"> Modifier</a>
 				</p>
 
 				

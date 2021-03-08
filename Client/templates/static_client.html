@@ -93,14 +93,14 @@
 										<!-- <i class="fa fa-user"></i> -->
 										{% if request|obtenir_profil %}
 										{% endif %}
-										<img src="{{ request|obtenir_profil }}">
+										<img class="icon icon-sm rounded-circle border" src="{{ request|obtenir_profil }}">
 									</a>
 								{% else %}
 									<a href="{% url 'dashboard_client' %}" title="Gestion de compte" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
 									<div class="text" >
 										<span class="text-muted" >Bienvenue!</span>
 										<div> 
-											<a href="{% url 'authentification' %}">Connexion</a> &bull;  
+											<a href="{% url 'authentification' %}">Connexion</a>
 											<a href="{% url 'inscription' %}"> inscription</a>
 										</div>
 									</div>
