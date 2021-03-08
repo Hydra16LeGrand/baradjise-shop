@@ -848,11 +848,9 @@ class Vendeur:
 					login(request, user)
 					return redirect('dashboard_vendeur')
 				else:
-					if user.is_active:
-						return render(request, "Vendeur/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
-					else:
-						return render(request, "Vendeur/authentification.html", {
-							'message': "Votre compte n'a pas encore ete active. Veuillez nous contacter, si cela prend trop de temp"})
+					contexte = {
+						"message: Nom d'utilisateur ou mot de passe incorrect. Si vous venez de vous inscrire, vous devez patientez le temps d'activer votre compte. Veuillez nous contacter, si cela prend trop de temp"}
+					return render(request,"Vendeur/authentification.html", contexte)
 
 		else:
 			return render(request, "Vendeur/authentification.html")
