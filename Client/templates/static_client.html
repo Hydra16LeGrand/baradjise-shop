@@ -87,7 +87,7 @@
 									
 							</div>
 							{% endif %}
-							<div class="widget-header mr icontext  col">
+							<div class="widget-header mr icontext dropdown  col">
 								{% if request.user.is_authenticated %}
 									<a href="{% url 'dashboard_client' %}" title="Mon compte">
 										<!-- <i class="fa fa-user"></i> -->
@@ -95,13 +95,20 @@
 										{% endif %}
 										<img class="icon icon-sm rounded-circle border" src="{{ request|obtenir_profil }}">
 									</a>
+									<div class="dropdown-menu dropdown-menu-right">
+										<a class="dropdown-item" href="{% url 'dashboard_client' %}">Tableau de bord</a>
+										<a class="dropdown-item" href="{% url 'changer_infos_user' %}">Paramètres du compte</a>
+										<a class="dropdown-item" href="{% url 'mes_commandes' %}">Mes commandes</a>
+										<hr class="dropdown-divider">
+										<a class="dropdown-item" href="{% url 'deconnexion' %}">Déconnexion</a>
+									</div> <!--  dropdown-menu .// -->
 								{% else %}
 									<a href="{% url 'dashboard_client' %}" title="Gestion de compte" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
 									<div class="text" >
 										<span class="text-muted" >Bienvenue!</span>
 										<div> 
 											<a href="{% url 'authentification' %}">Connexion</a>
-											<a href="{% url 'inscription' %}"> inscription</a>
+											<a href="{% url 'inscription' %}"> Inscription</a>
 										</div>
 									</div>
 								{% endif %}
@@ -133,6 +140,38 @@
 		</div> <!-- row.// -->
 	</div> <!-- container.// -->
 </section> <!-- header-main .// -->
+
+<nav class="navbar navbar-expand-md navbar-main border-bottom">
+  <div class="container">
+
+		<div class="collapse navbar-collapse" id="dropdown6">
+		      <ul class="navbar-nav mr-auto">
+		        <li class="nav-item dropdown">
+		          <a class="nav-link dropdown-toggle" data-toggle="dropdown"> Catégories</a>
+		          <div class="dropdown-menu">
+		            <a class="dropdown-item" href="{% url 'rechercher_categorie' 'mode_homme' %}">Mode Homme</a>
+		            <a class="dropdown-item" href="{% url 'rechercher_categorie' 'mode_femme' %}">Mode Femme</a>
+		            <a class="dropdown-item" href="{% url 'rechercher_categorie' 'sport' %}">Sport</a>
+		            <a class="dropdown-item" href="{% url 'rechercher_categorie' 'accessoires_telephonique' %}">Accessoires Téléphonique</a>
+		            <a class="dropdown-item" href="{% url 'rechercher_categorie' 'beaute' %}">Beauté</a>
+		            <a class="dropdown-item" href="{% url 'rechercher_categorie' 'telephone' %}">Téléphone</a>
+		            <a class="dropdown-item" href="{% url 'rechercher_categorie' 'auto_moto' %}">Auto et moto</a>
+		            <a class="dropdown-item" href="{% url 'rechercher_categorie' 'autre' %}">Autre catégorie</a>
+		          </div>
+		        </li>
+		        <li class="nav-item"> <a class="nav-link" href="{% url 'accueil' %}">Accueil</a>  </li>
+		        <li class="nav-item"> <a class="nav-link" href="{% url 'rechercher_produit' 'list' ' ' %}">Liste de produits</a>  </li>
+		        <li class="nav-item"> <a class="nav-link" href="{% url 'rechercher_produit' 'grid' ' ' %}">Grille</a>  </li>
+		      </ul>
+
+		      <ul class="navbar-nav">
+				<!-- <li class="nav-item"><a href="#" class="nav-link">My items</a></li> -->
+				<li class="nav-item"><a href="{% url 'authentification_vendeur' %}" class="btn btn-primary ml-md-4"> Vendeur </a></li>
+			  </ul>
+	   </div> <!-- collapse .// -->
+  </div> <!-- container .// -->
+</nav>
+
 </header> <!-- section-header.// -->
 <body>
 	{% block static %}

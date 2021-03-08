@@ -11,29 +11,8 @@
 <div class="container">
 
 <div class="row">
-	<aside class="col-md-3">
-		<nav class="card">
-			<ul class="menu-category">
-				<li><a href="{% url 'rechercher_categorie' 'mode_homme' %}">Mode Homme</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'mode_femme' %}">Mode Femme</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'accessoires_telephonique' %}">Accéssoires Téléphonique</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'telephone' %}">Téléphone</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'auto_moto' %}">Auto et Moto</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'beaute' %}">Beauté</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'jeux_video' %}">Jeux vidéo</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'Ordinateur_accessoire' %}">Ordinateurs et accéssoires</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'sport' %}">Sport</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'tablette' %}">Tablette</a></li>
-				<li><a href="{% url 'rechercher_categorie' 'audio_visuel' %}">Audio-visuel</a></li>
-				<!-- <li class="has-submenu"><a href="#">More items</a>
-					<ul class="submenu">
-						
-					</ul>
-				</li> -->
-			</ul>
-		</nav><br>
-	</aside> <!-- col.// -->
-	<div class="col-md-9">
+
+	<div class="col-md col col-sm col-lg col-xl">
 		<article class="banner-wrap">
 			<img  src="{% static 'images/banners/promo25-02-2021.jpg' %}" class="w-100 rounded">
 		</article>
@@ -136,7 +115,7 @@
 					<a href="{% url 'detail_produit' produit.id %}" class="title">{{ produit.libelle|truncatechars:30 }}</a>
 					<div class="price mt-1">{{ produit.prix|parse_int }} F.CFA</div> <!-- price-wrap.// -->
 				</figcaption>
-			
+
 			<a href="{% url 'ajouter_envie' produit.id %}" class="btn btn-block btn-primary"><i class="fa fa-heart"></i> Ajouter </a>
 			<a href="{% url 'ajouter_panier' produit.id %}" class="btn btn-block btn-warning"><i class="fa fa-shopping-cart"></i> Ajouter </a>
 			</div>
