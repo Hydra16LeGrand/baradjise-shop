@@ -139,8 +139,11 @@ class Panier:
 			else:
 				try:
 					panier = models.Panier.objects.get(user=client)
+					print('panier')
 					produit = models.Produit.objects.get(id=id_produit)
+					print('produit')
 				except Exception as e:
+					print("Ici")
 					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
 				else:
 					# On tente de reccuperer le produit lie au panier. Histoire de voir s'il na pas encore ete ajoute
@@ -151,7 +154,7 @@ class Panier:
 						try:
 							models.PanierProduit.objects.create(produit = produit, panier = panier)
 						except Exception as e:
-							return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+							return redirect('lister_panier')
 						else:
 							return redirect('lister_panier')
 					else:
@@ -814,8 +817,22 @@ class Vendeur:
 									'message': "Erreur lors de la création du compte. Si le problème persiste, veuillez nous contacter au 0556748529"
 									})
 								else:
-									return render(request, "Vendeur/authentification.html", {
-										'message': "Votre compte a ete enregistrer. Vous serez contacte pour la confirmation"})
+									try:
+										message = f"Un nouveau compte vendeur vient d'etre crée.\nNom : {form.get('nom')} {form.get('prenom')}\nContact : {form.get('contact1')}"
+										send_mail(
+
+											"Création d'un compte vendeur. Attente de confirmation.",
+											"message",
+											form.get('email'),
+											["baradjis.e-shop@gmail.com"],
+											fail_silently = False
+											)
+									except Exception as e:
+										return render(request, "Vendeur/authentification.html", {
+											'message': "Votre compte a été enregistrer. Veuillez patienter pendant que nous étudiant votre demande."})
+									else:
+										return render(request, "Vendeur/authentification.html", {
+											'message': "Votre compte a ete enregistrer. Veuillez patienter pendant que nous étudiant votre demande."})
 						else:
 							return redirect('authentification_vendeur')
 
@@ -845,8 +862,12 @@ class Vendeur:
 					login(request, user)
 					return redirect('dashboard_vendeur')
 				else:
-					contexte = {
-						"message: Nom d'utilisateur ou mot de passe incorrect. Si vous venez de vous inscrire, vous devez patientez le temps d'activer votre compte. Veuillez nous contacter, si cela prend trop de temp"}
+					if vendeur.user.is_active:
+						contexte = {"message: Nom d'utilisateur ou mot de passe incorrect."}
+						return render(request, "Vendeur/authentication.html", contexte)
+					else:
+						contexte = {'message': 
+						"Veuillez patienter pendant que etudions votre inscription. Si cela prend plus de 2h, veuillez nous contacter par mail"}
 					return render(request,"Vendeur/authentification.html", contexte)
 
 		else:

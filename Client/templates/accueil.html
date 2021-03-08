@@ -134,7 +134,7 @@
 				</div>
 				<figcaption class="info-wrap">
 					<a href="{% url 'detail_produit' produit.id %}" class="title">{{ produit.libelle|truncatechars:30 }}</a>
-					<div class="price mt-1">{{ produit.prix }} F.CFA</div> <!-- price-wrap.// -->
+					<div class="price mt-1">{{ produit.prix|parse_int }} F.CFA</div> <!-- price-wrap.// -->
 				</figcaption>
 			<a href="{% url 'ajouter_envie' produit.id %}" class="btn btn-block btn-primary">Ajouter aux souhaits </a>
 			<a href="{% url 'ajouter_panier' produit.id %}" class="btn btn-block btn-warning">Ajouter au panier </a>

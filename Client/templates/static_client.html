@@ -90,14 +90,17 @@
 							<div class="widget-header mr icontext  col">
 								{% if request.user.is_authenticated %}
 									<a href="{% url 'dashboard_client' %}" title="Mon compte" class="icon icon-sm rounded-circle border">
-										<i class="fa fa-user"></i>
+										<!-- <i class="fa fa-user"></i> -->
+										{% if request|obtenir_profil %}
+										{% endif %}
+										<img src="{{ request|obtenir_profil }}">
 									</a>
 								{% else %}
 									<a href="{% url 'dashboard_client' %}" title="Gestion de compte" class="icon icon-sm rounded-circle border"><i class="fa fa-user"></i></a>
 									<div class="text" >
 										<span class="text-muted" >Bienvenue!</span>
 										<div> 
-											<a href="{% url 'authentification' %}">Connexion</a> |  
+											<a href="{% url 'authentification' %}">Connexion</a> &bull;  
 											<a href="{% url 'inscription' %}"> inscription</a>
 										</div>
 									</div>

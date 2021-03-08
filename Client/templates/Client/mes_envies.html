@@ -16,7 +16,7 @@
 							<figcaption class="info">
 								<a href="#" class="title">{{ pu.produit.libelle|truncatechars:28 }}</a>
 								<p class="price mb-2">{{ pu.produit.prix }} F.CFA</p>
-								<a href="{% url 'ajouter_panier' pu.pk %}" class="btn btn-primary btn-sm"> Ajouter au panier </a>
+								<a href="{% url 'ajouter_panier' pu.produit.pk %}" class="btn btn-primary btn-sm"> Ajouter au panier </a>
 								<a href="{% url 'supprimer_envie' pu.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Supprimer des souhaits"> <i class="fa fa-times"></i> </a>
 							</figcaption>
 						</figure>

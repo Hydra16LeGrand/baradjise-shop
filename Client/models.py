@@ -5,7 +5,7 @@ from django.contrib.auth.models import User as User_p
 # La table d'enregistrement des vendeurs
 class Vendeur(models.Model):
 
-	profil = models.TextField(null=True, blank=True)
+	profil = models.TextField(null=True, blank=True, default="https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/profil_inconnu.jpg?alt=media&token=4348dcfd-89c9-4c74-8a9c-65d75e6fadb5")
 	contact1 = models.CharField(max_length=20)
 	contact2 = models.CharField(max_length=20, blank=True, null=True)
 	ville = models.CharField(max_length=20)
@@ -58,7 +58,7 @@ class Produit(models.Model):
 
 	# Permettant de definir si le produit est disponible ou pas
 	status = models.BooleanField()
-	image = models.TextField(null=True)
+	image = models.TextField(default="https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/produit_introuvable.jpeg?alt=media&token=e0b8e248-ac8d-476d-b222-47d485f18f88")
 	date_ajout = models.DateField(auto_now_add=True)
 	date_modification = models.DateField(auto_now=True)
 	# Liaison un a plusieurs avec la table vendeur
@@ -80,7 +80,7 @@ class Produit(models.Model):
 class ImageProduit(models.Model):
 
 	produit = models.ForeignKey(Produit, on_delete=models.CASCADE)
-	image = models.TextField()
+	image = models.TextField(default="https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/produit_introuvable.jpeg?alt=media&token=e0b8e248-ac8d-476d-b222-47d485f18f88")
 
 	# def get_image(self):
 	# 	if self.image and hasattr(self.image, 'url'):
@@ -97,7 +97,7 @@ class User(models.Model):
 	ville = models.CharField(max_length=20)
 	commune = models.CharField(max_length=20, blank = True, null = True)
 	quartier = models.CharField(max_length=20)
-	profil = models.TextField(null=True, blank=True)
+	profil = models.TextField(null=True, blank=True, default="https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/profil_inconnu.jpg?alt=media&token=4348dcfd-89c9-4c74-8a9c-65d75e6fadb5")
 	# Relation plusieurs a plusieurs avec produits. avec le widget through nous allons redefinir la nouvelle relation creer
 	# Remarque, Cette redefinition n'est pas obligatoire. Mais je l'ai fait au cas ou je voudrais ajouter de nouvelles colonnes
 	produit = models.ManyToManyField(Produit, through="ProduitUser")

@@ -123,9 +123,9 @@ def reccup_image_produit_cmd(libelle, categorie, prix_vendeur, prix):
 	try:
 		produit = models.Produit.objects.get(libelle=libelle, categorie=categorie, prix_vendeur=prix_vendeur, prix=prix)
 	except:
-		return "/media/image_produit/pas_d_image.jpg"
+		return "https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/produit_introuvable.jpeg?alt=media&token=e0b8e248-ac8d-476d-b222-47d485f18f88"
 	else:
-		return produit.get_image
+		return produit.image
 
 
 @register.filter()
@@ -176,3 +176,14 @@ def nbre_pu(requete):
 			nbre_pu += 1
 
 		return nbre_pu
+
+
+@register.filter()
+def obtenir_profil(requete):
+
+	try:
+		user = models.User.objects.get(user = User.objects.get(username=requete.user))
+	except Exception as e:
+		logout(requete)
+	else:
+		return user.profil
