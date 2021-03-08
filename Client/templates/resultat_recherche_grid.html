@@ -4,7 +4,7 @@
 {% block static %}
 <!-- ========================= SECTION PAGETOP ========================= -->
 <section class="section-pagetop bg">
-	<div class="container">
+	<div class="container-fluid">
 		<h2 class="title-page">Résultat des recherches</h2>
 		<nav>
 		<ol class="breadcrumb text-white">
@@ -78,7 +78,7 @@
 									{% if produit.date_ajout|conversion_date_jour < 10 %}
 										<span class="badge badge-danger"> NOUVEAU </span>
 									{% endif %}
-									<img style="margin-top: 5px; height: 90%; width: 90%" src="{{ produit.image }}">
+									<img class="border" style="margin-top: 5px; height: 110%; width: 110%" src="{{ produit.image }}">
 									<a class="btn-overlay" href="{% url 'detail_produit' produit.id %}"><i class="fa fa-search-plus"></i> Détails </a>
 								</div> <!-- img-wrap.// -->
 								<figcaption class="info-wrap">
@@ -95,11 +95,11 @@
 									</div>
 									<a href="{% url 'ajouter_envie' produit.id %}" class="btn btn-outline-secondary btn-block">
 										<i class="fa fa-heart"></i> 
-										<span class="text">Ajouter souhait</span>
+										<span class="text">Ajouter</span>
 									</a>
 									<a href="{% url 'ajouter_panier' produit.id %}" class="btn btn-warning btn-block">
 										<i class="fa fa-shopping-cart"></i> 
-										<span class="text">Ajouter au panier</span>
+										<span class="text">Ajouter</span>
 									</a>
 								</figcaption>
 							</figure>

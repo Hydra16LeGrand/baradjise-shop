@@ -89,7 +89,7 @@
 							{% endif %}
 							<div class="widget-header mr icontext  col">
 								{% if request.user.is_authenticated %}
-									<a href="{% url 'dashboard_client' %}" title="Mon compte" class="icon icon-sm rounded-circle border">
+									<a href="{% url 'dashboard_client' %}" title="Mon compte">
 										<!-- <i class="fa fa-user"></i> -->
 										{% if request|obtenir_profil %}
 										{% endif %}
