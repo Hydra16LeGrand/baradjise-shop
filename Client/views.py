@@ -5,9 +5,8 @@ from datetime import  date
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, JsonResponse
+from django.http import Http404, HttpResponse
 import random
-import os, json, boto3
 import pyrebase
 from django.core.mail import send_mail
 
@@ -85,14 +84,14 @@ class Acces:
 								})
 								else:
 									models.Panier.objects.create(user=client)
-									return render(request, "Client/authentification.html", {'message': "Votre compte a été creer avec succès"})
+									return render(request, "Client/authentification.html", {'message_success': "Votre compte a été creer avec succès"})
 						else:
 							return render(request, "Client/inscription.html", {
-								'message': "Un compte est deja associe a ce nom d'utilisateur ou cet email", 'form': form})
+								'message': "Un compte est déja associé à ce nom d\'utilisateur ou cet email", 'form': form})
 					else:
-						return render(request, "Client/inscription.html", {'message': "Votre numeros de telephone doit etre egale a 8 chiffres", 'form': form})
+						return render(request, "Client/inscription.html", {'message': "Votre numéros de téléphone doit être égale à 8 chiffres", 'form': form})
 				else:
-					return render(request, "Client/inscription.html", {'message': "Le mot de passe doit contenir au moins 6 caracteres", 'form': form})
+					return render(request, "Client/inscription.html", {'message': "Le mot de passe doit contenir au moins 6 caractères", 'form': form})
 			else:
 				return render(request, "Client/inscription.html", {'message': "Les mots de passe saisis ne correspondent pas", 'form': form})
 		else:
@@ -112,7 +111,7 @@ class Acces:
 				user = authenticate(username=form.get('username'), password=form.get('mdp'))
 				if user is not None:
 					login(request, user)
-					return redirect('accueil')
+					return redirect('accueil', "Authentification réussie")
 				else:
 					return render(request, "Client/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
 
@@ -122,7 +121,7 @@ class Acces:
 	def deconnexion(request):
 
 		logout(request)
-		return redirect('accueil')
+		return redirect('accueil', "Vous vous êtes déconnecté avec succès")
 
 class Panier:
 
@@ -139,12 +138,9 @@ class Panier:
 			else:
 				try:
 					panier = models.Panier.objects.get(user=client)
-					print('panier')
 					produit = models.Produit.objects.get(id=id_produit)
-					print('produit')
 				except Exception as e:
-					print("Ici")
-					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+					raise Http404()
 				else:
 					# On tente de reccuperer le produit lie au panier. Histoire de voir s'il na pas encore ete ajoute
 					try:
@@ -154,19 +150,18 @@ class Panier:
 						try:
 							models.PanierProduit.objects.create(produit = produit, panier = panier)
 						except Exception as e:
-							return redirect('lister_panier')
+							return render(request, "Errors/500.html", status=500)
 						else:
-							return redirect('lister_panier')
+							return redirect('lister_panier', "L\'article à bien été ajouté")
 					else:
-						return redirect('lister_panier')
+						return redirect('lister_panier', "Le produit existe déja dans le panier")
 
-	def lister(request):
+	def lister(request, message_success=None):
 
 		if not request.user.is_authenticated:
 			return redirect("authentification")
 		else:
 			try:
-				
 				client = models.User.objects.get(user=request.user)
 			except Exception as e:
 				return redirect("authentification")
@@ -175,13 +170,25 @@ class Panier:
 					panier = models.Panier.objects.get(user=client)
 					# Liste des produits dont on a pas confirmer la commande
 					panier_produit = models.PanierProduit.objects.filter(panier=panier, status=0)
+
+					for pp in panier_produit:
+						if pp.produit.quantite <= 0:
+							panier_produit = panier_produit.exclude(produit = pp.produit)
+							pp.delete()
+
 					gain = 0.0
 					for pp in models.PanierProduit.objects.filter(panier=panier, status=0):
 						gain += pp.quantite*(pp.produit.prix-pp.produit.prix_vendeur)
+
 				except Exception as e:
-					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+					return render(request, "Errors/500.html", status=500)
 				else:
-					return render(request, "lister_panier.html",{'panier': panier, 'panier_produit': panier_produit, 'gain': gain, 'active':"panier"})
+					return render(request, "lister_panier.html",{
+						'panier': panier, 
+						'panier_produit': panier_produit, 
+						'gain': gain, 
+						'message_success': message_success,
+						'active':"panier"})
 
 	# Suppression du produit du panier
 	def supprimer(request, id_produit):
@@ -199,10 +206,10 @@ class Panier:
 					produit = models.Produit.objects.get(id=id_produit)
 					produit_a_supprimer = models.PanierProduit.objects.get(panier=panier, produit=produit, status=0)
 				except Exception as e:
-					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+					raise Http404()
 				else:
 					produit_a_supprimer.delete()
-					return redirect('lister_panier')
+					return redirect('lister_panier', "L\'article à bien été supprimé")
 
 	# changer la quantite d'un produit dans le panier
 	def modifier(request, id_produit):
@@ -226,9 +233,9 @@ class Panier:
 					panier_produit.quantite = form.get('quantite')
 				panier_produit.save()
 			except Exception as e:
-				return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+				raise Http404()
 			else:
-				return redirect('lister_panier')
+				return redirect('lister_panier', "La quantité à bien été changé")
 
 	def finaliser_commande(request):
 
@@ -248,7 +255,7 @@ class Panier:
 						montant += pp.quantite*pp.produit.prix
 
 				except Exception as e:
-					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+					return render(request, "Errors/500.html", status=500)
 				else:
 					# Creation de la commande
 
@@ -261,12 +268,13 @@ class Panier:
 							# if not pp.commande:
 							pp.commande = commande
 							
-							pp.produit.quantite -= pp.quantite
-							pp.produit.save()
+							if pp.produit.quantite >= pp.quantite:
+								pp.produit.quantite -= pp.quantite
+								pp.produit.save()
 							pp.save()
 
 					except Exception as e:
-						return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+						return render(request, "Errors/500.html", status=500)
 					else:
 						# Creation de la livraison
 						try:
@@ -299,7 +307,7 @@ class Panier:
 									status = 'en_cours'
 									)
 						except Exception as e:
-							return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+							return render(request, "Errors/500.html", status=500)
 						else:
 							# Creation du paiement
 							try:
@@ -309,7 +317,7 @@ class Panier:
 									montant_total=montant_total,
 									status='en_cours')
 							except Exception as e:
-								return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+								return render(request, "Errors/500.html", status=500)
 							else:
 								try:
 
@@ -340,9 +348,22 @@ class Panier:
 									# paiement.delete()
 									# livraison.delete()
 									commande.delete()
-									return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+									return render(request, "Errors/500.html", status=500)
 								else:
-									return redirect('mes_commandes')
+									try:
+										message = f"Une commande vient d'être passé par le client : {request.user}\nMontant: {paiement.montant_total}"
+										send_mail(
+
+											"Passation de commande.",
+											message,
+											"baradjis.eshop@gmail.com",
+											["baradjis.eshop@gmail.com"],
+											fail_silently = False
+											)
+									except Exception as e:
+										return redirect('mes_commandes', "Commande enregistré. \nVous serez contacté pour la confirmation")
+									else:
+										return redirect('mes_commandes', "Commande enregistré. \nVous serez contacté pour la confirmation")
 
 		
 #Gestion de la recherche 
@@ -516,7 +537,7 @@ class Recherche:
 		try:
 			user = User.objects.get(username=vendeur)
 		except Exception as e:
-			return HttpResponse("boutique introuvable")
+			raise Http404()
 		else:
 			logout(request)
 			return redirect('rechercher_produit', 'list', user.username)
@@ -560,7 +581,7 @@ def dashboard_client(request):
 					nbre_souhait+=1
 
 			except Exception as e:
-				return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+				return render(request, "Errors/500.html", status=500)
 			else:
 				return render(request, "Client/dashboard.html", {
 					'client': client, 
@@ -573,7 +594,7 @@ def dashboard_client(request):
 
 
 # Page d'accueil
-def accueil(request):
+def accueil(request, message=None):
 
 	try:
 		produits = models.Produit.objects.filter(status=1).exclude(quantite=0)
@@ -588,17 +609,13 @@ def accueil(request):
 			else:
 				produits_temp.append(produits[i])
 				i+=1
-		# paginator = Paginator(produits, 20)
-
-		# nombre_page = request.GET.get('page')
-		# page_obj = paginator.get_page(nombre_page)
 	except Exception as e:
-		return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
+		return render(request, "Errors/500.html", status=500)
 	else:
-		return render(request, "accueil.html", {'produits':produits_temp, 'requete': ""})
+		return render(request, "accueil.html", {'produits':produits_temp, 'requete': " ", 'message_success': message})
 
 # Commandes passees par les clients
-def mes_commandes(request):
+def mes_commandes(request, message_success=None):
 
 	if not request.user.is_authenticated:
 		return redirect("authentification")
@@ -611,10 +628,12 @@ def mes_commandes(request):
 			try:
 				historiques = models.Historique.objects.filter(client=request.user).order_by("-date_cmd")
 			except Exception as e:
-				return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
+				return render(request, "Errors/500.html", status=500)
 			else:
 				return render(request, "Client/mes_commandes.html", {
-							'historiques': historiques, 'active':"commande"})
+							'historiques': historiques,
+							'message_success': message_success,
+							'active':"commande"})
 
 # Detail du produit
 def detail_produit(request, id_produit):
@@ -622,7 +641,7 @@ def detail_produit(request, id_produit):
 	try:
 		produit = models.Produit.objects.get(pk=id_produit)
 	except Exception as e:
-		return HttpResponse("Produit introuvable")
+		raise Http404()
 	else:
 		return render(request, "Client/detail_produit.html", {'produit':produit})
 
@@ -636,7 +655,7 @@ class Envie:
 			try:
 				produit = models.Produit.objects.get(pk=id_produit, status=1)
 			except Exception as e:
-				return HttpResponse("Produit introuvable")
+				raise Http404()
 			else:
 				try:
 					client = models.User.objects.get(user=request.user)
@@ -647,11 +666,11 @@ class Envie:
 						produit_user =  models.ProduitUser.objects.get(produit=produit, user=client)
 					except Exception as e:
 						produit_user = models.ProduitUser.objects.create(produit=produit, user=client)
-						return redirect('lister_envie')
+						return redirect('lister_envie', "Article ajouté aux souhaits")
 					else:
-						return redirect('accueil')
+						return redirect('lister_envie', "Cet article existe déja dans vos souhaits")
 
-	def lister(request):
+	def lister(request, message_success=None):
 
 		if not request.user.is_authenticated:
 			return redirect("authentification")
@@ -659,14 +678,21 @@ class Envie:
 			try:
 				client = models.User.objects.get(user=request.user)
 			except Exception as e:
-				return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
+				return render(request, "Errors/500.html", status=500)
 			else:
 				try:
 					produit_user = models.ProduitUser.objects.filter(user=client)
+
+					for pu in produit_user:
+						if pu.produit.quantite <= 0:
+							produit_user = produit_user.exclude(produit=pu.produit)
 				except Exception as e:
-					return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
+					return render(request, "Errors/500.html", status=500)
 				else:
-					return render(request, "Client/mes_envies.html", {'produit_user':produit_user, 'active':"souhait"})
+					return render(request, "Client/mes_envies.html", {
+						'produit_user':produit_user, 
+						'message_success': message_success,
+						'active':"souhait"})
 
 	def supprimer(request, id_produit_user):
 
@@ -676,15 +702,15 @@ class Envie:
 			try:
 				client = models.User.objects.get(user=request.user)
 			except Exception as e:
-				return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
+				return render(request, "Errors/500.html", status=500)
 			else:
 				try:
 					produit_user = models.ProduitUser.objects.get(pk=id_produit_user)
 				except Exception as e:
-					return HttpResponse("Erreur, si le problème persiste, veuillez nous contacter au 0556748529")
+					raise Http404()
 				else:
 					produit_user.delete()
-					return redirect('lister_envie')
+					return redirect('lister_envie', "L'article à bien été supprimé")
 
 class Compte:
 
@@ -697,7 +723,7 @@ class Compte:
 			try:
 				client = models.User.objects.get(user=request.user)
 			except Exception as e:
-				return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
+				return render(request, "Errors/500.html", status=500)
 			else:
 				if request.method == 'POST':
 					form = request.POST
@@ -713,23 +739,23 @@ class Compte:
 							client.user.save()
 							client.save()
 						except Exception as e:
-							return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
+							return render(request, "Errors/500.html", status=500)
 						else:
 							if form.get('mdp') and form.get('c_mdp'):
 								if form.get('mdp') == form.get('c_mdp'):
 									if len(form.get('mdp')) >= 6:
 										client.user.set_password(form.get('mdp'))
 										return render(request, "Client/changer_infos_user.html",{'user':client,
-											'message': "Les infos ont ete mis a jour", 'active':"parametre"
+											'message_success': "Les infos ont ete mis a jour", 'active':"parametre"
 											})
 									else:
 										return render(request, "Client/changer_infos_user.html", {'user':client,
-	'message': "Les modifications ont ete apportees Cependant, le mot de passe reste inchange car mot de passe doit etre superieur ou egale a 6 caracteres"})
+	'message': "Les modifications ont ete apportees Cependant, le mot de passe reste inchange car mot de passe doit être superieur ou egale a 6 caracteres"})
 								else:
 									return render(request, "Client/changer_infos_user.html", {'user':client,
 			'message': "Les modifications ont ete apportees Cependant, le mot de passe reste inchange car les mots de passe saisis ne correspondent pas."})
 							else:
-								return render(request, "Client/changer_infos_user.html", {'user':client, 'message': "Les infos ont ete mis a jour"})
+								return render(request, "Client/changer_infos_user.html", {'user':client, 'message_success': "Les infos ont ete mis a jour"})
 
 					else:
 						return render(request, "Client/changer_infos_user.html", {'user':client,
@@ -755,10 +781,10 @@ class Compte:
 						client.profil = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
 						client.save()
 					except Exception as e:
-						return HttpResponse("Erreur, Si le problème persiste veuillez contacter le service client au 0556748529")
+						return render(request, "Errors/500.html", status=500)
 					else:
 						return render(request, "Client/changer_infos_user.html", {
-							'user': client, 'message': "Votre profil a ete mis a jour",
+							'user': client, 'message_success': "Votre profil a ete mis a jour",
 							'active':"parametre"})
 				else:
 					return render(request, "Client/changer_infos_user.html", {
@@ -818,13 +844,13 @@ class Vendeur:
 									})
 								else:
 									try:
-										message = f"Un nouveau compte vendeur vient d'etre crée.\nNom : {form.get('nom')} {form.get('prenom')}\nContact : {form.get('contact1')}"
+										message = f"Un nouveau compte vendeur vient d'être crée.\nNom : {form.get('nom')} {form.get('prenom')}\nContact : {form.get('contact1')}"
 										send_mail(
 
 											"Création d'un compte vendeur. Attente de confirmation.",
-											"message",
+											message,
 											form.get('email'),
-											["baradjis.e-shop@gmail.com"],
+											["baradjis.eshop@gmail.com"],
 											fail_silently = False
 											)
 									except Exception as e:
@@ -839,7 +865,7 @@ class Vendeur:
 					else:
 						return render(request, "Vendeur/inscription.html", {'message': "Veuillez saisir des numeros de telephone a 10 chiffres"})
 				else:
-					return render(request, "Vendeur/inscription.html", {'message': "Le mot de passe doit etre superieur a 10 caracteres"})
+					return render(request, "Vendeur/inscription.html", {'message': "Le mot de passe doit être superieur a 10 caracteres"})
 
 			else:
 				return render(request, "Vendeur/inscription.html", {'message': "Les mots de passe saisies ne correspondent pas"})
@@ -863,8 +889,8 @@ class Vendeur:
 					return redirect('dashboard_vendeur')
 				else:
 					if vendeur.user.is_active:
-						contexte = {"message: Nom d'utilisateur ou mot de passe incorrect."}
-						return render(request, "Vendeur/authentication.html", contexte)
+						contexte = {'message': "Nom d'utilisateur ou mot de passe incorrect."}
+						return render(request, "Vendeur/authentification.html", contexte)
 					else:
 						contexte = {'message': 
 						"Veuillez patienter pendant que etudions votre inscription. Si cela prend plus de 2h, veuillez nous contacter par mail"}
@@ -877,7 +903,7 @@ class Vendeur:
 	def deconnexion(request):
 
 		logout(request)
-		return redirect('authentification_vendeur')
+		return render(request, "Vendeur/authentification.html", {'message_success':"Déconnexion réussie"})
 
 	def dashboard(request):
 		# Verification s'il est authentifie
@@ -903,7 +929,7 @@ class Vendeur:
 					for his in models.Historique.objects.filter(vendeur=vendeur.user.username):
 						nbre_art_vendu += 1
 				except Exception as e:
-					return HttpResponse("Erreur, si le problème persiste veuillez nous contacter au 0556748529")
+					return render(request, "Errors/500.html", status=500)
 				else:
 					return render(request, "Vendeur/dashboard.html", {
 						'vendeur': vendeur,
@@ -914,7 +940,7 @@ class Vendeur:
 		else:
 			return redirect('authentification_vendeur')
 
-	def liste_produit(request):
+	def liste_produit(request, message_success=None):
 
 		if request.user.is_authenticated:
 			# On reccupere le vendeur et ses produits.
@@ -941,7 +967,8 @@ class Vendeur:
 				return render(request, "Vendeur/liste_produits.html",{
 					'produits': page_obj,
 					'active': "liste_produits_vendeur",
-					'nbre_produits': len(produits)
+					'nbre_produits': len(produits),
+					'message_success':message_success,
 					})
 
 		else:
@@ -966,7 +993,7 @@ class Vendeur:
 						image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
 
 						categorie = models.Categorie.objects.get(cle=form.get('categorie'))
-						prix = float(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
+						prix = int(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
 						produit = models.Produit.objects.create(
 							libelle = form.get('libelle'),
 							categorie = categorie,
@@ -981,10 +1008,10 @@ class Vendeur:
 							)	
 					except Exception as e:
 						return render(request, "Vendeur/ajouter_produit.html", {
-							'message':"Erreur lors de l'ajout de produit. Si le problème persiste veuillez nous contacter au 0556748529"
+							'message':"Erreur lors de l\'ajout de produit. Si le problème persiste veuillez nous contacter au 0556748529"
 							})
 					else:
-						return redirect('liste_produits_vendeur')
+						return redirect('liste_produits_vendeur', message_success="Ajout éffectué avec succès")
 
 			else:
 				return render(request, "Vendeur/ajouter_produit.html", {
@@ -1005,11 +1032,11 @@ class Vendeur:
 				try:
 					produit_a_supprimer = models.Produit.objects.get(pk = id_produit, vendeur = vendeur)
 				except Exception as e:
-					return HttpResponse("Erreur produit introuvable, Si le problème persiste, veuillez contacter le service client au 0556748529")
+					raise Http404()
 				else:
 					produit_a_supprimer.status = 0
 					produit_a_supprimer.delete()
-					return redirect('liste_produits_vendeur')
+					return redirect('liste_produits_vendeur', "Produit supprimé")
 
 		else:
 			return redirect('authentification_vendeur')
@@ -1026,7 +1053,7 @@ class Vendeur:
 				try:
 					produit_a_modifier = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
 				except Exception as e:
-					return HttpResponse("Erreur produit introuvable, Si le problème persiste, veuillez contacter le service client au 0556748529")
+					raise Http404()
 				else:
 					
 					if request.method == 'POST':
@@ -1061,10 +1088,14 @@ class Vendeur:
 									produit_a_modifier.image = image
 
 						except Exception as e:
-							return HttpResponse("Erreur, Si le problème persiste, veuillez contacter le service client au 0556748529")
+							return render(request, "Vendeur/modifier_produit.html", {
+								'produit': produit, 
+								'categories':categories,
+								'message': "Erreur lors de la mis à jour du produit"
+								})
 						else:
 							produit_a_modifier.save()
-							return redirect("liste_produits_vendeur")
+							return redirect("liste_produits_vendeur", "Produit modifié")
 					else:
 						# On aura besoin des categories dans le template pour le choix de la categorie
 						categories = models.Categorie.objects.all()
@@ -1090,9 +1121,9 @@ class Vendeur:
 					try:
 						produit_a_modifier = models.Produit.objects.get(pk= id_produit, vendeur=vendeur)
 					except Exception as e:
-						return HttpResponse("Erreur produit introuvable, Si le problème persiste, veuillez contacter le service client au 0556748529")
+						raise Http404()
 					else:
-						if  request.POST.get('status') is not None:
+						if request.POST.get('status') is not None:
 							produit_a_modifier.status = True
 						else:
 							produit_a_modifier.status = False
@@ -1118,9 +1149,11 @@ class Vendeur:
 					produit = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
 					image_produit = models.ImageProduit.objects.filter(produit=produit)
 				except Exception as e:
-					return HttpResponse("Erreur produit introuvable, Si le problème persiste, veuillez contacter le service client au 0556748529")
+					raise Http404()
 				else:
-					return render(request, "Vendeur/detail_produit.html", {'produit': produit, 'image_produit':image_produit})
+					return render(request, "Vendeur/detail_produit.html", {
+						'produit': produit, 
+						'image_produit':image_produit,})
 
 		else:
 			return redirect('authentification_vendeur')
@@ -1195,20 +1228,29 @@ class Vendeur:
 								vendeur.commune = form.get('commune')
 								vendeur.quartier = form.get('quartier')
 							except Exception as e:
-								return HttpResponse("Erreur lors de la modification, Si le problème persiste, veuillez contacter le service client au 0556748529")
+								return  render(request, "Vendeur/modifier_infos_vendeur.html", {
+									'vendeur': vendeur, 
+									'active':"parametres", 
+									'message': "Erreur lors de la modification. Si le problème persiste veuillez nous contacter."})
 							else:
 								vendeur.user.save()
 								vendeur.save()
-
-								return redirect('deconnexion_vendeur')
+								logout(request)
+								return render(request, "Vendeur/authentification.html", {
+									'message_success': "Vos modifications ont été prises en compte."
+									})
 						else:
 							return render(request,  "Vendeur/modifier_infos_vendeur.html", {'vendeur': vendeur, 
-								'message': "Le mot de passe doit etre superieur a 6 caracteres", 'active':"parametres"})
+								'message': "Le mot de passe doit être superieur à 6 caractères", 'active':"parametres"})
 					else:
-							return render(request,  "Vendeur/modifier_infos_vendeur.html", {'vendeur': vendeur, 
-								'message': "Les mots de passes ne correspondent pas", 'active':"parametres"})
+						return render(request,  "Vendeur/modifier_infos_vendeur.html", {
+							'vendeur': vendeur,
+							'message': "Les mots de passe ne correspondent pas", 
+							'active':"parametres"})
 				else:
-					return render(request, "Vendeur/modifier_infos_vendeur.html", {'vendeur': vendeur, 'active':"parametres"})
+					return render(request, "Vendeur/modifier_infos_vendeur.html", {
+						'vendeur': vendeur, 
+						'active':"parametres"})
 		else:
 			return redirect('authentification_vendeur')
 
@@ -1230,12 +1272,14 @@ class Vendeur:
 						vendeur.profil = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
 						vendeur.save()
 					except Exception as e:
-						# return HttpResponse(
-						# 	"Erreur lors de la mise à jour du profil, Si le problème persiste, veuillez contacter le service client au 0556748529")
-						raise e
+						return render(request, "Vendeur/modifier_infos_vendeur.html", {
+							'vendeur': vendeur, 
+							'message': "Erreur lors de la modification du profil. Si le problème persiste veuillez nous contacter",
+							'active':"parametres"})
 					else:
 						return render(request, "Vendeur/modifier_infos_vendeur.html", {
-							'vendeur': vendeur, 'message': "Votre profil a ete mis a jour",
+							'vendeur': vendeur, 
+							'message_success': "Votre profil a été mis a jour",
 							'active':"parametres"})
 				else:
 					return render(request, "Vendeur/modifier_infos_vendeur.html", {
@@ -1277,9 +1321,9 @@ def mot_de_passe_oublie(request):
 					try:
 						vendeur = models.Vendeur.objects.get(user=user)
 					except Exception as e:
-						return render(request, "Client/authentification.html", {'message': "Votre mot de passe à été mis à jour."})
+						return render(request, "Client/authentification.html", {'message_success': "Votre mot de passe à été mis à jour."})
 					else:
-						return render(request, "Vendeur/authentification.html", {'message': "Votre mot de passe à été mis à jour."})
+						return render(request, "Vendeur/authentification.html", {'message_success': "Votre mot de passe à été mis à jour."})
 				else:
 					return render(request, "mot_de_passe_oublie.html", {'message': "Le mot de passe doit contenir au moins 6 caracteres.", 'form': form})
 			else:
@@ -1311,3 +1355,13 @@ def contactez_nous(request):
 
 	else:
 		return render(request, "contactez-nous.html")
+
+
+
+def handler404(request, exception):
+
+	return render(request, "Errors/404.html",{}, status=404)
+
+def handler500(request):
+
+	return render(request, "Errors/500.html", status=500)

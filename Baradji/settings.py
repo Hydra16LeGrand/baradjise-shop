@@ -25,11 +25,11 @@ SECRET_KEY = '9hdg(=cnla^6sgfzu=tg0y3$@imae$3*l-^#izkovehc%7t859'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == 'PRODUCTION':
-    DEBUG = False
-else:
     DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = ['baradjise-shop.herokuapp.com', '127.0.0.1', 'baradjise-shop.com', '0.0.0.0']
+ALLOWED_HOSTS = ['baradjise-shop.herokuapp.com', '127.0.0.1', 'www.baradjise-shop.ci', '0.0.0.0']
 
 
 # Application definition

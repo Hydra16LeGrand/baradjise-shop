@@ -158,7 +158,8 @@ def nbre_pp(requete):
 	else:
 		nbre_pp = 0
 		for pp in models.PanierProduit.objects.filter(panier=panier).exclude(status=1):
-			nbre_pp += 1
+			if not pp.produit.quantite <= 0:
+				nbre_pp += 1
 
 		return nbre_pp		
 
@@ -172,8 +173,9 @@ def nbre_pu(requete):
 		logout(requete)
 	else:
 		nbre_pu = 0
-		for pp in models.ProduitUser.objects.filter(user=user):
-			nbre_pu += 1
+		for pu in models.ProduitUser.objects.filter(user=user):
+			if not pu.produit.quantite <= 0:
+				nbre_pu += 1
 
 		return nbre_pu
 

@@ -1,7 +1,20 @@
 {% load static %}
 
 {% if message %}
-<script type="text/javascript">alert('{{ message }}')</script>
+  <div class="alert alert-danger  alert-dismissible fade show" role="alert">
+      <center>{{ message }}</center>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %}
+{% if message_success %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+      <center>{{ message_success }}</center>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 {% endif %}
 <html lang="fr">
 <head>

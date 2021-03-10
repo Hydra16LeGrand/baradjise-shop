@@ -75,18 +75,20 @@
 								</figcaption>
 							</figure> 
 						</div> <!-- col.// -->
-						<div class="col-md-3"> 
+						<div class="col-md-3"> <br class="col">
 							<!-- <div class="input-group input-spinner"> -->
 							<form class="form-row" method="post" action="{% url 'modifier_panier' pp.produit.id %}">
 								{% csrf_token %}
-								<input name="quantite" type="number" class="col-md-5 form-control"  value="{{ pp.quantite }}" max="{{ pp.produit.quantite }}" min="1">
-								<input type="submit" class="col-md-7 form-control" value="changer">
+								<label for="qte">Qte </label>
+								<input id="qte" name="quantite" type="number" class="col-md-12 col-5 col-sm-3 col-xl-5 form-control"  value="{{ pp.quantite }}" max="{{ pp.produit.quantite }}" min="1">
+
+								<input type="submit" class="col-md-12 col col-sm col-xl form-control" value="changer">
 							</form>
 								
 							<!-- </div>  --><!-- input-group.// -->
 						</div> <!-- col.// -->
 						<div class="col">
-							<div class="price h6"> {{ pp.produit.prix }} F.CFA </div>
+							<div class="price h6"> {{ pp.produit.prix|parse_int }} F.CFA </div>
 						</div>
 						<div class="col flex-grow-0 text-right">
 							<a href="{% url 'supprimer_panier' pp.produit.pk %}" data-original-title="Supprimer de la liste" class="btn btn-light"> <i class="fa fa-times"></i></a>
@@ -115,7 +117,7 @@
 						</div>
 						<dl class="dlist-align">
 						  Sous total:
-						  <dd style="text-align: right;">{{ panier_produit|sous_total }} F.CFA</dd>
+						  <dd style="text-align: right;">{{ panier_produit|sous_total|parse_int }} F.CFA</dd>
 						</dl>
 						<dl class="dlist-align">
 						  <dt>Frais:</dt>
@@ -123,7 +125,7 @@
 						</dl>
 						<dl class="dlist-align">
 						  Grand Total:
-						  <dd class="text-right text-dark"><strong><span id="total">{{ panier_produit|sous_total }}</span> FCFA</strong></dd>
+						  <dd class="text-right text-dark"><strong><span id="total">{{ panier_produit|sous_total|parse_int }}</span> FCFA</strong></dd>
 						</dl>
 
 						<hr>
@@ -153,12 +155,12 @@
 	function choix_abidjan(){
 		frais = 0;
 		document.getElementById("_frais").innerHTML = frais;
-		document.getElementById("total").innerHTML = {{ panier_produit|sous_total }}+ frais;
+		document.getElementById("total").innerHTML = parseInt("{{ panier_produit|sous_total }}") + frais;
 	}
 	function choix_interieur(){
 		frais = 3000;
 		document.getElementById("_frais").innerHTML = frais;
-		document.getElementById("total").innerHTML = {{ panier_produit|sous_total }}+ frais;
+		document.getElementById("total").innerHTML = parseInt("{{ panier_produit|sous_total }}") + frais;
 	}
 
 

@@ -1,13 +1,16 @@
-from django.conf.urls import url
+from django.conf.urls import url, handler404
 from django.urls import path
 from django.conf import settings
 
 from django.conf.urls.static import static
 from . import views
 
+
 urlpatterns = [
 	
 	path("", views.accueil, name = "accueil"),
+	path("?<str:message>", views.accueil, name = "accueil"),
+
 	# url(r'^$', views.accueil, name='accueil'),
 
 	url(r'^inscription/$', views.Acces.inscription, name='inscription'),
@@ -17,11 +20,13 @@ urlpatterns = [
 
 	path('Panier/ajouter/<int:id_produit>/', views.Panier.ajouter, name='ajouter_panier'),
 	path('Panier/', views.Panier.lister, name='lister_panier'),
+	path('Panier/?<str:message_success>/', views.Panier.lister, name='lister_panier'),
 	path('Panier/modifier/<int:id_produit>/', views.Panier.modifier, name='modifier_panier'),
 	path('Panier/supprimer/<int:id_produit>/', views.Panier.supprimer, name='supprimer_panier'),
 	path('Panier/finaliser_commande/', views.Panier.finaliser_commande, name='finaliser_commande'),
 
 	path('mon_compte/mes_commandes/', views.mes_commandes, name='mes_commandes'),
+	path('mon_compte/mes_commandes/?<str:message_success>?/', views.mes_commandes, name='mes_commandes'),
 
 	path('rechercher-produit/<str:vue>/?<str:requete>', views.Recherche.recherche, name='rechercher_produit'),
 	path('rechercher-categorie/<str:categorie>/', views.Recherche.rechercher_categorie, name='rechercher_categorie'),
@@ -34,6 +39,7 @@ urlpatterns = [
 
 	path('mon_compte/detail_produit/<int:id_produit>/', views.Envie.ajouter, name='ajouter_envie'),
 	path('mon_compte/lister_envies/', views.Envie.lister, name='lister_envie'),
+	path('mon_compte/lister_envies/?<str:message_success>/', views.Envie.lister, name='lister_envie'),
 	path('mon_compte/supprimer_envie/<int:id_produit_user>/', views.Envie.supprimer, name='supprimer_envie'),
 
 	path('detail_produit/<int:id_produit>/', views.detail_produit, name='detail_produit'),
@@ -44,6 +50,7 @@ urlpatterns = [
 	path('Vendeur/authentification', views.Vendeur.authentification, name='authentification_vendeur'),
 	path('Vendeur/deconnexion', views.Vendeur.deconnexion, name='deconnexion_vendeur'),
 	path('Vendeur/lister-produits/', views.Vendeur.liste_produit, name='liste_produits_vendeur'),
+	path('Vendeur/lister-produits/?<str:message_success>/', views.Vendeur.liste_produit, name='liste_produits_vendeur'),
 	path('Vendeur/ajouter-produit/', views.Vendeur.ajouter_produit, name='ajouter_produit_vendeur'),
 	path('Vendeur/supprimer-produit/<int:id_produit>/', views.Vendeur.supprimer_produit, name='supprimer_produit_vendeur'),
 	path('Vendeur/modifier-produit/<int:id_produit>/', views.Vendeur.modifier_produit, name='modifier_produit_vendeur'),
