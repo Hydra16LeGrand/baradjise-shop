@@ -53,7 +53,7 @@
 					<form method="post" action="{% url 'inscription_vendeur' %}">
 						{% csrf_token %}
 						<small class="form-text text-muted">
-							<center style="color:red;">Remarque: Le symbole * devant un champ signifie qu'il est obligatoire.</center>
+							<center style="color:green;">Remarque: Le symbole * devant un champ signifie qu'il est obligatoire.</center>
 						</small><br>
 						<div class="form-row">
 							<div class="col-12 col-md-6 form-group">
@@ -68,7 +68,7 @@
 						<div class="form-group">
 							<label>Email *</label>
 							<input name="email" type="email" class="form-control" placeholder="" required>
-							<small class="form-text text-muted"><center style="color: red;">Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center></small>
+							<small class="form-text text-muted"><center style="color: orange;">Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center></small>
 						</div> <!-- form-group end.// -->
 						<div class="form-row">
 							<div class="form-group col-md-4 col-6">
@@ -119,26 +119,35 @@
 							<div class="form-group col-md-4 col-12">
 							  <label>Nom d'utilisateur *</label>
 							  <input name="username" type="text" class="form-control" required>
-							  <small class="form-text text-muted"><center style="color: red;">En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifié(connecté). Noter le bien.</center></small>
+							  <small class="form-text text-muted"><center style="color: orange;">En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifié(connecté). Noter le bien.</center></small>
 							</div> <!-- form-group end.// -->
 							<div class="form-group col-md-4 col-12">
 								<label>Mot de passe *</label>
 							    <input name="mdp" class="form-control" type="password" required>
-							    <small class="form-text text-muted"><center style="color: red;">Au moins 6 caractères.</center></small>
+							    <small class="form-text text-muted"><center style="color: orange;">Au moins 6 caractères.</center></small>
 							</div> <!-- form-group end.// --> 
 							<div class="form-group col-md-4 col-12">
 								<label>Repétez *</label>
 							    <input name="c_mdp" class="form-control" type="password" required>
-							    <small class="form-text text-muted"><center style="color: red;">Au moins 6 caractères.</center></small>
+							    <small class="form-text text-muted"><center style="color: orange;">Au moins 6 caractères.</center></small>
 							</div> <!-- form-group end.// -->  
 						</div>
+						<div class="form-group row text-left">
+							<input id="ch" type="checkbox" class="col-1 col-md-1 for" required>
+							<label class="col col-md" for="ch">J'accepte de ne jamais publié un article dont la photo comporte des coordonnées(Numéro, adresse, ..) du vendeur.</label>
+						</div><hr>
+						<div >
 					    <div class="form-group mt-3">
 					        <button type="submit" class="btn btn-primary btn-block"> Inscription  </button>
 					    </div> <!-- form-group// -->      
 					                                              
 					</form>
-					<hr>
-					<p class="text-center">Avez vous un compte? Connectez-vous <a href="{% url 'authentification_vendeur' %}">Connexion</a></p>
+					<div class="card-footer text-center">
+						<p class="text-center">Avez vous un compte? Connectez-vous <a href="{% url 'authentification_vendeur' %}">Connexion</a></p>
+					</div>
+					<div class="card-footer text-center">
+		            	Êtes vous un client? <a href="{% url 'inscription' %}">Inscrivez-vous ici</a>
+	              	</div>
 				</article> <!-- card-body end .// -->
 			</div> <!-- card.// -->
 		</div>

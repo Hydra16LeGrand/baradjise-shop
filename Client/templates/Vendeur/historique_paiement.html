@@ -4,9 +4,9 @@
 <div class="col-md-9">
 	{% for his in historiques %}
 	<article class="card order-group" style="margin-top: 5px;">
-	<header class="card-header" style="background-color: blue; color: white;">
-		<b class="d-inline-block mr-3">Code Commande: {{ his.code_cmd }}</b>
-		<span>Date: {{ his.date_cmd|date:"D d M Y" }}</span>
+	<header class="card-header row" style="background-color: blue; color: white;">
+		<b class="d-inline-block mr-3 col-md-6 col-12 col-lg-6 col-xl-6 col-sm-12">Code Commande: {{ his.code_cmd }}</b>
+		<span class="col-md col-12 col-sm-12 col-xl col-lg">Date: {{ his.date_cmd|date:"D d M Y" }}</span>
 	</header>
 	<div class="card-body">
 		<div class="row">

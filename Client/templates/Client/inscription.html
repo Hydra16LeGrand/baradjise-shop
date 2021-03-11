@@ -52,7 +52,7 @@
 					<form method="post" action="{% url 'inscription' %}">
 						{% csrf_token %}
 						<small class="form-text text-muted">
-							<center style="color:red;">Remarque: Le symbole * devant un champ signifie qu'il est obligatoire.</center>
+							<center style="color:green;">Remarque: Le symbole * devant un champ signifie qu'il est obligatoire.</center>
 						</small><br>
 						<div class="form-row">
 							<div class="form-group col-12 col-md-6">
@@ -68,7 +68,7 @@
 							<label for="email">Email *</label>
 							<input id="email" name="email" type="email" class="form-control" placeholder="" required>
 							<small class="form-text text-muted">
-								<center style="color:red;">Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center>
+								<center style="color:orange;">Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center>
 							</small>
 						</div>
 						<div class="form-row">
@@ -114,23 +114,27 @@
 							<div class="form-group col-12 col-md-4">
 								<label for="user">Nom d'utilisateur *</label>
 								<input id="user" name="username" type="text" class="form-control" required>
-								<small class="form-text text-muted"><center style="color: red;">En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifier(connecter). Noter le bien.</center></small>
+								<small class="form-text text-muted"><center style="color: orange;">En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifier(connecter). Noter le bien.</center></small>
 							</div>
 							<div class="form-group col-12 col-md-4">
 								<label for="mdp">Mot de passe *</label>
 							    <input id="mdp" name="mdp" class="form-control" type="password" required>
-							    <small class="form-text text-muted"><center style="color: red;">Au moins 6 caractères.</center></small>
+							    <small class="form-text text-muted"><center style="color: orange;">Au moins 6 caractères.</center></small>
 							</div>
 							<div class="form-group col-12 col-md-4">
 								<label for="cmdp">Repétez *</label>
 							    <input id="cmdp" name="c_mdp" class="form-control" type="password" required>
-							    <small class="form-text text-muted"><center style="color: red;">Au moins 6 caractères.</center></small>
+							    <small class="form-text text-muted"><center style="color: orange;">Au moins 6 caractères.</center></small>
 							</div>
 						</div>
 						<button type="submit" class="btn btn-primary btn-block"> Inscription  </button>
 					</form>
-					<hr>
+					<div class="card-footer text-center">
 					<p class="text-center">Avez vous un compte? Connectez-vous <a href="{% url 'authentification' %}">Connexion</a></p>
+					</div>
+					<div class="card-footer text-center">
+		            	Êtes vous un vendeur? <a href="{% url 'inscription_vendeur' %}">Inscrivez-vous ici</a>
+	              	</div>
 				</article>
 			</div>
 		</div>
