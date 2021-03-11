@@ -260,9 +260,26 @@ class Panier:
 					# Creation de la commande
 
 					try:
+						code = random.randrange(1000000,9999999)
+						existance = False
+
+						def creation_code_commande():
+							global code
+							global existance
+							for cmd in models.Commande.objects.all():
+								code = random.randrange(1000000, 9999999)
+								if cmd.code == code:
+									existance = True
+									break
+
+						while existance == True:
+							creation_code_commande()
+
+
 						commande = models.Commande.objects.create(
 							panier = panier,
-							montant=montant)
+							montant=montant,
+							code = code)
 
 						for pp in models.PanierProduit.objects.filter(panier=panier, status=0):
 							# if not pp.commande:
@@ -326,7 +343,8 @@ class Panier:
 
 											num_cmd = commande.pk,
 											montant_cmd = montant,
-
+											code_cmd = code,
+											
 											libelle = pp.produit.libelle,
 											categorie = pp.produit.categorie.nom,
 											prix_vendeur = pp.produit.prix_vendeur,
@@ -359,6 +377,15 @@ class Panier:
 											"baradjis.eshop@gmail.com",
 											["baradjis.eshop@gmail.com"],
 											fail_silently = False
+											)
+
+										message_retour = f"Votre commande à bien été réçu.\nVous serez contacter pour la confirmation.\nMontant: {paiement.montant_total}\nMerci d\'avoir choisi baradjise-shop pour vos achats."
+										send_mail(
+											"Commande réçu",
+											message,
+											"baradjis.eshop@gmail.com",
+											[client.user.email],
+											fail_silently=False
 											)
 									except Exception as e:
 										return redirect('mes_commandes', "Commande enregistré. \nVous serez contacté pour la confirmation")
@@ -957,6 +984,11 @@ class Vendeur:
 						).order_by("date_ajout")
 				else:
 					produits = models.Produit.objects.filter(vendeur=vendeur).order_by("date_ajout")
+
+					for p in produits:
+						if p.quantite <= 0:
+							p.status = False
+							p.save()
 					
 				produits = list(produits)
 				produits = random.sample(produits, len(produits))

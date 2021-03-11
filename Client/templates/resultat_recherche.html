@@ -81,10 +81,10 @@
 								</a>
 							</aside> <!-- col.// -->
 							<div class="col-md-6">
-								<div class="info-main">
+								<div class="info-main text-center">
 									<a href="{% url 'detail_produit' produit.id %}" class="h5 title"> {{ produit.libelle }}  </a>
-									<p><b>Categorie : {{ produit.categorie.nom }}</b></p>
-									<p><b>Vendeur : {{ produit.vendeur.user.username }}</b></p>
+									<p>Categorie : <b>{{ produit.categorie.nom }}</b></p>
+									<p>Vendeur : <b>{{ produit.vendeur.user.username }}</b></p>
 									<!-- <div class="rating-wrap mb-3">
 										<ul class="rating-stars">
 											<li style="width:80%" class="stars-active"> 
@@ -100,12 +100,12 @@
 										</ul>
 										<div class="label-rating">7/10</div>
 									</div>  rating-wrap.// -->
-									<p class="text-warning b">Quantité restante : {{ produit.quantite }}</p>
+									<p class="text-warning">Quantité restante :<b> {{ produit.quantite }}</b></p>
 									{% if 'temp'|promo > 0 %}
-									<p><b style="color: green;">Livraison gratuite : {{ 'temp'|promo }} jours restants</b></p><br>
+									<p style="color: green;">Livraison gratuite : <b >{{ 'temp'|promo }} jours restants</b></p><br>
 									{% endif %}
-									<div class="price-wrap">
-										<span class="price h5">Prix: {{ produit.prix|parse_int }} F.CFA </span>	
+									<div class="price-wrap text-center">
+										<span class="price h5">{{ produit.prix|parse_int }} F.CFA </span>	
 										<!-- <del class="price-old"> $198</del> -->
 									</div> <!-- info-price-detail // -->
 								</div> <!-- info-main.// -->

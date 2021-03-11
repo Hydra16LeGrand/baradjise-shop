@@ -12,16 +12,17 @@
 						<figure class="itemside mb-4">
 							<div class="aside"><img src="{{ pu.produit.image }}" class="border img-md"></div>
 							<figcaption class="info">
-								<a href="#" class="title">{{ pu.produit.libelle|truncatechars:28 }}</a>
+								<a href="{% url 'detail_produit' pu.produit.id %}" class="title lead">{{ pu.produit.libelle|truncatechars:28 }}</a>
 								<p class="price mb-2">{{ pu.produit.prix }} F.CFA</p>
 								<a href="{% url 'ajouter_panier' pu.produit.pk %}" class="btn btn-primary btn-sm"> Ajouter au panier </a>
-								<a href="{% url 'supprimer_envie' pu.pk %}" class="btn btn-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Supprimer des souhaits"> <i class="fa fa-times"></i> </a>
+								<a href="{% url 'supprimer_envie' pu.pk %}" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Supprimer des souhaits"> <i class="fa fa-times"></i> </a>
 							</figcaption>
 						</figure>
 					</div> <!-- col.// -->
 					{% empty %}
-					<article class="card card-body mb-3">
-						<p><h1><center>Aucun souhaits pour le moment</center></h1></p>
+					<article class="card card-body mb-3 text-center">
+						<p><h1>Aucun article pour le moment</h1></p>
+						<a class="btn btn-outline-success" href="{% url 'rechercher_produit' 'grid' ' ' %}"> Ajoutez-en</a>
 					</article>	
 					{% endfor %}
 				</div> <!-- row .//  -->

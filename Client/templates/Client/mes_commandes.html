@@ -6,8 +6,8 @@
 <!-- =========================  COMPONENT MYORDER 1 ========================= --> 
 {% for historique in historiques|differentes_commandes %}
 	<article class="card">
-		<header class="card-header">
-			<strong class="d-inline-block mr-3">Commande n°: {{ historique.num_cmd }}</strong>
+		<header class="card-header" style="background-color: blue; color: white;">
+			<strong class="d-inline-block mr-3">Commande n°: {{ historique.code_cmd }}</strong>
 			<span>Date commande: {{ historique.date_cmd }}</span>
 		</header>
 		<div class="card-body">
@@ -85,7 +85,7 @@
 				</td>
 				<td> 
 					<p class="title mb-0"> {{ his.libelle }} </p>
-					<var class="price text-muted">{{ his.prix }} F.CFA</var>
+					<var class="price text-muted">{{ his.prix }} F.CFA x {{ his.quantite }} pièce(s)</var>
 				</td>
 				<td> Vendeur <br> {{ his.vendeur }} </td>
 				

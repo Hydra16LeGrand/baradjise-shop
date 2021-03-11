@@ -129,22 +129,22 @@
 		<div class="container">
 			<section class="row">
 				
-				<p class="col-md-3 float-md-right" style="text-align: center;"> 
+				<p class="col-md-3 col-12 col-sm-12 col-xl-3 float-md-right" style="text-align: center;"> 
 					&copy Copyright 2021 All rights reserved
-				</p>
+				</p><br>
 				<a href="{% url 'dashboard_vendeur' %}" class="col-md-5" style="text-align: center;">
-					<img style="height: 90px; width: 230px; margin-top: -30px;" src="{% static 'images/mon_logo.png' %}">
-				</a>
-				<p class="col-md" style="text-align: center;">
+					<img style="height: 90px; width: 230px; " src="{% static 'images/mon_logo.png' %}">
+				</a><br>
+				<p class="col-md col-12 col-sm-12" style="text-align: center;">
 					<a href="#">Termes et conditions</a>
 				</p>
 			</section>
-			<section class="footer-bottom border-top row">
+			<section class="footer-bottom border-top row text-center">
 				<div class="col-md-2 col-12 col-sm-12" style="text-align: center;">
 					<p class="text-muted"> &copy 2021 baradji's e-shop </p>
 				</div>
 				<div class="col-md-3 col-12 col-sm-12 text-md-center">
-					<span  class="px-2 mail ">baradjis.eshop@gmail.com</span>
+					<a href="{% url 'contactez-nous' %}"><span  class="px-2 mail ">baradjis.eshop@gmail.com</span></a>
 				</div>
 				<div class="col-md-3 col-12 col-sm-12 text-md-center">
 					<span  class="px-2">+225 05-56-74-85-29</span>

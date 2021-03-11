@@ -80,25 +80,32 @@
 									<img class="border" style="margin-top: 5px; height: 110%; width: 110%" src="{{ produit.image }}">
 									<a class="btn-overlay" href="{% url 'detail_produit' produit.id %}"><i class="fa fa-search-plus"></i> Détails </a>
 								</div> <!-- img-wrap.// -->
-								<figcaption class="info-wrap">
+								<figcaption class="info-wrap text-center">
 									<div >
-										<a href="{% url 'detail_produit' produit.id %}" class="title b">{{ produit.libelle|truncatechars:23 }}</a>
-										<p class="text-warning b">Quantité restante : {{ produit.quantite }}</p>
+										<h6>
+											<a href="{% url 'detail_produit' produit.id %}" class="title b">
+												{{ produit.libelle|truncatechars:23 }}
+											</a>
+										</h6>
+										
+										<p class="text-warning b">Qté restante: {{ produit.quantite }}</p>
 										{% if 'temp'|promo > 0 %}
-										<p><b style="color: green;">Livraison gratuite : {{ 'temp'|promo }} jours</b></p>
+										<p style="color: green;">Livraison gratuite : 
+											<span class="text-right">{{ 'temp'|promo }} jours</span>
+										</p>
 										{% endif %}
 										<div class="price-wrap mt-2">
-											<center><span class="price h5">Prix : {{ produit.prix|parse_int }} F.CFA</span></center><br>
+											<span class="price h5">{{ produit.prix|parse_int }} F.CFA</span>
 											<!-- <del class="price-old">$1980</del> -->
 										</div> <!-- price-wrap.// -->
-									</div>
+									</div><br>
 									<a href="{% url 'ajouter_envie' produit.id %}" class="btn btn-outline-secondary btn-block">
 										<i class="fa fa-heart"></i> 
-										<span class="text">Ajouter</span>
+										<span class="text">Envie</span>
 									</a>
 									<a href="{% url 'ajouter_panier' produit.id %}" class="btn btn-warning btn-block">
 										<i class="fa fa-shopping-cart"></i> 
-										<span class="text">Ajouter</span>
+										<span class="text">Panier</span>
 									</a>
 								</figcaption>
 							</figure>

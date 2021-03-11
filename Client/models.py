@@ -158,6 +158,8 @@ class Commande(models.Model):
 	status = models.CharField(max_length=20, choices=status, default='ok')
 	montant = models.FloatField()
 
+	code = models.IntegerField()
+
 
 # Association resultante de panier et produit qui devient une table dont on va ajouter des colonnes
 class PanierProduit(models.Model):
@@ -236,6 +238,7 @@ class Historique(models.Model):
 	num_cmd = models.IntegerField()
 	date_cmd = models.DateTimeField(auto_now_add=True)
 	montant_cmd = models.FloatField()
+	code_cmd = models.IntegerField()
 
 	libelle = models.CharField(max_length=100)
 	categorie = models.CharField(max_length=30)

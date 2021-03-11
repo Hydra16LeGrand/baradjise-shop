@@ -13,41 +13,41 @@
 					</div> <!-- img-big-wrap.// -->
 					<div class="thumbs-wrap" style="">
 					  {% for img in produit.imageproduit_set.all %}
-					  	<a href="{{ img.image }}" class="item-thumb"> <img src="{{ img.image }}"></a>
+					  	<a href="{{ img.image }}"  class="item-thumb"> <img src="{{ img.image }}"></a>
 					  {% endfor %}
 					</div> <!-- thumbs-wrap.// -->
 				</article> <!-- gallery-wrap .end// -->
 						</aside>
 			<main class="col-sm-6">
-				<article class="content-body">
+				<article class="content-body text-center">
 					<h2 class="title">{{ produit.libelle }}</h2>
-
+					<h5 class="text-muted">Description</h5>
 					<p>{{ produit.description }}.</p>
 					<ul class="list-normal cols-one">
-						<li class="b">Categorie: {{ produit.categorie.nom }} </li>
-						<li class="b">Vendeur : {{ produit.vendeur.user.username }} </li>
+						<li class="">Catégorie: <span class="b">{{ produit.categorie.nom }}</span> </li>
+						<li >Vendeur : <span class="b">{{ produit.vendeur.user.username }}</span> </li>
 						{% if produit.quantite <= 3 %}
-							<li> <span style="color: red;">Quantité restante : {{ produit.quantite }} pc(s) restante(s)</span> </li>
+							<li> <span style="color: red;">Quantité restante : <b>{{ produit.quantite }} pc(s) restante(s)</b></span> </li>
 						{% else %}
-							<li > <span style="color: orange;">Quantité restante : {{ produit.quantite }} pc(s) restante(s) </span></li>
+							<li > <span style="color: orange;">Quantité restante : <b>{{ produit.quantite }} pc(s)</b> </span></li>
 						{% endif %}
-						<li class="b">Livraison Express à abidjan en 24h</li>
-						<li ><span class="b btn-success">Livraison gratuite : {{ 'promo'|promo }} jours restants</span></li>
+						<li>Livraison Express à abidjan <b style="color: green;">en moins de 24h</b></li>
+						<li ><span class="">Livraison gratuite : <b style="color: green;">{{ 'promo'|promo }} jours restants</b></span></li>
 					</ul>
 
 				<div class="h3 mb-4"> 
 					<var class="price h4"> Prix : {{ produit.prix }} F.CFA</var> 
 				</div> <!-- price-wrap.// -->
-				<div class="form-row" style="margin-top: 40%;">
+				<div class="form-row">
 					<div class="col-5">
 						
 					</div> <!-- col.// -->
 
 					<div class="col-2">
-						<a href="{% url 'ajouter_envie' produit.id %}" class="btn  btn-light"> <i class="fas fa-heart"></i>  </a>
+						<a href="{% url 'ajouter_envie' produit.id %}" class="btn  btn-light fas fa-heart"> </a>
 					</div> <!-- col.// -->
 					<div class="col-5">
-						<a href="{% url 'ajouter_panier' produit.id %}" class="btn  btn-primary w-100">Ajouter   <i class="fas fa-shopping-cart"></i>  </a>
+						<a href="{% url 'ajouter_panier' produit.id %}" class="btn  btn-primary w-100 fas fa-shopping-cart"> Panier</a>
 					</div> <!-- col.// -->
 				</div> <!-- row.// -->
 

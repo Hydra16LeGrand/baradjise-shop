@@ -66,38 +66,46 @@
 
 				<article class="card card-body mb-3">
 					<div class="row align-items-center">
-						<div class="col-md-5">
+						<div class="col-md-9 col-9 col-sm-9 col-xs-9 col-xl-9">
 							<figure class="itemside">
-								<div class="aside"><img src="{{ pp.produit.image }}" class="border img-sm"></div>
+								<div class="aside"><img src="{{ pp.produit.image }}" class="border img-md"></div>
 								<figcaption class="info">
 									<span class="text-muted">{{ pp.produit.categorie.nom }}</span>
 									<a href="#" class="title"> {{ pp.produit.libelle|truncatechars:20 }} </a>
 								</figcaption>
 							</figure> 
 						</div> <!-- col.// -->
-						<div class="col-md-3"> <br class="col">
+						<div class="col-md-3 col-3 col-sm-3 col-xs-3 col-xl-3">
 							<!-- <div class="input-group input-spinner"> -->
-							<form class="form-row" method="post" action="{% url 'modifier_panier' pp.produit.id %}">
-								{% csrf_token %}
-								<label for="qte">Qte </label>
-								<input id="qte" name="quantite" type="number" class="col-md-12 col-5 col-sm-3 col-xl-5 form-control"  value="{{ pp.quantite }}" max="{{ pp.produit.quantite }}" min="1">
-
-								<input type="submit" class="col-md-12 col col-sm col-xl form-control" value="changer">
-							</form>
-								
+							<div class="row">
+								<form method="post" action="{% url 'modifier_panier' pp.produit.id %}">
+									{% csrf_token %}
+									<div class="form-group col-12 text-center">
+										<label for="qte" class="">Quantité </label>
+									</div>
+									<div class="form-group col-12">
+										<input id="qte" name="quantite" type="number" class="form-control"  value="{{ pp.quantite }}" max="{{ pp.produit.quantite }}" min="1">
+									</div>
+									<div class="col-12">
+										
+										<input type="submit" class="form-control btn btn-outline-primary" title="Changer la quantité voulue" value="changer">
+									</div>
+								</form>
+							</div>
 							<!-- </div>  --><!-- input-group.// -->
 						</div> <!-- col.// -->
 						<div class="col">
-							<div class="price h6"> {{ pp.produit.prix|parse_int }} F.CFA </div>
+							<div class="price">Prix : <span class="h5">{{ pp.produit.prix|parse_int }} F.CFA </span></div>
 						</div>
 						<div class="col flex-grow-0 text-right">
-							<a href="{% url 'supprimer_panier' pp.produit.pk %}" data-original-title="Supprimer de la liste" class="btn btn-light"> <i class="fa fa-times"></i></a>
+							<a href="{% url 'supprimer_panier' pp.produit.pk %}" title="Supprimer de la liste" class="btn btn-outline-danger"> <i class="fa fa-times"></i></a>
 						</div>
 					</div> <!-- row.// -->
 				</article> <!-- card .// -->
 				{% empty %}
-					<article class="card card-body mb-3">
-						<p><h1><center>Le panier est vide</center></h1></p>
+					<article class="card card-body mb-3 text-center">
+						<p><h1>Le panier est vide</h1></p>
+						<a class="btn btn-outline-success" href="{% url 'rechercher_produit' 'grid' ' ' %}"> Faites vos achats ici </a>
 					</article>				
 				{% endfor %}
 		</div>

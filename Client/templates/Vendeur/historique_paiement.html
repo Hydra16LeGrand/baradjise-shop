@@ -4,8 +4,8 @@
 <div class="col-md-9">
 	{% for his in historiques %}
 	<article class="card order-group" style="margin-top: 5px;">
-	<header class="card-header">
-		<b class="d-inline-block mr-3">ID Commande: {{ his.num_cmd }}</b>
+	<header class="card-header" style="background-color: blue; color: white;">
+		<b class="d-inline-block mr-3">Code Commande: {{ his.code_cmd }}</b>
 		<span>Date: {{ his.date_cmd|date:"D d M Y" }}</span>
 	</header>
 	<div class="card-body">
