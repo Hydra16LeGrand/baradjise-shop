@@ -189,3 +189,9 @@ def obtenir_profil(requete):
 		logout(requete)
 	else:
 		return user.profil
+
+@register.filter()
+def prix_barre(produit):
+
+	prix_barre = produit.prix + produit.prix * produit.categorie.commission/100
+	return prix_barre

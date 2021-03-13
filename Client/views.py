@@ -777,12 +777,12 @@ class Compte:
 											})
 									else:
 										return render(request, "Client/changer_infos_user.html", {'user':client,
-	'message': "Les modifications ont ete apportees Cependant, le mot de passe reste inchange car mot de passe doit être superieur ou egale a 6 caracteres"})
+	'message': "Les modifications ont ete apportees Cependant, le mot de passe reste inchange car mot de passe doit être superieur ou égale a 6 caracteres"})
 								else:
 									return render(request, "Client/changer_infos_user.html", {'user':client,
 			'message': "Les modifications ont ete apportees Cependant, le mot de passe reste inchange car les mots de passe saisis ne correspondent pas."})
 							else:
-								return render(request, "Client/changer_infos_user.html", {'user':client, 'message_success': "Les infos ont ete mis a jour"})
+								return render(request, "Client/changer_infos_user.html", {'user':client, 'message_success': "Les infos ont ete mis à jour"})
 
 					else:
 						return render(request, "Client/changer_infos_user.html", {'user':client,
@@ -882,10 +882,10 @@ class Vendeur:
 											)
 									except Exception as e:
 										return render(request, "Vendeur/authentification.html", {
-											'message': "Votre compte a été enregistrer. Veuillez patienter pendant que nous étudiant votre demande."})
+											'message': "Votre compte a été enregistrer. Veuillez patienter pendant que nous étudions votre demande."})
 									else:
 										return render(request, "Vendeur/authentification.html", {
-											'message': "Votre compte a ete enregistrer. Veuillez patienter pendant que nous étudiant votre demande."})
+											'message': "Votre compte a ete enregistrer. Veuillez patienter pendant que nous étudions votre demande."})
 						else:
 							return redirect('authentification_vendeur')
 
@@ -920,7 +920,7 @@ class Vendeur:
 						return render(request, "Vendeur/authentification.html", contexte)
 					else:
 						contexte = {'message': 
-						"Veuillez patienter pendant que etudions votre inscription. Si cela prend plus de 2h, veuillez nous contacter par mail"}
+						"Veuillez patienter pendant que étudions votre inscription. Si cela prend plus de 2h, veuillez nous contacter par mail"}
 					return render(request,"Vendeur/authentification.html", contexte)
 
 		else:

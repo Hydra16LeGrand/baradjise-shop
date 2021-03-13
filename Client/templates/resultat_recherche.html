@@ -105,7 +105,8 @@
 									<p style="color: green;">Livraison gratuite : <b >{{ 'temp'|promo }} jours restants</b></p><br>
 									{% endif %}
 									<div class="price-wrap text-center">
-										<span class="price h5">{{ produit.prix|parse_int }} F.CFA </span>	
+										<span class="price h5">{{ produit.prix|parse_int }} F.CFA </span><br>
+										<del style="color: red;">{{ produit|prix_barre|parse_int }} F.CFA</del>	
 										<!-- <del class="price-old"> $198</del> -->
 									</div> <!-- info-price-detail // -->
 								</div> <!-- info-main.// -->

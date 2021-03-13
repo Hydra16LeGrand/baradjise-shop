@@ -225,15 +225,15 @@
 		<div class="container">
 			<section class="footer-top padding-y">
 				<div class="row">
-					<aside class="col-md-4" style="text-align: center;">
-
+					<aside class="col-md-4" style="text-align: center; margin-top: 30px;">
 						<h6 class="title">Navigation</h6>
 						<ul class="list-unstyled">
 							<li><a href="{% url 'accueil' %}"> Accueil </a></li>
 							<li><a href="{% url 'tous_les_produits' %}"> Produits </a></li>
-							<li><a href="#"> Recherche </a></li>
+							<li><a href="#"> Récherche </a></li>
 							<li><a href="{% url 'contactez-nous' %}"> Contactez-nous </a></li>
-							<li><a href=""> A propos </a></li>
+
+							<li><a href="{% url 'dashboard_vendeur' %}"> Vendeur </a></li>
 						</ul>
 
 					</aside>
@@ -241,15 +241,27 @@
 						<a href="{% url 'accueil' %}">
 							<img height="130px;" width="300px;" style="padding-left: 0px;" src="{% static 'images/mon_logo.png' %}">
 						</a>
+						<li>
+							<a href="https://www.facebook.com/baradjieshop/" target="_blank"> <i class="fab fa-facebook"></i> Facebook </a>
+						</li>
+						<li>
+							<a href="https://www.instagram.com/baradjise_shop?r=nametag" target="_blank"> <i class="fab fa-instagram"></i> Instagram </a>
+						</li>
+						<li>
+							<a href="https://wa.me/message/JWBLVZHPUB2IO1" target="_blank"> <i class="fab fa-whatsapp"></i> Whatsapp </a>
+						</li>
+						<li style="margin-left: -4px;">
+							<a href="https://t.me/baradjiseshop" target="_blank"> <i class="fab fa-telegram"></i> Telegram </a>
+						</li>
 					</aside>
-					<aside class="col-md" style="text-align: center;">
+					<aside class="col-md" style="text-align: center; margin-top: 30px;">
 						<h6 class="title">Compte</h6>
 						<ul class="list-unstyled">
 							<li> <a href="{% url 'authentification' %}"> Authentication </a></li>
 							<li> <a href="{% url 'inscription' %}"> Inscription </a></li>
 							<li> <a href="{% url 'changer_infos_user' %}"> Paramètres de compte </a></li>
 							<li> <a href="{% url 'mes_commandes' %}"> Mes commandes </a></li>
-							<li> <a href="{% url 'lister_envie' %}"> Mes envies </a></li>
+							<li> <a href="{% url 'lister_panier' %}"> Mon Panier </a></li>
 						</ul>
 					</aside>
 				</div> <!-- row.// -->
