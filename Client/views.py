@@ -1097,7 +1097,7 @@ class Vendeur:
 							form_image = request.FILES
 
 							categorie = models.Categorie.objects.get(cle=form.get('categorie'))
-							prix = float(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
+							prix = int(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
 
 							produit_a_modifier.libelle = form.get('libelle')
 							produit_a_modifier.categorie = categorie
