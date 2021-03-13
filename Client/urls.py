@@ -15,6 +15,7 @@ urlpatterns = [
 
 	url(r'^inscription/$', views.Acces.inscription, name='inscription'),
 	url(r'^authentification/$', views.Acces.authentification, name='authentification'),
+	path('authentification/?<str:message>', views.Acces.authentification, name='authentification'),
 	path('mon_compte/deconnexion/', views.Acces.deconnexion, name='deconnexion'),
 	path('client/dashboard/', views.dashboard_client, name='dashboard_client'),
 
@@ -48,6 +49,7 @@ urlpatterns = [
 	path('Vendeur/', views.Vendeur.dashboard, name='dashboard_vendeur'),
 	path('Vendeur/inscription', views.Vendeur.inscription, name='inscription_vendeur'),
 	path('Vendeur/authentification', views.Vendeur.authentification, name='authentification_vendeur'),
+	path('Vendeur/authentification/?<str:message>', views.Vendeur.authentification, name='authentification_vendeur'),
 	path('Vendeur/deconnexion', views.Vendeur.deconnexion, name='deconnexion_vendeur'),
 	path('Vendeur/lister-produits/', views.Vendeur.liste_produit, name='liste_produits_vendeur'),
 	path('Vendeur/lister-produits/?<str:message_success>/', views.Vendeur.liste_produit, name='liste_produits_vendeur'),

@@ -17,6 +17,14 @@
     </button>
   </div>
 {% endif %}
+{% if message_infos %}
+  <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <center>{{ message_infos }}</center>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+{% endif %}
 <html lang="fr">
 <head>
 	<title>Connexion client</title>

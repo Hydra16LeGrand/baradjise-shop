@@ -97,7 +97,7 @@ class Acces:
 		else:
 			return render(request, "Client/inscription.html")
 
-	def authentification(request):
+	def authentification(request, message=None):
 
 		if request.method == 'POST':
 
@@ -113,10 +113,11 @@ class Acces:
 					login(request, user)
 					return redirect('accueil')
 				else:
-					return render(request, "Client/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
+					return render(request, "Client/authentification.html", {
+						'message': "E-mail ou mot de passe incorrect"})
 
 		else:
-			return render(request, "Client/authentification.html")
+			return render(request, "Client/authentification.html", {'message_infos': message})
 
 	def deconnexion(request):
 
@@ -128,7 +129,7 @@ class Panier:
 	def ajouter(request, id_produit):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification")
+			return redirect("authentification", "Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				
@@ -159,7 +160,7 @@ class Panier:
 	def lister(request, message_success=None):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification")
+			return redirect("authentification", "Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				client = models.User.objects.get(user=request.user)
@@ -194,7 +195,7 @@ class Panier:
 	def supprimer(request, id_produit):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification")
+			return redirect("authentification", "Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				client = models.User.objects.get(user=request.user)
@@ -215,7 +216,7 @@ class Panier:
 	def modifier(request, id_produit):
 
 		if not request.user.is_authenticated:
-			return redirect('authentification')
+			return redirect('authentification',"Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				client = models.User.objects.get(user=request.user)
@@ -240,7 +241,7 @@ class Panier:
 	def finaliser_commande(request):
 
 		if not request.user.is_authenticated:
-			return redirect('authentification')
+			return redirect('authentification', "Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				client = models.User.objects.get(user=request.user)
@@ -677,7 +678,7 @@ class Envie:
 	def ajouter(request, id_produit):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification")
+			return redirect("authentification", "Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				produit = models.Produit.objects.get(pk=id_produit, status=1)
@@ -700,7 +701,7 @@ class Envie:
 	def lister(request, message_success=None):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification")
+			return redirect("authentification", "Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				client = models.User.objects.get(user=request.user)
@@ -724,7 +725,7 @@ class Envie:
 	def supprimer(request, id_produit_user):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification")
+			return redirect("authentification", "Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				client = models.User.objects.get(user=request.user)
@@ -745,7 +746,7 @@ class Compte:
 	def changer_infos_user(request):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification")
+			return redirect("authentification", "Veuillez vous authentifier d\'abord")
 		else:
 			try:
 				client = models.User.objects.get(user=request.user)
@@ -797,7 +798,7 @@ class Compte:
 			try:
 				client = models.User.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification')
+				return redirect('authentification', "Veuillez vous authentifier d\'abord")
 			else:
 				if request.method == 'POST':
 
@@ -899,7 +900,7 @@ class Vendeur:
 		else:
 			return render(request, "Vendeur/inscription.html")
 
-	def authentification(request):
+	def authentification(request, message=None):
 
 		if request.method == 'POST':
 
@@ -908,7 +909,9 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=User.objects.get(username=form.get('username')))
 			except Exception as e:
-				return render(request, "Vendeur/authentification.html", {'message': "Compte inexistant"})
+				return render(request, "Vendeur/authentification.html", {
+					'message': "Compte inexistant",
+					'message_infos':message })
 			else:
 				user = authenticate(username=form.get('username'), password=form.get('mdp'))
 				if user is not None:
@@ -939,7 +942,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=User.objects.get(username=request.user))
 			except:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 
 				try:
@@ -974,7 +977,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=User.objects.get(username=request.user))
 			except:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 
 				if request.method == 'POST':
@@ -1017,7 +1020,7 @@ class Vendeur:
 				try:
 					vendeur = models.Vendeur.objects.get(user=request.user)
 				except Exception as e:
-					return redirect('authentification_vendeur')
+					return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 				else:
 					try:
 						chemin_firebase = f"Produits/{request.user}/{form_image.get('image')}"
@@ -1059,7 +1062,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 				try:
 					produit_a_supprimer = models.Produit.objects.get(pk = id_produit, vendeur = vendeur)
@@ -1080,7 +1083,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 				try:
 					produit_a_modifier = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
@@ -1148,7 +1151,7 @@ class Vendeur:
 					vendeur = models.Vendeur.objects.get(user=request.user)
 
 				except Exception as e:
-					return redirect('authentification_vendeur')
+					return redirect('authentification_vendeur',"Veuillez vous authentifier d\'abord")
 				else:
 					try:
 						produit_a_modifier = models.Produit.objects.get(pk= id_produit, vendeur=vendeur)
@@ -1175,7 +1178,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 				try:
 					produit = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
@@ -1198,7 +1201,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 
 				try:
@@ -1224,7 +1227,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 				try:
 					image_produit_a_supprimer = models.ImageProduit.objects.get(pk=id_image)
@@ -1244,7 +1247,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 				if request.method == 'POST':
 
@@ -1292,7 +1295,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 				if request.method == 'POST':
 
@@ -1327,7 +1330,7 @@ class Vendeur:
 			try:
 				vendeur = models.Vendeur.objects.get(user=request.user)
 			except Exception as e:
-				return redirect('authentification_vendeur')
+				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 			else:
 				historiques = models.Historique.objects.filter(vendeur = request.user)
 				return render(request, "Vendeur/historique_paiement.html", {
