@@ -111,7 +111,7 @@ class Acces:
 				user = authenticate(username=form.get('username'), password=form.get('mdp'))
 				if user is not None:
 					login(request, user)
-					return redirect('accueil', "Authentification réussie")
+					return redirect('accueil')
 				else:
 					return render(request, "Client/authentification.html", {'message': "E-mail ou mot de passe incorrect"})
 
@@ -121,7 +121,7 @@ class Acces:
 	def deconnexion(request):
 
 		logout(request)
-		return redirect('accueil', "Vous vous êtes déconnecté avec succès")
+		return redirect('accueil')
 
 class Panier:
 
