@@ -319,7 +319,7 @@ class Panier:
 								livraison = models.Livraison.objects.create(
 									commande=commande,
 									adresse_livraison = adresse_livraison,
-									frais=3000.0,
+									frais=2000.0,
 									date_livraison = date(year=date.today().year, month=date.today().month, day=date.today().day+2),
 									status = 'en_cours'
 									)

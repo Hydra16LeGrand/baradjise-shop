@@ -137,7 +137,7 @@
 						</dl>
 
 						<hr>
-						{% if gain >= 2000 %}
+						{% if gain >= 1500 %}
 							<button type="submit" class="btn btn-outline-warning btn-block">Finaliser la commande</button>
 						{% else %}
 							<center><p class="btn btn-danger">Cette commande est trop peu pour être livrée</p></center>
@@ -166,7 +166,7 @@
 		document.getElementById("total").innerHTML = parseInt("{{ panier_produit|sous_total }}") + frais;
 	}
 	function choix_interieur(){
-		frais = 3000;
+		frais = 2000;
 		document.getElementById("_frais").innerHTML = frais;
 		document.getElementById("total").innerHTML = parseInt("{{ panier_produit|sous_total }}") + frais;
 	}
