@@ -77,7 +77,7 @@
 									{% if produit.date_ajout|conversion_date_jour < 10 %}
 										<span class="badge badge-danger"> NOUVEAU </span>
 									{% endif %}
-									<img class="border" style="margin-top: 5px; height: 110%; width: 110%" src="{{ produit.image }}">
+									<img class="border" style="margin-top: 5px; height: 100%; width: 100%" src="{{ produit.image }}">
 									<a class="btn-overlay" href="{% url 'detail_produit' produit.id %}"><i class="fa fa-search-plus"></i> Détails </a>
 								</div> <!-- img-wrap.// -->
 								<figcaption class="info-wrap text-center">

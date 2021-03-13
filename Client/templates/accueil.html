@@ -116,7 +116,7 @@
 			<div href="{% url 'detail_produit' produit.id %}" class="card card-product-grid">
 				<div class="img-wrap">
 					<a href="{% url 'detail_produit' produit.id %}" class="img-wrap"> 
-						<img style="margin-top: 5px; height: 95%; width: 90%" src="{{ produit.image }}"> 
+						<img style="margin-top: 5px; height: 100%; width: 95%" src="{{ produit.image }}"> 
 					</a>
 					{% if produit.date_ajout|conversion_date_jour < 10 %}
 						<span class="badge badge-danger"> NOUVEAU </span>
