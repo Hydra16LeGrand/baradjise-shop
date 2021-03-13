@@ -631,7 +631,7 @@ def accueil(request, message=None):
 		i=0
 		produits_temp = []
 		for produit in produits:
-			if i == 20:
+			if i == 12:
 				break
 			else:
 				produits_temp.append(produits[i])
