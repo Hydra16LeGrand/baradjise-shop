@@ -53,6 +53,57 @@
 
 </head>
 <body class="bg">
+<nav class="navbar navbar-expand-md navbar-main border-bottom">
+  <div class="container">
+      <div class="row">
+      <form action="{% url 'barre_recherche' %}" method="POST" class="col-10 d-md-none my-2" >
+      {% csrf_token %}
+      <div class="input-group">
+        {% if requete %}
+          <input type="text" class="form-control"  value="{{ requete }}" name="requete" required>
+        {% else %}
+        <input type="text" class="form-control" placeholder="Chercher un produit ou une categorie" name="requete" required>
+        {% endif %}
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="submit">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+    </form> <!-- search-wrap .end// -->
+
+      <button class="navbar-toggler col-2" type="button" data-toggle="collapse" data-target="#dropdown6">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="dropdown6">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown"> Catégories</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'rechercher_categorie' 'mode_homme' %}">Mode Homme</a>
+                <a class="dropdown-item" href="{% url 'rechercher_categorie' 'mode_femme' %}">Mode Femme</a>
+                <a class="dropdown-item" href="{% url 'rechercher_categorie' 'sport' %}">Sport</a>
+                <a class="dropdown-item" href="{% url 'rechercher_categorie' 'accessoires_telephonique' %}">Accessoires Téléphonique</a>
+                <a class="dropdown-item" href="{% url 'rechercher_categorie' 'beaute' %}">Beauté</a>
+                <a class="dropdown-item" href="{% url 'rechercher_categorie' 'telephone' %}">Téléphone</a>
+                <a class="dropdown-item" href="{% url 'rechercher_categorie' 'auto_moto' %}">Auto et moto</a>
+                <a class="dropdown-item" href="{% url 'rechercher_categorie' 'autre' %}">Autre catégorie</a>
+              </div>
+            </li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'accueil' %}">Accueil</a>  </li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'rechercher_produit' 'list' %}">Liste</a>  </li>
+            <li class="nav-item"> <a class="nav-link" href="{% url 'rechercher_produit' 'grid' %}">Grille</a>  </li>
+          </ul>
+
+          <ul class="navbar-nav">
+        <!-- <li class="nav-item"><a href="#" class="nav-link">My items</a></li> -->
+        <li class="nav-item"><a href="{% url 'authentification_vendeur' %}" class="btn btn-outline-primary ml-md-4">Devenir Vendeur </a></li>
+        </ul>
+     </div> <!-- collapse .// -->
+  </div>
+  </div> <!-- container .// -->
+</nav>
 
 <section class="section-content padding-y"><br>
   <!-- ============================ COMPONENT LOGIN 1  ================================= -->
@@ -66,6 +117,7 @@
                 </header>
                 <form method="POST" action="{% url 'authentification' %}">
                   {% csrf_token %}
+                    <input type="hidden" name="suivant" value="{{ redirect_to }}" />
                     <div class="form-group">
                        <label for="user">Nom d'utilisateur</label>
                        <input id="user"  name="username" class="form-control form-control-lg" type="text" required>

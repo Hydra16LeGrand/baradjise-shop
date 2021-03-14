@@ -51,6 +51,7 @@
 					</header>
 					<form method="post" action="{% url 'inscription' %}">
 						{% csrf_token %}
+						<input type="hidden" name="suivant" value="{{ redirect_to }}" />
 						<small class="form-text text-muted">
 							<center style="color:green;">Remarque: Le symbole * devant un champ signifie qu'il est obligatoire.</center>
 						</small><br>

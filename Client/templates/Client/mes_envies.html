@@ -14,15 +14,15 @@
 							<figcaption class="info">
 								<a href="{% url 'detail_produit' pu.produit.id %}" class="title lead">{{ pu.produit.libelle|truncatechars:28 }}</a>
 								<p class="price mb-2">{{ pu.produit.prix }} F.CFA</p>
-								<a href="{% url 'ajouter_panier' pu.produit.pk %}" class="btn btn-primary btn-sm"> Ajouter au panier </a>
-								<a href="{% url 'supprimer_envie' pu.pk %}" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Supprimer des souhaits"> <i class="fa fa-times"></i> </a>
+								<a href="{% url 'ajouter_panier' pu.produit.pk %}?suivant={% url 'ajouter_panier' pu.produit.pk %}" class="btn btn-primary btn-sm"> Ajouter au panier </a>
+								<a href="{% url 'supprimer_envie' pu.pk %}?suivant={% url 'supprimer_envie' pu.pk %}" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Supprimer des souhaits"> <i class="fa fa-times"></i> </a>
 							</figcaption>
 						</figure>
 					</div> <!-- col.// -->
 					{% empty %}
 					<article class="card card-body mb-3 text-center">
 						<p><h1>Aucun article pour le moment</h1></p>
-						<a class="btn btn-outline-success" href="{% url 'rechercher_produit' 'grid' ' ' %}"> Ajoutez-en</a>
+						<a class="btn btn-outline-success" href="{% url 'rechercher_produit' 'grid' %}"> Ajoutez-en</a>
 					</article>	
 					{% endfor %}
 				</div> <!-- row .//  -->

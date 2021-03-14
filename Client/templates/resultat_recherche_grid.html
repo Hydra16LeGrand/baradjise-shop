@@ -60,10 +60,17 @@
 								<span class="mr-md-auto b">{{ nbre_produits }} article(s) trouvé(s) </span>
 
 								<div class="btn-group"  style="padding-left: 85px;">
+									{% if requete %}
 									<a href="{% url 'rechercher_produit' 'list' requete %}" class="btn btn-outline-secondary" data-toggle="tooltip" title="List view"> 
 										<i class="fa fa-bars"></i></a>
 									<a href="{% url 'rechercher_produit' 'grid' requete %}" class="btn  btn-outline-secondary active" data-toggle="tooltip" title="Grid view"> 
 										<i class="fa fa-th"></i></a>
+									{% else %}
+									<a href="{% url 'rechercher_produit' 'list' %}" class="btn btn-outline-secondary" data-toggle="tooltip" title="List view"> 
+										<i class="fa fa-bars"></i></a>
+									<a href="{% url 'rechercher_produit' 'grid' %}" class="btn  btn-outline-secondary active" data-toggle="tooltip" title="Grid view"> 
+										<i class="fa fa-th"></i></a>
+									{% endif %}
 								</div>
 							</div>
 					</header><!-- sect-heading -->
@@ -100,11 +107,11 @@
 											<!-- <del class="price-old">$1980</del> -->
 										</div> <!-- price-wrap.// -->
 									</div><br>
-									<a href="{% url 'ajouter_envie' produit.id %}" class="btn btn-outline-secondary btn-block">
+									<a href="{% url 'ajouter_envie' produit.id %}?suivant={% url 'ajouter_envie' produit.id %}" class="btn btn-outline-secondary btn-block">
 										<i class="fa fa-heart"></i> 
 										<span class="text">Envie</span>
 									</a>
-									<a href="{% url 'ajouter_panier' produit.id %}" class="btn btn-warning btn-block">
+									<a href="{% url 'ajouter_panier' produit.id %}?suivant={% url 'ajouter_panier' produit.id %}" class="btn btn-warning btn-block">
 										<i class="fa fa-shopping-cart"></i> 
 										<span class="text">Panier</span>
 									</a>

@@ -5,7 +5,7 @@ from datetime import  date
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 import random
 import pyrebase
 from django.core.mail import send_mail
@@ -84,7 +84,9 @@ class Acces:
 								})
 								else:
 									models.Panier.objects.create(user=client)
-									return render(request, "Client/authentification.html", {'message_success': "Votre compte a été creer avec succès"})
+									return render(request, "Client/authentification.html", {
+										'message_success': "Votre compte a été creer avec succès",
+										'redirect_to':form.get('suivant')})
 						else:
 							return render(request, "Client/inscription.html", {
 								'message': "Un compte est déja associé à ce nom d\'utilisateur ou cet email", 'form': form})
@@ -95,12 +97,16 @@ class Acces:
 			else:
 				return render(request, "Client/inscription.html", {'message': "Les mots de passe saisis ne correspondent pas", 'form': form})
 		else:
-			return render(request, "Client/inscription.html")
+			
+			redirect_to = request.GET.get('suivant')
+			if redirect_to:
+				return render(request, "Client/inscription.html", {'redirect_to': redirect_to})
+			else:
+				return render(request, "Client/inscription.html", {'redirect_to': redirect_to})
 
-	def authentification(request, message=None):
+	def authentification(request, message=None, suivant=None):
 
 		if request.method == 'POST':
-
 			form = request.POST
 			# authenticate renvoi None si le auth_user n'existe pas et le champ de auth_user sinon
 			try:
@@ -111,25 +117,40 @@ class Acces:
 				user = authenticate(username=form.get('username'), password=form.get('mdp'))
 				if user is not None:
 					login(request, user)
-					return redirect('accueil')
+					return HttpResponseRedirect(form.get('suivant'))
 				else:
 					return render(request, "Client/authentification.html", {
 						'message': "E-mail ou mot de passe incorrect"})
 
 		else:
-			return render(request, "Client/authentification.html", {'message_infos': message})
+			if suivant is not None:
+				redirect_to = suivant
+			else:
+				redirect_to = request.GET.get('suivant')
 
+			return render(request, "Client/authentification.html", {
+				'message_infos': message, 
+				'redirect_to':redirect_to})
+			
 	def deconnexion(request):
 
+		redirect_to = request.GET.get('suivant')
 		logout(request)
-		return redirect('accueil')
+		# print("red :",redirect_to)
+		if redirect_to:
+			return HttpResponseRedirect(redirect_to)
+		else:
+			return redirect('accueil')
 
 class Panier:
 
 	def ajouter(request, id_produit):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification", "Veuillez vous authentifier d\'abord")
+			suivant = request.GET.get('suivant')
+			return render(request, "Client/authentification.html", {
+				'message_infos': "Veuillez vous authentifier d\'abord", 
+				'redirect_to':suivant})
 		else:
 			try:
 				
@@ -399,10 +420,10 @@ class Panier:
 class Recherche:
 
 	# Les autres methodes de recherches seront redirigees ici
-	def recherche(request, vue, requete):
+	def recherche(request, vue, requete=None):
 
 		# On teste si la requete viens de tous_les_produits
-		if requete == " ":
+		if requete == None:
 			produits = models.Produit.objects.filter(status=1).exclude(quantite=0)
 			# On verifie si un formulaire de prix est transmis
 			if request.method == 'POST':
@@ -530,9 +551,12 @@ class Recherche:
 		page_obj = paginator.get_page(nombre_page)
 
 		if vue=="list":
-			return render(request, "resultat_recherche.html", {'produits':page_obj, 'requete': requete, 'vue':vue, 'nbre_produits':len(produits)})
+			if request is not None:
+				return render(request, "resultat_recherche.html", {'produits':page_obj, 'requete': requete, 'vue':vue, 'nbre_produits':len(produits)})
 		else:
-			return render(request, "resultat_recherche_grid.html", {'produits':page_obj, 'requete': requete, 'vue':vue, 'nbre_produits':len(produits)})
+			if request is not None:
+				return render(request, "resultat_recherche_grid.html", {'produits':page_obj, 'requete': requete, 'vue':vue, 'nbre_produits':len(produits)})
+		return render(request, "resultat_recherche.html", {'produits':page_obj,'vue':vue, 'nbre_produits':len(produits)})
 
 	# Methode a utilise pour la barre de recherche
 	def barre_recherche(request):
@@ -564,16 +588,35 @@ class Recherche:
 
 		try:
 			user = User.objects.get(username=vendeur)
+			vendeur = models.Vendeur.objects.get(user=user)	
 		except Exception as e:
 			raise Http404()
 		else:
-			logout(request)
-			return redirect('rechercher_produit', 'list', user.username)
+			try:
+				produits = models.Produit.objects.filter(vendeur=vendeur)
+			except Exception as e:
+				raise e
+			else:
+				try:
+					produits = list(produits)
+					produits = random.sample(produits, len(produits))
+
+					paginator = Paginator(produits, 20)
+					nombre_page = request.GET.get('page')
+					page_obj = paginator.get_page(nombre_page)
+				except Exception as e:
+					raise e
+				else:
+					return render(request, "boutique_vendeur.html", {
+						'produits': page_obj,
+						'vendeur': vendeur
+						})
+			# return redirect('rechercher_produit', 'list', user.username)
 
 	# methode de renvois de tous les produits
 	def tous_les_produits(request):
 
-		return redirect('rechercher_produit', 'list', " ")
+		return redirect('rechercher_produit', 'list', None)
 
 def dashboard_client(request):
 
@@ -640,13 +683,14 @@ def accueil(request, message=None):
 	except Exception as e:
 		return render(request, "Errors/500.html", status=500)
 	else:
-		return render(request, "accueil.html", {'produits':produits_temp, 'requete': " ", 'message_success': message})
+		return render(request, "accueil.html", {'produits':produits_temp, 'requete': None, 'message_success': message})
 
 # Commandes passees par les clients
 def mes_commandes(request, message_success=None):
 
 	if not request.user.is_authenticated:
-		return redirect("authentification")
+		suivant = request.GET.get('suivant')
+		return redirect("authentification", "Veuillez vous connecter d\'abord", suivant)
 	else:
 		try:
 			client = models.User.objects.get(user=request.user)
@@ -678,7 +722,10 @@ class Envie:
 	def ajouter(request, id_produit):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification", "Veuillez vous authentifier d\'abord")
+
+			suivant = request.GET.get('suivant')
+			return redirect("authentification", "Veuillez vous authentifier d\'abord", suivant)
+
 		else:
 			try:
 				produit = models.Produit.objects.get(pk=id_produit, status=1)
@@ -725,7 +772,8 @@ class Envie:
 	def supprimer(request, id_produit_user):
 
 		if not request.user.is_authenticated:
-			return redirect("authentification", "Veuillez vous authentifier d\'abord")
+			suivant = request.GET.get('suivant')
+			return redirect("authentification", "Veuillez vous authentifier d\'abord", suivant)
 		else:
 			try:
 				client = models.User.objects.get(user=request.user)
@@ -923,7 +971,7 @@ class Vendeur:
 						return render(request, "Vendeur/authentification.html", contexte)
 					else:
 						contexte = {'message': 
-						"Veuillez patienter pendant que étudions votre inscription. Si cela prend plus de 2h, veuillez nous contacter par mail"}
+						"Veuillez patienter pendant que nous étudions votre inscription. Si cela prend plus de 2h, veuillez nous contacter par mail"}
 					return render(request,"Vendeur/authentification.html", contexte)
 
 		else:

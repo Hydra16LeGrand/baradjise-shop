@@ -16,6 +16,8 @@ urlpatterns = [
 	url(r'^inscription/$', views.Acces.inscription, name='inscription'),
 	url(r'^authentification/$', views.Acces.authentification, name='authentification'),
 	path('authentification/?<str:message>', views.Acces.authentification, name='authentification'),
+	path('authentification/<str:message>/<path:suivant>/', views.Acces.authentification, name='authentification'),
+	# path('authentification/<path:suivant>/', views.Acces.authentification, name='authentification'),
 	path('mon_compte/deconnexion/', views.Acces.deconnexion, name='deconnexion'),
 	path('client/dashboard/', views.dashboard_client, name='dashboard_client'),
 
@@ -29,7 +31,8 @@ urlpatterns = [
 	path('mon_compte/mes_commandes/', views.mes_commandes, name='mes_commandes'),
 	path('mon_compte/mes_commandes/?<str:message_success>?/', views.mes_commandes, name='mes_commandes'),
 
-	path('rechercher-produit/<str:vue>/?<str:requete>', views.Recherche.recherche, name='rechercher_produit'),
+	path('rechercher-produit/<str:vue>/', views.Recherche.recherche, name='rechercher_produit'),
+	path('rechercher-produit/<str:vue>/<str:requete>', views.Recherche.recherche, name='rechercher_produit'),
 	path('rechercher-categorie/<str:categorie>/', views.Recherche.rechercher_categorie, name='rechercher_categorie'),
 	path('rechercher-boutique/<str:vendeur>/', views.Recherche.rechercher_boutique, name='rechercher_boutique'),
 	path('barre-recherche/', views.Recherche.barre_recherche, name='barre_recherche'),
@@ -38,7 +41,7 @@ urlpatterns = [
 	path('mon_compte/changer-infos-user/', views.Compte.changer_infos_user, name='changer_infos_user'),
 	path('mon_compte/changer-profil-client/', views.Compte.changer_profil_user, name='changer_profil_user'),
 
-	path('mon_compte/detail_produit/<int:id_produit>/', views.Envie.ajouter, name='ajouter_envie'),
+	path('mon_compte/ajouter_envie/<int:id_produit>/', views.Envie.ajouter, name='ajouter_envie'),
 	path('mon_compte/lister_envies/', views.Envie.lister, name='lister_envie'),
 	path('mon_compte/lister_envies/?<str:message_success>/', views.Envie.lister, name='lister_envie'),
 	path('mon_compte/supprimer_envie/<int:id_produit_user>/', views.Envie.supprimer, name='supprimer_envie'),

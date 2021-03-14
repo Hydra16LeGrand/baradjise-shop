@@ -139,8 +139,8 @@
 					</div> <!-- info-price-detail // -->
 				</figcaption>
 
-			<a href="{% url 'ajouter_envie' produit.id %}" class="btn btn-block btn-primary"><i class="fa fa-heart"></i> Ajouter </a>
-			<a href="{% url 'ajouter_panier' produit.id %}" class="btn btn-block btn-warning"><i class="fa fa-shopping-cart"></i> Ajouter </a>
+			<a href="{% url 'ajouter_envie' produit.id %}?suivant={% url 'ajouter_envie' produit.id %}" class="btn btn-block btn-primary"><i class="fa fa-heart"></i> Ajouter </a>
+			<a href="{% url 'ajouter_panier' produit.id %}?suivant={% url 'ajouter_panier' produit.id %}" class="btn btn-block btn-warning"><i class="fa fa-shopping-cart"></i> Ajouter </a>
 			</div>
 		</div> <!-- col.// -->
 		{% endfor %}
