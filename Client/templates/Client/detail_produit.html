@@ -39,15 +39,15 @@
 					<var class="price h4"> Prix : {{ produit.prix }} F.CFA</var> 
 				</div> <!-- price-wrap.// -->
 				<div class="form-row">
-					<div class="col-5">
+					<div class="col-4">
 						
 					</div> <!-- col.// -->
 
-					<div class="col-2">
-						<a href="{% url 'ajouter_envie' produit.id %}" class="btn  btn-light fas fa-heart"> </a>
+					<div class="col-3">
+						<a href="{% url 'ajouter_envie' produit.id %}?suivant={% url 'ajouter_envie' produit.id %}" class="btn  btn-light fas fa-heart"> </a>
 					</div> <!-- col.// -->
 					<div class="col-5">
-						<a href="{% url 'ajouter_panier' produit.id %}" class="btn  btn-primary w-100 fas fa-shopping-cart"> Panier</a>
+						<a href="{% url 'ajouter_panier' produit.id %}?suivant={% url 'ajouter_panier' produit.id %}" class="btn  btn-primary w-100 fas fa-shopping-cart"> Panier</a>
 					</div> <!-- col.// -->
 				</div> <!-- row.// -->
 
