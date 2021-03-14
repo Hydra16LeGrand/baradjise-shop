@@ -609,7 +609,8 @@ class Recherche:
 				else:
 					return render(request, "boutique_vendeur.html", {
 						'produits': page_obj,
-						'vendeur': vendeur
+						'vendeur': vendeur,
+						'nbre_produits':len(produits)
 						})
 			# return redirect('rechercher_produit', 'list', user.username)
 
