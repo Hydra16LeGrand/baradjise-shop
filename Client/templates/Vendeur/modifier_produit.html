@@ -34,7 +34,7 @@ Matière: Coton">{{produit.description}}</textarea>
 							<div class="form-group col-md-6">
 							  <label for="prix">Prix</label>
 							  <input name="prix_vendeur" id="prix" type="number" class="form-control" required min="0" 
-							  value="{{produit.prix_vendeur}}">
+							  value="{{produit.prix_vendeur|parse_int|virgule}}">
 							  <small class="form-text text-muted"><center>C'est le prix que vous allez recevoir après la vente du produit. La commission n'est pas incluse.</center></small>
 							</div> <!-- form-group end.// -->
 							<div class="form-group col-md-6">

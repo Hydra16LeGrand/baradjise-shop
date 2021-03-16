@@ -84,7 +84,7 @@
 									{% if produit.date_ajout|conversion_date_jour < 10 %}
 										<span class="badge badge-danger"> NOUVEAU </span>
 									{% endif %}
-									<img style="margin-top: 5px; height: 120%; width: 85%" src="{{ produit.image }}">
+									<img class="img-fluid img-thumbnail" alt="Responsive image" src="{{ produit.image }}">
 								</a>
 							</aside> <!-- col.// -->
 							<div class="col-md-6">
@@ -112,8 +112,8 @@
 									<p style="color: green;">Livraison gratuite : <b >{{ 'temp'|promo }} jours restants</b></p><br>
 									{% endif %}
 									<div class="price-wrap text-center">
-										<span class="price h5">{{ produit.prix|parse_int }} F.CFA </span><br>
-										<del style="color: red;">{{ produit|prix_barre|parse_int }} F.CFA</del>	
+										<span class="price h5">{{ produit.prix|parse_int|virgule }} F.CFA </span><br>
+										<del style="color: red;">{{ produit|prix_barre|parse_int|virgule }} F.CFA</del>	
 										<!-- <del class="price-old"> $198</del> -->
 									</div> <!-- info-price-detail // -->
 								</div> <!-- info-main.// -->

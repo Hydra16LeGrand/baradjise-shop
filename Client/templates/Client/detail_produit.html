@@ -6,10 +6,10 @@
 <div class="container" style="margin-top: 70px;">
 	<div class="card">
 		<div class="row no-gutters " style="margin-top: 20px; margin-left: 20px; margin-right: 20px;">
-			<aside class="col-sm-6 border-right">
+			<aside class="col-sm-6 col-12 col-md-6 col-lg-6 col-xl-6  border-right">
 				<article class="gallery-wrap"> 
-					<div class="img-big-wrap">
-					   <a href="{{ produit.image }}"><img importance="high" src="{{ produit.image }}"></a>
+					<div class="img-wrap">
+					   <a href="{{ produit.image }}"><img importance="high" class="img-fluid img-thumbnail" src="{{ produit.image }}"></a>
 					</div> <!-- img-big-wrap.// -->
 					<div class="thumbs-wrap" style="">
 					  {% for img in produit.imageproduit_set.all %}

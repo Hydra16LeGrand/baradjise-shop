@@ -58,30 +58,30 @@
 						<div class="form-row">
 							<div class="col-12 col-md-6 form-group">
 								<label>Prénom *</label>
-							  	<input name="prenom" type="text" class="form-control" required>
+							  	<input value="{{ form.prenom }}" name="prenom" type="text" class="form-control" required>
 							</div> <!-- form-group end.// -->
 							<div class="col-12 col-md-6 form-group">
 								<label>Nom *</label>
-							  	<input name="nom" type="text" class="form-control" placeholder="" required>
+							  	<input value="{{ form.nom }}" name="nom" type="text" class="form-control" placeholder="" required>
 							</div> <!-- form-group end.// -->
 						</div> <!-- form-row end.// -->
 						<div class="form-group">
 							<label>Email *</label>
-							<input name="email" type="email" class="form-control" placeholder="" required>
+							<input value="{{ form.email }}" name="email" type="email" class="form-control" placeholder="" required>
 							<small class="form-text text-muted"><center style="color: orange;">Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center></small>
 						</div> <!-- form-group end.// -->
 						<div class="form-row">
 							<div class="form-group col-md-4 col-6">
 							  <label>Ville *</label>
-							  <input name="ville" type="text" class="form-control" required>
+							  <input value="{{ form.ville }}" name="ville" type="text" class="form-control" required>
 							</div> <!-- form-group end.// -->
 							<div class="form-group col-md-4 col-6">
 							  <label>Commune</label>
-							  <input name="commune" type="text" class="form-control">
+							  <input value="{{ form.commune }}" name="commune" type="text" class="form-control">
 							</div> <!-- form-group end.// -->
 							<div class="form-group col-md-4 col-12 col-sm-12">
 							  <label>Quartier *</label>
-							  <input name="quartier" type="text" class="form-control" required>
+							  <input value="{{ form.quartier }}" name="quartier" type="text" class="form-control" required>
 							</div> <!-- form-group end.// -->
 						</div> <!-- form-row.// -->
 						<div class="form-row">
@@ -92,7 +92,7 @@
 								  		<span class="h5" >+225</span>
 								  	</div>
 								  	<div class="col">
-								  		<input id="num" name="contact1" type="text" class="form-control" required>
+								  		<input value="{{ form.contact1 }}" id="num" name="contact1" type="text" class="form-control" required>
 								  	</div>
 							  	</div>
 							</div>
@@ -103,7 +103,7 @@
 								  		<span class="h5">+225</span>
 								  	</div>
 								  	<div class="col">
-								  		<input id="num2" name="contact2" type="text" class="form-control">
+								  		<input value="{{ form.contact2 }}" id="num2" name="contact2" type="text" class="form-control">
 								  	</div>
 							  	</div>
 							</div>
@@ -118,7 +118,7 @@
 						<div class="form-row">
 							<div class="form-group col-md-4 col-12">
 							  <label>Nom d'utilisateur *</label>
-							  <input name="username" type="text" class="form-control" required>
+							  <input value="{{ form.username }}" name="username" type="text" class="form-control" required>
 							  <small class="form-text text-muted"><center style="color: orange;">En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifié(connecté). Noter le bien.</center></small>
 							</div> <!-- form-group end.// -->
 							<div class="form-group col-md-4 col-12">

@@ -112,11 +112,11 @@
 		
 	<div class="row">
 		{% for produit in produits %}
-		<div class="col-md-3 col-12 col-sm-12" style="height: 120%;">
+		<div class="col-md-3 col-12 col-sm-12">
 			<div href="{% url 'detail_produit' produit.id %}" class="card card-product-grid">
 				<div class="img-wrap">
 					<a href="{% url 'detail_produit' produit.id %}" class="img-wrap"> 
-						<img style="margin-top: 5px; height: 140%; width: 95%" src="{{ produit.image }}"> 
+						<img style="margin-top: 5px;" src="{{ produit.image }}"> 
 					</a>
 					{% if produit.date_ajout|conversion_date_jour < 10 %}
 						<span class="badge badge-danger"> NOUVEAU </span>
@@ -133,8 +133,8 @@
 					<p style="color: green;">Livraison gratuite : <b >{{ 'temp'|promo }} jours restants</b></p><br>
 					{% endif %}
 					<div class="price-wrap text-center">
-						<span class="price h5">{{ produit.prix|parse_int }} F.CFA </span><br>
-						<del style="color: red;">{{ produit|prix_barre|parse_int }} F.CFA</del> 
+						<span class="price h5">{{ produit.prix|parse_int|virgule }} F.CFA </span><br>
+						<del style="color: red;">{{ produit|prix_barre|parse_int|virgule }} F.CFA</del> 
 						<!-- <del class="price-old"> $198</del> -->
 					</div> <!-- info-price-detail // -->
 				</figcaption>

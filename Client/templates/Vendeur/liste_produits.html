@@ -23,13 +23,13 @@
 		
 		<div class="row">
 		{% for produit in produits %}
-			<div class="col-md-3 col-6">
+			<div class="col-md-4 col-lg-4 col-xl-4 col-12">
 				<figure class="card card-product-grid">
-					<div class="img-wrap" style="height: 280px;"> 
+					<div class="img-wrap"> 
 						{% if produit.date_ajout|conversion_date_jour < 10 %}
 							<span class="badge badge-danger"> NOUVEAU </span>
 						{% endif %}
-						<img style="margin-top: 5px; height: 90%; width: 90%" src="{{ produit.image }}">
+						<img class="img-fluid img-thumbnail" src="{{ produit.image }}">
 						<a class="btn-overlay" href="{% url 'detail_produit_vendeur' produit.id %}"><i class="fa fa-search-plus"></i> Détails </a>
 					</div> <!-- img-wrap.// -->
 					<figcaption class="info-wrap text-center">
@@ -48,7 +48,7 @@
 								<span>Visible ?: <i class="badge-danger">Non</i></span>
 							{% endif %}
 							<div class="price-wrap mt-2">
-								<span class="price h6"><center>{{ produit.prix_vendeur }} F.CFA</center></span>
+								<span class="price h6"><center>{{ produit.prix_vendeur|parse_int|virgule }} F.CFA</center></span>
 								<!-- <del class="price-old">$1980</del> -->
 							</div> <!-- price-wrap.// -->
 						</div><hr>

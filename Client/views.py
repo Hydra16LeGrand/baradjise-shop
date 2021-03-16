@@ -901,7 +901,8 @@ class Vendeur:
 									is_active=False)
 							except Exception as e:
 								return render(request, "Vendeur/inscription.html", {
-									'message': "Erreur lors de la création du compte. Si le problème persiste, veuillez nous contacter au 0556748529"
+									'message': "Erreur lors de la création du compte. Si le problème persiste, veuillez nous contacter au 0556748529",
+									'form': form
 									})
 							else:
 								# On cree le vendeur associe
@@ -917,7 +918,8 @@ class Vendeur:
 								except Exception as e:
 									user.delete()
 									return render(request, "Vendeur/inscription.html", {
-									'message': "Erreur lors de la création du compte. Si le problème persiste, veuillez nous contacter au 0556748529"
+									'message': "Erreur lors de la création du compte. Si le problème persiste, veuillez nous contacter au 0556748529",
+									'form': form
 									})
 								else:
 									try:
@@ -932,7 +934,9 @@ class Vendeur:
 											)
 									except Exception as e:
 										return render(request, "Vendeur/authentification.html", {
-											'message': "Votre compte a été enregistrer. Veuillez patienter pendant que nous étudions votre demande."})
+											'message': "Votre compte a été enregistrer. Veuillez patienter pendant que nous étudions votre demande.",
+											'form': form
+											})
 									else:
 										return render(request, "Vendeur/authentification.html", {
 											'message': "Votre compte a ete enregistrer. Veuillez patienter pendant que nous étudions votre demande."})
@@ -940,12 +944,21 @@ class Vendeur:
 							return redirect('authentification_vendeur')
 
 					else:
-						return render(request, "Vendeur/inscription.html", {'message': "Veuillez saisir des numeros de telephone a 10 chiffres"})
+						return render(request, "Vendeur/inscription.html", {
+							'message': "Veuillez saisir des numeros de telephone a 10 chiffres",
+							'form': form
+							})
 				else:
-					return render(request, "Vendeur/inscription.html", {'message': "Le mot de passe doit être superieur a 10 caracteres"})
+					return render(request, "Vendeur/inscription.html", {
+						'message': "Le mot de passe doit être superieur a 10 caracteres",
+						'form': form
+						})
 
 			else:
-				return render(request, "Vendeur/inscription.html", {'message': "Les mots de passe saisies ne correspondent pas"})
+				return render(request, "Vendeur/inscription.html", {
+					'message': "Les mots de passe saisies ne correspondent pas",
+					'form': form
+					})
 		else:
 			return render(request, "Vendeur/inscription.html")
 
@@ -1072,30 +1085,45 @@ class Vendeur:
 					return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 				else:
 					try:
-						chemin_firebase = f"Produits/{request.user}/{form_image.get('image')}"
-						chemin = storage.child(chemin_firebase).put(form_image.get('image'))
-						image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
-
 						categorie = models.Categorie.objects.get(cle=form.get('categorie'))
-						prix = int(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
-						produit = models.Produit.objects.create(
-							libelle = form.get('libelle'),
-							categorie = categorie,
-							description = form.get('description'),
-							prix_vendeur = form.get('prix_vendeur'),
-							prix = prix,
-							quantite =form.get('quantite'),
-							moq = 1,
-							status = True,
-							image = image,
-							vendeur = vendeur,
-							)	
 					except Exception as e:
 						return render(request, "Vendeur/ajouter_produit.html", {
-							'message':"Erreur lors de l\'ajout de produit. Si le problème persiste veuillez nous contacter au 0556748529"
+							'message':"Veuillez choisir une catégorie",
+							'form': form,
+							'categories': models.Categorie.objects.all(),
+
 							})
 					else:
-						return redirect('liste_produits_vendeur', message_success="Ajout éffectué avec succès")
+						try:
+
+							prix = int(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
+							produit = models.Produit.objects.create(
+								libelle = form.get('libelle'),
+								categorie = categorie,
+								description = form.get('description'),
+								prix_vendeur = form.get('prix_vendeur'),
+								prix = prix,
+								quantite =form.get('quantite'),
+								moq = 1,
+								status = True,
+								vendeur = vendeur,
+								)	
+
+							chemin_firebase = f"Produits/{request.user}/{form_image.get('image')}"
+							chemin = storage.child(chemin_firebase).put(form_image.get('image'))
+							image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
+
+							produit.image = image
+							produit.save()
+						except Exception as e:
+							return render(request, "Vendeur/ajouter_produit.html", {
+								'message':"Erreur lors de l\'ajout de produit. Si le problème persiste veuillez nous contacter au 0556748529",
+								'form': form,
+								'categories': models.Categorie.objects.all(),
+
+								})
+						else:
+							return redirect('liste_produits_vendeur', message_success="Ajout éffectué avec succès")
 
 			else:
 				return render(request, "Vendeur/ajouter_produit.html", {

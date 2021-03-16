@@ -10,10 +10,14 @@
 					{% for pu in produit_user %}
 					<div class="col-md-6">
 						<figure class="itemside mb-4">
-							<div class="aside"><img src="{{ pu.produit.image }}" class="border img-md"></div>
+							<div class="aside">
+								<a href="{{ pu.produit.image }}">
+									<img src="{{ pu.produit.image }}" class="border img-fluid img-thumbnail img-md">
+								</a>
+							</div>
 							<figcaption class="info">
 								<a href="{% url 'detail_produit' pu.produit.id %}" class="title lead">{{ pu.produit.libelle|truncatechars:28 }}</a>
-								<p class="price mb-2">{{ pu.produit.prix }} F.CFA</p>
+								<p class="price mb-2">{{ pu.produit.prix|parse_int|virgule }} F.CFA</p>
 								<a href="{% url 'ajouter_panier' pu.produit.pk %}?suivant={% url 'ajouter_panier' pu.produit.pk %}" class="btn btn-primary btn-sm"> Ajouter au panier </a>
 								<a href="{% url 'supprimer_envie' pu.pk %}?suivant={% url 'supprimer_envie' pu.pk %}" class="btn btn-outline-danger btn-sm" data-toggle="tooltip" title="" data-original-title="Supprimer des souhaits"> <i class="fa fa-times"></i> </a>
 							</figcaption>

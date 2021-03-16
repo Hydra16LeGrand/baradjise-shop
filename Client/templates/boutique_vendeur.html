@@ -175,7 +175,12 @@
 				
 				<main class="col-md-12">
 					<br>
-					<header class="border-bottom mb-4 pb-3">
+					<header class="border-bottom mb-4 pb-3 text-center">
+							<div class="form-inline text-center">
+								<p>Le lien de votre boutique est: 
+									<span style="color: blue;">https://baradjise-shop.herokuapp.com{{ request.path }}</span>
+								</p>
+							</div><hr>
 							<div class="form-inline">
 								<span class="mr-md-auto b">{{ nbre_produits }} article(s) trouvé(s) </span>
 								
@@ -185,12 +190,12 @@
 					{% for produit in produits %}
 					<article class="card card-product-list">
 						<div class="row no-gutters">
-							<aside class="col-md-3">
+							<aside class="col-md-3 ">
 								<a href="{% url 'detail_produit' produit.id %}" class="img-wrap">
 									{% if produit.date_ajout|conversion_date_jour < 10 %}
 										<span class="badge badge-danger"> NOUVEAU </span>
 									{% endif %}
-									<img style="margin-top: 5px; height: 120%; width: 85%" src="{{ produit.image }}">
+									<img class="img-fluid img-thumbnail" alt="Responsive image" src="{{ produit.image }}">
 								</a>
 							</aside> <!-- col.// -->
 							<div class="col-md-6">

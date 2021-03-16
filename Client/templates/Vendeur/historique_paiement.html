@@ -13,12 +13,12 @@
 			<div class="col-md">
 				<h6 class="text-muted">Produit</h6>
 				<p>Titre : {{ his.libelle }}<br>
-					prix : {{ his.prix_vendeur }}<br>
+					prix : {{ his.prix_vendeur|parse_int|virgule }}<br>
 					Quantité vendus : {{ his.quantite }}.<br>
 					{% if his.status_paiement == 'fait' %}
-					<span class="b">Montant à recevoir : {{ his.quantite|multiplication:his.prix_vendeur }}</span>
+					<span class="b">Montant à recevoir : {{ his.quantite|multiplication:his.prix_vendeur|parse_int|virgule }}</span>
 					{% else %}
-					<span class="b">Montant réçu : {{ his.quantite|multiplication:his.prix_vendeur }}</span>
+					<span class="b">Montant réçu : {{ his.quantite|multiplication:his.prix_vendeur|parse_int|virgule }}</span>
 					{% endif %}
 				</p><br>
 			</div>

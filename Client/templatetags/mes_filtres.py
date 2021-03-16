@@ -195,3 +195,31 @@ def prix_barre(produit):
 
 	prix_barre = produit.prix + produit.prix * produit.categorie.commission/100
 	return prix_barre
+
+
+@register.filter()
+def virgule(prix):
+
+	prix = list(str(prix))
+	prix_r = []
+	for i in range(len(prix)):
+		prix_r.append(prix[-1])
+		del prix[-1]
+	print("prix_r :", prix_r)
+	d=[]
+	e=0
+	for i in "".join(prix_r):
+	    if e == 0:
+	            d.append(i)
+	            e+=1
+	    else:
+	            if e%3 == 0:
+	                    d.append(',')
+	                    d.append(i)
+	            else:
+	                    d.append(i)
+	            e+=1
+	for i in range(len(d)):
+		prix.append(d[-1])
+		del d[-1]
+	return "".join(prix)

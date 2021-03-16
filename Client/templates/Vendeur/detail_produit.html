@@ -2,11 +2,13 @@
 {% block static_vendeur %}
 <main class="col-md-9">
 	<div class="card">
-		<div class="row no-gutters " style="margin-top: 20px; margin-left: 20px; margin-right: 20px;">
-			<aside class="col-sm-6 border-right">
+		<div class="row no-gutters ">
+			<aside class="col-sm-6 col-12 col-md-6 col-lg-6 col-xl-6 border-right">
 				<article class="gallery-wrap"> 
-					<div class="img-big-wrap">
-					   <img src="{{ produit.image }}">
+					<div class="img-wrap">
+						<a href="{{ produit.image }}">
+					   		<img alt="Responsive image" class="img-fluid img-thumbnail" src="{{ produit.image }}">
+						</a>
 					</div> <!-- img-big-wrap.// -->
 					<div class="thumbs-wrap" style="">
 					  {% for img in produit.imageproduit_set.all %}
@@ -24,7 +26,7 @@
 					<ul class="list-normal cols-one">
 						<li>Categorie: {{ produit.categorie.nom }} </li>
 						<li>{{ produit.quantite }} pc(s) restante(s) </li>
-						<li>Prix de revente: {{ produit.prix }}</li>
+						<li>Prix de revente: {{ produit.prix|parse_int|virgule }}</li>
 						{% if produit.status %}
 							<li>Visibilite: Visible</li>
 						{% else %}
@@ -34,7 +36,7 @@
 					</ul>
 
 					<div class="h3 mb-4"> 
-						<var class="price h4">Prix: {{ produit.prix_vendeur }} F.CFA</var> 
+						<var class="price h4">Prix: {{ produit.prix_vendeur|parse_int|virgule }} F.CFA</var> 
 					</div> <!-- price-wrap.// -->
 					<form  action="{% url 'ajouter_image_produit' produit.id %}"  method="post" enctype="multipart/form-data">
 						{% csrf_token %}
