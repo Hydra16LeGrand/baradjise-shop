@@ -205,7 +205,7 @@ def virgule(prix):
 	for i in range(len(prix)):
 		prix_r.append(prix[-1])
 		del prix[-1]
-	print("prix_r :", prix_r)
+
 	d=[]
 	e=0
 	for i in "".join(prix_r):
