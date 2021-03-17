@@ -33,15 +33,15 @@ if os.environ.get('ENV') == 'PRODUCTION':
 
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-            'NAME': 'postgres://xyohowygfhivbd:2b7e27a4dcc5b20271e2d0e08c1ba8b8113c9bf92383f53380c7cd00a625f7d6@ec2-34-198-31-223.compute-1.amazonaws.com:5432/d484d5j43u4isv',
+            'NAME': 'd484d5j43u4isv',
 
-            'USER': 'baradjise-shop',
+            'USER': 'xyohowygfhivbd',
 
-            'PASSWORD': '',
+            'PASSWORD': '2b7e27a4dcc5b20271e2d0e08c1ba8b8113c9bf92383f53380c7cd00a625f7d6',
 
-            'HOST': 'baradjise-shop.herokuapp.com',
+            'HOST': 'ec2-34-198-31-223.compute-1.amazonaws.com',
 
-            'PORT': '',
+            'PORT': '5432',
 
         }
 
