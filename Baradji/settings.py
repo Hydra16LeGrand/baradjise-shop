@@ -27,42 +27,43 @@ SECRET_KEY = '9hdg(=cnla^6sgfzu=tg0y3$@imae$3*l-^#izkovehc%7t859'
 if os.environ.get('ENV') == 'PRODUCTION':
     DEBUG = False
 
-    DATABASES = {
+    # DATABASES = {
 
-        'default': {
+    #     'default': {
 
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-            'NAME': 'd484d5j43u4isv',
+    #         'NAME': 'd484d5j43u4isv',
 
-            'USER': 'xyohowygfhivbd',
+    #         'USER': 'xyohowygfhivbd',
 
-            'PASSWORD': '2b7e27a4dcc5b20271e2d0e08c1ba8b8113c9bf92383f53380c7cd00a625f7d6',
+    #         'PASSWORD': '2b7e27a4dcc5b20271e2d0e08c1ba8b8113c9bf92383f53380c7cd00a625f7d6',
 
-            'HOST': 'ec2-34-198-31-223.compute-1.amazonaws.com',
+    #         'HOST': 'ec2-34-198-31-223.compute-1.amazonaws.com',
 
-            'PORT': '5432',
+    #         'PORT': '5432',
 
-        }
+    #     }
 
-    }
+    # }
 else:
     DEBUG = True
-    DATABASES = {
-        # 'default': {
-        #     'ENGINE': 'django.db.backends.sqlite3',
-        #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        # }
+    
+DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
 
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'baradji',
-            'USER': 'root',
-            'PASSWORD': 'root',
-            'HOST': '127.0.0.1',
-            'PORT': '',
-            }
-    }
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'baradji',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '',
+        }
+}
 
 ALLOWED_HOSTS = ['*']
 
