@@ -29,7 +29,7 @@ if os.environ.get('ENV') == 'PRODUCTION':
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = ['baradjise-shop.herokuapp.com', '127.0.0.1', 'www.baradjie-shop.ci', '0.0.0.0', '*']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

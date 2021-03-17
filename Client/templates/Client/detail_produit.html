@@ -36,7 +36,7 @@
 					</ul>
 
 				<div class="h3 mb-4"> 
-					<var class="price h4"> Prix : {{ produit.prix }} F.CFA</var> 
+					<var class="price h4"> Prix : {{ produit.prix|parse_int|virgule }} F.CFA</var> 
 				</div> <!-- price-wrap.// -->
 				<div class="form-row">
 					<div class="col-4">
