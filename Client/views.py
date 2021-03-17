@@ -1157,62 +1157,75 @@ class Vendeur:
 
 		if request.user.is_authenticated:
 
-			try:
-				vendeur = models.Vendeur.objects.get(user=request.user)
-			except Exception as e:
-				return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
-			else:
+			if request.method == 'POST':
+				form = request.POST
+				form_image = request.FILES
 				try:
-					produit_a_modifier = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
+					vendeur = models.Vendeur.objects.get(user=request.user)
 				except Exception as e:
-					raise Http404()
+					return redirect('authentification_vendeur', "Veuillez vous authentifier d\'abord")
 				else:
-					
-					if request.method == 'POST':
+					try:
+						produit_a_modifier = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
+						categories = models.Categorie.objects.all()
+					except Exception as e:
+						raise Http404()
+					else:
 						try:
-							form = request.POST
-							form_image = request.FILES
-
+							print(form.get('categorie'))
 							categorie = models.Categorie.objects.get(cle=form.get('categorie'))
-							prix = int(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
-
-							produit_a_modifier.libelle = form.get('libelle')
-							produit_a_modifier.categorie = categorie
-							produit_a_modifier.prix_vendeur = form.get('prix_vendeur')
-							produit_a_modifier.prix = prix
-							produit_a_modifier.description = form.get('description')
-							produit_a_modifier.quantite = form.get('quantite')
-
-							# On modifie la visibilite du produit par les clients
-							if form.get('status') == 'on' or form.get('status') == True:
-								produit_a_modifier.status = 1
-							else:
-								produit_a_modifier.status = 0
-
-							if form_image.get('image'):
-								try:
-									chemin_firebase = f"Produits/{request.user}/{form_image.get('image')}"
-									chemin = storage.child(chemin_firebase).put(form_image.get('image'))
-									image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
-								except Exception as e:
-									raise e
-								else:
-									produit_a_modifier.image = image
-
 						except Exception as e:
-							return render(request, "Vendeur/modifier_produit.html", {
-								'produit': produit, 
-								'categories':categories,
-								'message': "Erreur lors de la mis à jour du produit"
+							print("Ici")
+							return render(request, "Vendeur/modifier_produit.html",{
+								'produit': produit_a_modifier,
+								'categories': categories,
+								'message': "Veuillez choisir une catégorie."
 								})
 						else:
-							produit_a_modifier.save()
-							return redirect("liste_produits_vendeur", "Produit modifié")
-					else:
-						# On aura besoin des categories dans le template pour le choix de la categorie
-						categories = models.Categorie.objects.all()
-						produit = models.Produit.objects.get(pk = id_produit, vendeur=vendeur)
-						return render(request, "Vendeur/modifier_produit.html", {'produit': produit, 'categories':categories})
+							try:
+								prix = int(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
+
+								produit_a_modifier.libelle = form.get('libelle')
+								produit_a_modifier.categorie = categorie
+								produit_a_modifier.prix_vendeur = form.get('prix_vendeur')
+								produit_a_modifier.prix = prix
+								produit_a_modifier.description = form.get('description')
+								produit_a_modifier.quantite = form.get('quantite')
+
+								# On modifie la visibilite du produit par les clients
+								if form.get('status') == 'on' or form.get('status') == True:
+									produit_a_modifier.status = 1
+								else:
+									produit_a_modifier.status = 0
+
+								if form_image.get('image'):
+									try:
+										chemin_firebase = f"Produits/{request.user}/{form_image.get('image')}"
+										chemin = storage.child(chemin_firebase).put(form_image.get('image'))
+										image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
+									except Exception as e:
+										return render(request, "Vendeur/modifier_produit.html",{
+											'form': form,
+											'categories': categories,
+											'message': "Erreur lors de l'enregistrement de l'image."
+											})
+									else:
+										produit_a_modifier.image = image
+
+							except Exception as e:
+								return render(request, "Vendeur/modifier_produit.html", {
+									'produit': produit_a_modifier, 
+									'categories':categories,
+									'message': "Erreur lors de la mis à jour du produit"
+									})
+							else:
+								produit_a_modifier.save()
+								return redirect("liste_produits_vendeur", "Produit modifié")
+			else:
+				# On aura besoin des categories dans le template pour le choix de la categorie
+				categories = models.Categorie.objects.all()
+				produit = models.Produit.objects.get(pk = id_produit, vendeur=models.Vendeur.objects.get(user=request.user))
+				return render(request, "Vendeur/modifier_produit.html", {'produit': produit, 'categories':categories})
 		else:
 			return redirect('authentification_vendeur')
 

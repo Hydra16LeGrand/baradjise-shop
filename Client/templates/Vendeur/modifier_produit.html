@@ -18,6 +18,7 @@
 						<div class="form-group">
 							<label for="cat">Categorie</label>
 							<select id="cat" class="form-control" name="categorie" required>
+								<option>Choisir</option>
 								{% for categorie in categories %}
 									<option value="{{ categorie.cle }}">{{ categorie.nom }}</option>
 								{% endfor %}
