@@ -16,7 +16,14 @@
 					    </div>
 				    </div>
 				</form> <!-- search-wrap .end// --><br>
-				<center><span class="mr-md-auto"> {{ nbre_produits }} article(s) trouvé(s) </span></center>					
+				<div class="row">
+					<span class="mr-md-auto text-left col col-md col-sm col-lg col-xl"> {{ nbre_produits }} article(s) trouvé(s) </span>	
+					<div class="text-right col col-md col-sm col-lg col-xl ">
+						
+						<a class="btn btn-outline-secondary" href="{% url 'ajouter_produit_vendeur' %}">
+							Ajouter Produit
+						</a>		
+					</div>
 			</div>
 		</header><!-- sect-heading -->
 
