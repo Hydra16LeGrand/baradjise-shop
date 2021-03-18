@@ -897,8 +897,7 @@ class Vendeur:
 									password=form.get('mdp'),
 									email=form.get('email'),
 									last_name=form.get('nom'),
-									first_name=form.get('prenom'),
-									is_active=False)
+									first_name=form.get('prenom'))
 							except Exception as e:
 								return render(request, "Vendeur/inscription.html", {
 									'message': "Erreur lors de la création du compte. Si le problème persiste, veuillez nous contacter au 0556748529",
