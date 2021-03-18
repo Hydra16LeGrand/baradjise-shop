@@ -122,13 +122,15 @@
 							  <small class="form-text text-muted"><center style="color: orange;">En un seul mot, Votre nom d'utilisateur sera utilisé pour vous authentifié(connecté). Noter le bien.</center></small>
 							</div> <!-- form-group end.// -->
 							<div class="form-group col-md-4 col-12">
-								<label>Mot de passe *</label>
-							    <input name="mdp" class="form-control" type="password" required>
+								<label for="mdp">Mot de passe *</label>
+							    <input id="mdp" name="mdp" class="form-control" type="password" required>
+								<input type="checkbox" onclick="Afficher1()"> Afficher
 							    <small class="form-text text-muted"><center style="color: orange;">Au moins 6 caractères.</center></small>
 							</div> <!-- form-group end.// --> 
 							<div class="form-group col-md-4 col-12">
-								<label>Repétez *</label>
-							    <input name="c_mdp" class="form-control" type="password" required>
+								<label for="cmdp">Repétez *</label>
+							    <input id="cmdp" name="c_mdp" class="form-control" type="password" required>
+								<input type="checkbox" onclick="Afficher2()"> Afficher
 							    <small class="form-text text-muted"><center style="color: orange;">Au moins 6 caractères.</center></small>
 							</div> <!-- form-group end.// -->  
 						</div>
@@ -152,6 +154,31 @@
 			</div> <!-- card.// -->
 		</div>
 	</section>
+		<script>
+  function Afficher1(){ 
+        var input = document.getElementById("mdp"); 
+        if (input.type === "password")
+      { 
+       input.type = "text"; 
+      } 
+      else
+      { 
+        input.type = "password"; 
+      } 
+    } 
+
+    function Afficher2(){ 
+        var input = document.getElementById("cmdp"); 
+        if (input.type === "password")
+      { 
+       input.type = "text"; 
+      } 
+      else
+      { 
+        input.type = "password"; 
+      } 
+    } 
+</script>
 </body>
 
 

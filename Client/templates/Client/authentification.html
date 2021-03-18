@@ -124,7 +124,7 @@
                     </div> <!-- form-group// -->
                     <div class="form-group">
                       <label for="mdp">Mot de passe</label>
-                      <input id="mdp" name="mdp" class="form-control form-control-lg" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required>
+                      <input id="mdp" name="mdp" class="form-control form-control-lg" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required><input type="checkbox" onclick="Afficher()"> Afficher le mot de passe
                       <a class="float-right" href="{% url 'mot_de_passe_oublie' %}">Mot de passe oublié?</a>
                     </div> <!-- form-group// --> 
                     
@@ -145,6 +145,20 @@
   </div>
   <!-- ============================ COMPONENT LOGIN 1  END.// ================================= -->
   </section>
+
+<script>
+  function Afficher(){ 
+        var input = document.getElementById("mdp"); 
+        if (input.type === "password")
+      { 
+       input.type = "text"; 
+      } 
+      else
+      { 
+        input.type = "password"; 
+      } 
+    } 
+</script>
 </body>
 
 

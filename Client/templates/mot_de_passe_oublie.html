@@ -63,13 +63,15 @@
           </div> <!-- form-group// -->
           <div class="form-row">
             <div class="form-group col-md-6">
-              <label>Nouveau mot de passe</label>
-                <input name="mdp" class="form-control" type="password" required>
+              <label for="mdp">Nouveau mot de passe</label>
+                <input id="mdp" name="mdp" class="form-control" type="password" required>
+                <input type="checkbox" onclick="Afficher1()"> Afficher
                 <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
             </div> <!-- form-group end.// --> 
             <div class="form-group col-md-6">
-              <label>Repétez le mot de passe</label>
-                <input name="c_mdp" class="form-control" type="password" required>
+              <label for="cmdp">Repétez le mot de passe</label>
+                <input id="cmdp" name="c_mdp" class="form-control" type="password" required>
+                <input type="checkbox" onclick="Afficher2()"> Afficher
                 <small class="form-text text-muted"><center>Au moins 6 caractères.</center></small>
             </div> <!-- form-group end.// -->  
           </div>
@@ -85,6 +87,31 @@
 </div>
 <!-- ============================ COMPONENT LOGIN 1  END.// ================================= -->
 </section>
+<script>
+function Afficher1(){ 
+        var input = document.getElementById("mdp"); 
+        if (input.type === "password")
+      { 
+       input.type = "text"; 
+      } 
+      else
+      { 
+        input.type = "password"; 
+      } 
+    } 
+
+    function Afficher2(){ 
+        var input = document.getElementById("cmdp"); 
+        if (input.type === "password")
+      { 
+       input.type = "text"; 
+      } 
+      else
+      { 
+        input.type = "password"; 
+      } 
+    } 
+  </script>
 </body>
 
 
