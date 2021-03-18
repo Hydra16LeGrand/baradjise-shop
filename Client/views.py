@@ -593,7 +593,7 @@ class Recherche:
 			raise Http404()
 		else:
 			try:
-				produits = models.Produit.objects.filter(vendeur=vendeur)
+				produits = models.Produit.objects.filter(vendeur=vendeur).exclude(status=0)
 			except Exception as e:
 				raise e
 			else:
