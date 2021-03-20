@@ -617,7 +617,7 @@ class Recherche:
 	# methode de renvois de tous les produits
 	def tous_les_produits(request):
 
-		return redirect('rechercher_produit', 'list', None)
+		return redirect('rechercher_produit', 'list')
 
 def dashboard_client(request):
 
@@ -1077,7 +1077,9 @@ class Vendeur:
 			if request.method == 'POST':
 
 				form = request.POST
-				form_image = request.FILES
+				form_images = request.FILES.getlist('images')
+				# print("Liste des images :", form_image)
+				# print("Premiere Image :", form_image[0])
 				try:
 					vendeur = models.Vendeur.objects.get(user=request.user)
 				except Exception as e:
@@ -1108,12 +1110,26 @@ class Vendeur:
 								vendeur = vendeur,
 								)	
 
-							chemin_firebase = f"Produits/{request.user}/{form_image.get('image')}"
-							chemin = storage.child(chemin_firebase).put(form_image.get('image'))
+							# Enregistrement de l'image qui sera vue en premiere position
+							chemin_firebase = f"Produits/{request.user}/{form_images[0]}"
+							chemin = storage.child(chemin_firebase).put(form_images[0])
 							image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
 
 							produit.image = image
 							produit.save()
+							del form_images[0]
+							print("Les autres images: ", form_images)
+
+							# Enregistrement des autres images
+							if len(form_images) > 0:
+
+								for img in form_images:
+									chemin_firebase = f"ProduitsImagesSup/{request.user}/{img}"
+									chemin = storage.child(chemin_firebase).put(img)
+									image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
+
+									models.ImageProduit.objects.create(produit=produit, image=image)
+
 						except Exception as e:
 							return render(request, "Vendeur/ajouter_produit.html", {
 								'message':"Erreur lors de l\'ajout de produit. Si le problème persiste veuillez nous contacter au 0556748529",
@@ -1294,16 +1310,18 @@ class Vendeur:
 			else:
 
 				try:
+					form_images = request.FILES.getlist('images')
 					produit = models.Produit.objects.get(pk=id_produit, vendeur=vendeur)
 
-					chemin_firebase = f"ProduitsImagesSup/{request.user}/{request.FILES.get('image')}"
-					chemin = storage.child(chemin_firebase).put(request.FILES.get('image'))
-					image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
+					for img in form_images:
+						chemin_firebase = f"ProduitsImagesSup/{request.user}/{img}"
+						chemin = storage.child(chemin_firebase).put(img)
+						image = storage.child(chemin_firebase).get_url(chemin['downloadTokens'])
 
+						models.ImageProduit.objects.create(produit=produit, image=image)
 				except Exception as e:
 					return redirect('detail_produit_vendeur', id_produit)
 				else:
-					models.ImageProduit.objects.create(produit=produit, image=image)
 					return redirect('detail_produit_vendeur', id_produit)
 
 		else:

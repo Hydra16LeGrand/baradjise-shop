@@ -43,10 +43,10 @@
 						{% csrf_token %}
 							<div class="form-group">
 								<label for="img"></label>
-								<input class="form-control" id="img" type="file" name="image" required>
+								<input class="form-control" id="img" type="file" name="images" multiple="True" required>
 							</div> <!-- col.// -->
-							<div class="form-group" style="margin-right: 5px;">
-								<input class="btn btn-success" type="submit" value="Ajouter une image">
+							<div class="form-group text-center" style="margin-right: 5px;">
+								<input id="bouton" class="btn btn-success" type="submit" value="Ajouter des images">
 							</div>
 					</form>
 				</article> <!-- product-info-aside .// -->
@@ -54,5 +54,16 @@
 		</div> <!-- row.// -->
 	</div> <!-- card.// -->
 </main>
+
+<style type="text/css">
+	#bouton {
+		padding: 10px;
+		color: white;
+		background-color: #009578;
+		border: 2px solid #000;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+</style>
 <!-- ============================ COMPONENT 2 END .// ================================= -->
 {% endblock %}
