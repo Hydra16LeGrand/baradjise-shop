@@ -884,7 +884,7 @@ class Vendeur:
 
 				if len(form.get('mdp'))>=6:
 
-					if len(form.get('contact1')) == 10 and len(form.get('contact2')) == 10:
+					if len(form.get('contact1')) == 10:
 						# Tentative de reccuperation du vendeur dans la table auth_user. Pour voir s'il n'est pas encore enregistre
 						try:
 							# Gag, je venais de decouvrir la classe Q, il fallait la tester.
@@ -925,7 +925,7 @@ class Vendeur:
 										message = f"Un nouveau compte vendeur vient d'être crée.\nNom : {form.get('nom')} {form.get('prenom')}\nContact : {form.get('contact1')}"
 										send_mail(
 
-											"Création d'un compte vendeur. Attente de confirmation.",
+											"Création d'un compte vendeur.",
 											message,
 											form.get('email'),
 											["baradjis.eshop@gmail.com"],
@@ -933,24 +933,24 @@ class Vendeur:
 											)
 									except Exception as e:
 										return render(request, "Vendeur/authentification.html", {
-											# 'message': "Votre compte a été enregistrer. Veuillez patienter pendant que nous étudions votre demande.",
+											'message_success': "Votre compte a été enregistrer.",
 											'form': form
 											})
 									else:
 										return render(request, "Vendeur/authentification.html", {
-											# 'message': "Votre compte a ete enregistrer. Veuillez patienter pendant que nous étudions votre demande."
+											'message_success': "Votre compte a été enregistrer."
 											})
 						else:
-							return redirect('authentification_vendeur')
+							return redirect('authentification_vendeur', "Ce compte existe déja")
 
 					else:
 						return render(request, "Vendeur/inscription.html", {
-							'message': "Veuillez saisir des numeros de telephone a 10 chiffres",
+							'message': "Veuillez saisir des numéros de téléphone à 10 chiffres",
 							'form': form
 							})
 				else:
 					return render(request, "Vendeur/inscription.html", {
-						'message': "Le mot de passe doit être superieur a 10 caracteres",
+						'message': "Le mot de passe doit être superieur à 10 caracteres",
 						'form': form
 						})
 
