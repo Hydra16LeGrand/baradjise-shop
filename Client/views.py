@@ -933,12 +933,13 @@ class Vendeur:
 											)
 									except Exception as e:
 										return render(request, "Vendeur/authentification.html", {
-											'message': "Votre compte a été enregistrer. Veuillez patienter pendant que nous étudions votre demande.",
+											# 'message': "Votre compte a été enregistrer. Veuillez patienter pendant que nous étudions votre demande.",
 											'form': form
 											})
 									else:
 										return render(request, "Vendeur/authentification.html", {
-											'message': "Votre compte a ete enregistrer. Veuillez patienter pendant que nous étudions votre demande."})
+											# 'message': "Votre compte a ete enregistrer. Veuillez patienter pendant que nous étudions votre demande."
+											})
 						else:
 							return redirect('authentification_vendeur')
 
@@ -1055,7 +1056,7 @@ class Vendeur:
 							p.save()
 					
 				produits = list(produits)
-				produits = random.sample(produits, len(produits))
+				# produits = random.sample(produits, len(produits))
 
 				paginator = Paginator(produits, 12)
 				nombre_page = request.GET.get('page')
