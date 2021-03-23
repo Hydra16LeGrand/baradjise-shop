@@ -1095,7 +1095,6 @@ class Vendeur:
 								prix_vendeur = form.get('prix_vendeur'),
 								prix = prix,
 								quantite =form.get('quantite'),
-								moq = 1,
 								status = True,
 								vendeur = vendeur,
 								)	
