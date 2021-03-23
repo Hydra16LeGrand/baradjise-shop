@@ -86,18 +86,18 @@
 									<img class="border img-fluid img-thumbnail" alt="Responsive image" style="margin-top: 5px" src="{{ produit.image }}">
 									<a class="btn-overlay" href="{% url 'detail_produit' produit.id %}"><i class="fa fa-search-plus"></i> Détails </a>
 								</div> <!-- img-wrap.// -->
-								<figcaption class="info-wrap text-center">
+								<figcaption class="info-wrap text-center" style="font-size: 0.8rem;">
 									<div >
 										<h6>
-											<a href="{% url 'detail_produit' produit.id %}" class="title b">
-												{{ produit.libelle|truncatechars:23 }}
+											<a href="{% url 'detail_produit' produit.id %}" class="title b" style="font-size: 0.8rem;">
+												{{ produit.libelle|truncatechars:30 }}
 											</a>
 										</h6>
 										
 										<p class="text-warning b">Qté restante: {{ produit.quantite }}</p>
 										{% if 'temp'|promo > 0 %}
 										<p style="color: green;">Livraison gratuite : 
-											<span class="text-right">{{ 'temp'|promo }} jours</span>
+											<span class="text-right">{{ 'temp'|promo }} jours restants</span>
 										</p>
 										{% endif %}
 										<div class="price-wrap mt-2">
@@ -108,7 +108,7 @@
 									</div><br>
 									<a href="{% url 'ajouter_envie' produit.id %}?suivant={% url 'ajouter_envie' produit.id %}" class="btn btn-outline-secondary btn-block">
 										<i class="fa fa-heart"></i> 
-										<span class="text">Envie</span>
+										<span class="text" >Envie</span>
 									</a>
 									<a href="{% url 'ajouter_panier' produit.id %}?suivant={% url 'ajouter_panier' produit.id %}" class="btn btn-warning btn-block">
 										<i class="fa fa-shopping-cart"></i> 

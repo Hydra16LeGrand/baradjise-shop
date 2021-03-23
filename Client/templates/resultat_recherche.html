@@ -87,10 +87,10 @@
 									<img class="img-fluid img-thumbnail" alt="Responsive image" src="{{ produit.image }}">
 								</a>
 							</aside> <!-- col.// -->
-							<div class="col-md-6">
+							<div class="col-md-6" style="font-size: 0.9rem;">
 								<div class="info-main text-center">
-									<a href="{% url 'detail_produit' produit.id %}" class="h5 title"> {{ produit.libelle }}  </a>
-									<p>Categorie : <b>{{ produit.categorie.nom }}</b></p>
+									<a href="{% url 'detail_produit' produit.id %}" class="h5 title" style="font-size: 1rem;"> {{ produit.libelle }}  </a>
+									<p>Catégorie : <b>{{ produit.categorie.nom }}</b></p>
 									<p>Vendeur : <b>{{ produit.vendeur.user.username }}</b></p>
 									<!-- <div class="rating-wrap mb-3">
 										<ul class="rating-stars">
