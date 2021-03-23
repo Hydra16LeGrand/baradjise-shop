@@ -41,7 +41,7 @@
 					</div> <!-- img-wrap.// -->
 					<figcaption class="info-wrap text-center">
 						<div class="">
-							<a href="{% url 'detail_produit_vendeur' produit.id %}" class="title h5">{{ produit.libelle|truncatechars:17 }}</a>
+							<a href="{% url 'detail_produit_vendeur' produit.id %}" class="title h5">{{ produit.libelle|truncatechars:30 }}</a>
 							<span class="text-muted">{{ produit.categorie }}</span><br>
 							{% if produit.quantite <= 3 %}
 							<span class="badge-warning"><b>{{ produit.quantite }} pcs restantes</b></span>

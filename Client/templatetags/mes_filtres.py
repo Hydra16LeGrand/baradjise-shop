@@ -214,3 +214,12 @@ def virgule(prix):
 		prix.append(d[-1])
 		del d[-1]
 	return "".join(prix)
+
+@register.filter()
+def taille_detail(liste):
+
+	iteration = []
+	for i in range(len(liste)):
+		iteration.append(i)
+
+	return iteration

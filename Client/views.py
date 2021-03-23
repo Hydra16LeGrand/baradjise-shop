@@ -1037,7 +1037,7 @@ class Vendeur:
 						Q(libelle__icontains = request.POST.get('requete'))
 						).order_by("date_ajout")
 				else:
-					produits = models.Produit.objects.filter(vendeur=vendeur).order_by("date_ajout")
+					produits = models.Produit.objects.filter(vendeur=vendeur).order_by("-date_ajout")
 
 					for p in produits:
 						if p.quantite <= 0:
