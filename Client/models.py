@@ -11,6 +11,7 @@ class Vendeur(models.Model):
 	ville = models.CharField(max_length=20)
 	commune = models.CharField(max_length=20, blank = True, null = True)
 	quartier = models.CharField(max_length=20)
+	adresse = models.CharField(max_length=255)
 
 	produits_vendu = models.TextField()
 
@@ -52,7 +53,7 @@ class Produit(models.Model):
 	prix_vendeur = models.FloatField()
 	prix = models.FloatField()
 	quantite = models.IntegerField()
-
+	
 	# Minimum order quantity
 	moq = models.IntegerField(default=1)
 
@@ -97,6 +98,7 @@ class User(models.Model):
 	ville = models.CharField(max_length=20)
 	commune = models.CharField(max_length=20, blank = True, null = True)
 	quartier = models.CharField(max_length=20)
+	adresse = models.CharField(max_length=255)
 	profil = models.TextField(null=True, blank=True, default="https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/profil_inconnu.jpg?alt=media&token=4348dcfd-89c9-4c74-8a9c-65d75e6fadb5")
 	# Relation plusieurs a plusieurs avec produits. avec le widget through nous allons redefinir la nouvelle relation creer
 	# Remarque, Cette redefinition n'est pas obligatoire. Mais je l'ai fait au cas ou je voudrais ajouter de nouvelles colonnes
