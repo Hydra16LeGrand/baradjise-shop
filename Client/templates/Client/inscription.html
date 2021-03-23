@@ -73,21 +73,13 @@
 							</small>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-6 col-md-4">
-								<label for="ville">Ville *</label>
-							  	<input value="{{ form.ville }}" id="ville" name="ville" type="text" class="form-control" required>
-							</div>
-							<div class="form-group col-6 col-md-4">
-								<label for="commune">Commune</label>
-								<input value="{{ form.commune }}" id="commune" name="commune" type="text" class="form-control">
-							</div>
-							<div class="form-group col-12 col-md-4">
-								<label for="quartier">Quartier *</label>
-								<input value="{{ form.quartier }}" id="quartier" name="quartier" type="text" class="form-control" required>
+							<div class="form-group col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
+								<label for="adresse">Adresse *</label>
+							  	<input value="{{ form.adresse }}" id="adresse" name="adresse" type="text" class="form-control" required>
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-12 col-md-6">
+							<div class="form-group col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
 								<label for="num">Numéro de télephone *</label>
 								<div class="row">
 									<div class=" col-3 col-md-3 text-center" style="margin-top: 5px;">
@@ -95,17 +87,6 @@
 								  	</div>
 								  	<div class="col col-md">
 								  		<input value="{{ form.contact1 }}" id="num" name="contact1" type="text" class="form-control" required>
-								  	</div>
-							  	</div>
-							</div>
-							<div class="form-group col-12 col-md">
-							  	<label for="num2">Autre Numéro</label>
-								<div class="row">
-									<div class="col-3 text-center" style="margin-top: 5px;">
-								  		<span class="h5">+225</span>
-								  	</div>
-								  	<div class="form-group col">
-								  		<input value="{{ form.contact2 }}" id="num2" name="contact2" type="text" class="form-control">
 								  	</div>
 							  	</div>
 							</div>

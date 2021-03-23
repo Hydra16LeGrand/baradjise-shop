@@ -72,10 +72,7 @@ class Acces:
 								try:
 									client = models.User.objects.create(
 										contact1 = form.get('contact1'),
-										contact2 = form.get('contact2'),
-										ville = form.get('ville'),
-										commune = form.get('commune'),
-										quartier = form.get('quartier'),
+										adresse = form.get('adresse'),
 										user = user)
 								except Exception as e:
 									user.delete()
@@ -809,10 +806,7 @@ class Compte:
 						try:
 							client.user.email = form.get('email')
 							client.contact1 = form.get('contact1')
-							client.contact2 = form.get('contact2')
-							client.ville = form.get('ville')
-							client.commune = form.get('commune')
-							client.quartier = form.get('quartier')
+							client.adresse = form.get('adresse')
 							client.user.save()
 							client.save()
 						except Exception as e:
@@ -908,10 +902,7 @@ class Vendeur:
 								try:
 									vendeur = models.Vendeur.objects.create(
 										contact1 = form.get('contact1'),
-										contact2 = form.get('contact2'),
-										ville = form.get('ville'),
-										commune = form.get('commune'),
-										quartier = form.get('quartier'),
+										adresse = form.get('adresse'),
 										produits_vendu = form.get('produits_vendu'),
 										user = user)
 								except Exception as e:
@@ -1366,10 +1357,7 @@ class Vendeur:
 								vendeur.user.set_password(form.get('mdp'))
 								vendeur.user.email = form.get('email')
 								vendeur.contact1 = form.get('contact1')
-								vendeur.contact2 = form.get('contact2')
-								vendeur.ville = form.get('ville')
-								vendeur.commune = form.get('commune')
-								vendeur.quartier = form.get('quartier')
+								vendeur.adresse = form.get('adresse')
 							except Exception as e:
 								return  render(request, "Vendeur/modifier_infos_vendeur.html", {
 									'vendeur': vendeur, 

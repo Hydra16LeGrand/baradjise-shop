@@ -18,11 +18,7 @@
 						{{ historique.client }} <br>  
 						Phone +225 {{ historique.client|retourner_client:'contact1' }}<br>
 						Email: {{ historique.client|retourner_client:'email' }} <br>
-				    	Adresse: {{ historique.client|retourner_client:'ville' }}, 
-				    	{% if historique.client|retourner_client:'commune' %}
-				    		{{ historique.client|retourner_client:'commune'}},
-				    	{% endif %} 
-				    	{{ historique.client|retourner_client:'quartier' }}
+				    	Adresse: {{ historique.client|retourner_client:'adresse' }}
 			 		</p>
 				</div>
 				<div class="col-md-4">

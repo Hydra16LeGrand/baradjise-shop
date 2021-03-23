@@ -100,16 +100,7 @@ def retourner_client(username, colonne):
 
 	user = User.objects.get(username=username)
 	client =  models.User.objects.get(user= user)
-	if colonne == 'email':
-		return client.user.email
-	elif colonne == 'contact1':
-		return client.contact1
-	elif colonne == 'ville':
-		return client.ville	
-	elif colonne == 'commune':
-		return client.commune
-	elif colonne == 'quartier':
-		return client.quartier
+	return client.adresse
 
 @register.filter()
 def reccup_produit_cmd(num_cmd):

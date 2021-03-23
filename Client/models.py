@@ -7,10 +7,10 @@ class Vendeur(models.Model):
 
 	profil = models.TextField(null=True, blank=True, default="https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/profil_inconnu.jpg?alt=media&token=4348dcfd-89c9-4c74-8a9c-65d75e6fadb5")
 	contact1 = models.CharField(max_length=20)
-	contact2 = models.CharField(max_length=20, blank=True, null=True)
-	ville = models.CharField(max_length=20)
-	commune = models.CharField(max_length=20, blank = True, null = True)
-	quartier = models.CharField(max_length=20)
+	# contact2 = models.CharField(max_length=20, blank=True, null=True)
+	# ville = models.CharField(max_length=20)
+	# commune = models.CharField(max_length=20, blank = True, null = True)
+	# quartier = models.CharField(max_length=20)
 	adresse = models.CharField(max_length=255)
 
 	produits_vendu = models.TextField()
@@ -55,7 +55,7 @@ class Produit(models.Model):
 	quantite = models.IntegerField()
 	
 	# Minimum order quantity
-	moq = models.IntegerField(default=1)
+	# moq = models.IntegerField(default=1)
 
 	# Permettant de definir si le produit est disponible ou pas
 	status = models.BooleanField()
@@ -94,10 +94,10 @@ class ImageProduit(models.Model):
 class User(models.Model):
 
 	contact1 = models.CharField(max_length=20)
-	contact2 = models.CharField(max_length=20, blank=True, null = True)
-	ville = models.CharField(max_length=20)
-	commune = models.CharField(max_length=20, blank = True, null = True)
-	quartier = models.CharField(max_length=20)
+	# contact2 = models.CharField(max_length=20, blank=True, null = True)
+	# ville = models.CharField(max_length=20)
+	# commune = models.CharField(max_length=20, blank = True, null = True)
+	# quartier = models.CharField(max_length=20)
 	adresse = models.CharField(max_length=255)
 	profil = models.TextField(null=True, blank=True, default="https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/profil_inconnu.jpg?alt=media&token=4348dcfd-89c9-4c74-8a9c-65d75e6fadb5")
 	# Relation plusieurs a plusieurs avec produits. avec le widget through nous allons redefinir la nouvelle relation creer

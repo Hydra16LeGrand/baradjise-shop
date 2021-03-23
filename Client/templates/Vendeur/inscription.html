@@ -71,21 +71,13 @@
 							<small class="form-text text-muted"><center style="color: orange;">Votre e-mail sera utilisé pour la réinitialisation lorsque vous oublierai votre mot de passe.</center></small>
 						</div> <!-- form-group end.// -->
 						<div class="form-row">
-							<div class="form-group col-md-4 col-6">
-							  <label>Ville *</label>
-							  <input value="{{ form.ville }}" name="ville" type="text" class="form-control" required>
-							</div> <!-- form-group end.// -->
-							<div class="form-group col-md-4 col-6">
-							  <label>Commune</label>
-							  <input value="{{ form.commune }}" name="commune" type="text" class="form-control">
-							</div> <!-- form-group end.// -->
-							<div class="form-group col-md-4 col-12 col-sm-12">
-							  <label>Quartier *</label>
-							  <input value="{{ form.quartier }}" name="quartier" type="text" class="form-control" required>
+							<div class="form-group col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
+							  <label>Adresse *</label>
+							  <input value="{{ form.adresse }}" name="adresse" type="text" class="form-control" required>
 							</div> <!-- form-group end.// -->
 						</div> <!-- form-row.// -->
 						<div class="form-row">
-							<div class="form-group col-12 col-md-6">
+							<div class="form-group col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12">
 								<label for="num">Numéro de télephone *</label>
 								<div class="row">
 									<div class="col-3 text-center" style="margin-top: 5px;">
@@ -93,17 +85,6 @@
 								  	</div>
 								  	<div class="col">
 								  		<input value="{{ form.contact1 }}" id="num" name="contact1" type="text" class="form-control" required>
-								  	</div>
-							  	</div>
-							</div>
-							<div class="form-group col-12 col-md">
-							  	<label for="num2">Autre Numéro</label>
-								<div class="row">
-									<div class="col-3 text-center" style="margin-top: 5px;">
-								  		<span class="h5">+225</span>
-								  	</div>
-								  	<div class="col">
-								  		<input value="{{ form.contact2 }}" id="num2" name="contact2" type="text" class="form-control">
 								  	</div>
 							  	</div>
 							</div>

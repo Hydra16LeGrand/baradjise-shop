@@ -1,6 +1,12 @@
 from django.contrib import admin
 from . import models
+from django.contrib.auth.models import User
 # Register your models here.
+
+# @admin.register(User)
+# class UserAdmin(admin.ModelAdmin):
+# 	list_display = ('pk', 'username', 'email', 'first_name', 'last_name','last_login', 'is_super_user', 'is_active', 'is_staff', 'date_joined')
+# 	list_display_links = ['pk', 'username']
 
 @admin.register(models.Produit)
 class ProduitAdmin(admin.ModelAdmin):
@@ -41,7 +47,7 @@ class ProduitUser(admin.ModelAdmin):
 
 @admin.register(models.Vendeur)
 class Vendeur(admin.ModelAdmin):
-	list_display = ("pk","contact1", "ville", "commune", "quartier", "user")
+	list_display = ("pk","contact1", "adresse", "user")
 	list_display_links = ["pk","user"]
 
 @admin.register(models.Historique)
@@ -59,7 +65,7 @@ class Categorie(admin.ModelAdmin):
 
 @admin.register(models.User)
 class User(admin.ModelAdmin):
-	list_display = ("pk","user", "contact1", "ville", "commune", "quartier")
+	list_display = ("pk","user", "contact1", "adresse")
 	list_display_links = ["pk","user"]
 
 @admin.register(models.Avis)

@@ -57,10 +57,11 @@
                     <div class="form-group">
                        <label for="user">Nom d'utilisateur</label>
                        <input id="user"  name="username" class="form-control form-control-lg" type="text" required>
+                       <small class="form-text text-muted"><center style="color: orange;">Assurer vous qu'il n'y ait pas d'espace à la fin de votre nom d'utilisateur</center></small>
                     </div> <!-- form-group// -->
                     <div class="form-group">
                       <label for="mdp">Mot de passe</label>
-                      <input id="mdp" name="mdp" class="form-control form-control-lg" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required><input type="checkbox" onclick="Afficher()"> Afficher le mot de passe
+                      <input id="mdp" name="mdp" class="form-control form-control-lg" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;" type="password" required><input type="checkbox" onclick="Afficher()"> Afficher
                       <a class="float-right" href="{% url 'mot_de_passe_oublie' %}">Mot de passe oublié?</a>
                     </div> <!-- form-group// --> 
                     

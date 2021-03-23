@@ -18,7 +18,7 @@
 				<p>
 					<i class="fa fa-map-marker text-muted"></i> &nbsp; Mon adresse
 					 <br>
-					{{ client.ville }}, {% if client.commune %}{{ client.commune }},{% endif %}{{ client.quartier }}
+					{{client.adresse }}
 					<a href="{% url 'changer_infos_user' %}" class="btn-link"> Modifier</a>
 				</p>
 
