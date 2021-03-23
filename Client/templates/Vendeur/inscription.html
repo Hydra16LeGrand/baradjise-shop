@@ -1,6 +1,4 @@
-
 {% load static %}
-
 {% if message %}
   <div class="alert alert-danger  alert-dismissible fade show" role="alert">
       <center>{{ message }}</center>
@@ -56,12 +54,8 @@
 							<center style="color:green;">Remarque: Le symbole * devant un champ signifie qu'il est obligatoire.</center>
 						</small><br>
 						<div class="form-row">
-							<div class="col-12 col-md-6 form-group">
-								<label>Prénom *</label>
-							  	<input value="{{ form.prenom }}" name="prenom" type="text" class="form-control" required>
-							</div> <!-- form-group end.// -->
-							<div class="col-12 col-md-6 form-group">
-								<label>Nom *</label>
+							<div class="col-md-12 col-12 col-sm-12 col-lg-12 col-xl-12 form-group">
+								<label>Nom Complet *</label>
 							  	<input value="{{ form.nom }}" name="nom" type="text" class="form-control" placeholder="" required>
 							</div> <!-- form-group end.// -->
 						</div> <!-- form-row end.// -->
