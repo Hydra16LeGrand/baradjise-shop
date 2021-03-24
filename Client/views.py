@@ -132,7 +132,7 @@ class Acces:
 
 		redirect_to = request.GET.get('suivant')
 		logout(request)
-		# print("red :",redirect_to)
+		
 		if redirect_to:
 			return HttpResponseRedirect(redirect_to)
 		else:
@@ -420,8 +420,7 @@ class Recherche:
 		
 		# On teste si la requete viens de tous_les_produits
 		if requete == 'None':
-			print("Prix MMin : ", request.POST.get('prix_min'))
-			print("Prix Max : ", request.POST.get('prix_max'))
+			
 			produits = models.Produit.objects.filter(status=1).exclude(quantite=0)
 			# On verifie si un formulaire de prix est transmis
 			if request.method == 'POST':
@@ -521,8 +520,7 @@ class Recherche:
 							Q(status=1))
 
 					elif not form.get('prix_min') and form.get('prix_max'):
-						print("Prix min : ", form.get('prix_min'))
-						print("Prix Max : ", form.get('prix_max'))
+						
 						produits = models.Produit.objects.filter(
 
 							(Q(libelle__icontains=requete)|
@@ -530,7 +528,7 @@ class Recherche:
 							Q(description__icontains=requete))|
 							Q(prix__gte=form.get('prix_min'))&
 							Q(status=1))
-						print("Produits :",produits)
+						
 					else:
 						produits = models.Produit.objects.filter(
 							(Q(libelle__icontains=requete)|
@@ -1069,8 +1067,6 @@ class Vendeur:
 
 				form = request.POST
 				form_images = request.FILES.getlist('images')
-				# print("Liste des images :", form_image)
-				# print("Premiere Image :", form_image[0])
 				try:
 					vendeur = models.Vendeur.objects.get(user=request.user)
 				except Exception as e:
@@ -1108,7 +1104,7 @@ class Vendeur:
 							produit.image = image
 							produit.save()
 							del form_images[0]
-							print("Les autres images: ", form_images)
+							
 
 							# Enregistrement des autres images
 							if len(form_images) > 0:
@@ -1177,10 +1173,8 @@ class Vendeur:
 						raise Http404()
 					else:
 						try:
-							print(form.get('categorie'))
 							categorie = models.Categorie.objects.get(cle=form.get('categorie'))
 						except Exception as e:
-							print("Ici")
 							return render(request, "Vendeur/modifier_produit.html",{
 								'produit': produit_a_modifier,
 								'categories': categories,

@@ -108,7 +108,7 @@
 				{% empty %}
 					<article class="card card-body mb-3 text-center">
 						<p><h1>Le panier est vide</h1></p>
-						<a class="btn btn-outline-success" href="{% url 'rechercher_produit' 'grid' %}"> Faites vos achats ici </a>
+						<a class="btn btn-outline-success" href="{% url 'rechercher_produit' 'grid' 'None' %}"> Faites vos achats ici </a>
 					</article>				
 				{% endfor %}
 		</div>

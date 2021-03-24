@@ -67,9 +67,9 @@
 									<a href="{% url 'rechercher_produit' 'grid' requete %}" class="btn  btn-outline-secondary" data-toggle="tooltip" title="Grid view"> 
 										<i class="fa fa-th"></i></a>
 									{% else %}
-									<a href="{% url 'rechercher_produit' 'list' %}" class="btn btn-outline-secondary active" data-toggle="tooltip" title="List view"> 
+									<a href="{% url 'rechercher_produit' 'list' 'None' %}" class="btn btn-outline-secondary active" data-toggle="tooltip" title="List view"> 
 										<i class="fa fa-bars"></i></a>
-									<a href="{% url 'rechercher_produit' 'grid' %}" class="btn  btn-outline-secondary" data-toggle="tooltip" title="Grid view"> 
+									<a href="{% url 'rechercher_produit' 'grid' 'None' %}" class="btn  btn-outline-secondary" data-toggle="tooltip" title="Grid view"> 
 										<i class="fa fa-th"></i></a>
 									{% endif %}
 								</div>
