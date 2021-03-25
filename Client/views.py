@@ -544,6 +544,7 @@ class Recherche:
 						Q(categorie=categorie)|
 						Q(description__icontains=requete)).exclude(quantite=0)
 		# Preparation du rendu de la vue
+		produits = produits.exclude(status=0)
 		produits = list(produits)
 		produits = random.sample(produits, len(produits))
 
