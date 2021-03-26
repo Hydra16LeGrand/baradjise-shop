@@ -551,8 +551,11 @@ class Recherche:
 		paginator = Paginator(produits, 12)
 		nombre_page = request.GET.get('page')
 		page_obj = paginator.get_page(nombre_page)
-		
-		return render(request, "resultat_recherche.html", {'produits':page_obj,'vue':vue,'requete':requete, 'nbre_produits':len(produits)})
+		# print("Vue :",vue)
+		if vue == 'list':
+			return render(request, "resultat_recherche.html", {'produits':page_obj,'vue':vue,'requete':requete, 'nbre_produits':len(produits)})
+		else:
+			return render(request, "resultat_recherche_grid.html", {'produits':page_obj,'vue':vue,'requete':requete, 'nbre_produits':len(produits)})
 
 	# Methode a utilise pour la barre de recherche
 	def barre_recherche(request):
