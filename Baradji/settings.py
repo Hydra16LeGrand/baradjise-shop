@@ -25,6 +25,8 @@ SECRET_KEY = '9hdg(=cnla^6sgfzu=tg0y3$@imae$3*l-^#izkovehc%7t859'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.environ.get('ENV') == 'PRODUCTION':
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
     DEBUG = False
 else:
     DEBUG = True
