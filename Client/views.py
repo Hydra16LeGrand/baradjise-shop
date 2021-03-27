@@ -452,7 +452,9 @@ class Recherche:
 						# On fais des verifications sur les prix egalement
 						
 						if not form.get('prix_min') and not form.get('prix_max'):
-							produits = models.Produit.objects.filter((Q(libelle__icontains=requete)|Q(description__icontains=requete))&Q(prix__range=(form.get('prix_min'))), form.get('prix_max')).exclude(quantite=0)
+							produits = models.Produit.objects.filter(
+								(Q(libelle__icontains=requete)|Q(description__icontains=requete))&Q(prix__range=(form.get('prix_min'))), 
+								form.get('prix_max')).exclude(quantite=0)
 						elif not form.get('prix_max') and form.get('prix_min'):
 							produits = models.Produit.objects.filter(
 								(Q(libelle__icontains=requete)|
@@ -1088,7 +1090,7 @@ class Vendeur:
 					else:
 						try:
 
-							prix = int(form.get('prix_vendeur')*(1+ categorie.commission/100.0))
+							prix = int(form.get('prix_vendeur'))*int((1+ categorie.commission/100.0))
 							produit = models.Produit.objects.create(
 								libelle = form.get('libelle'),
 								categorie = categorie,
@@ -1127,6 +1129,7 @@ class Vendeur:
 								'categories': models.Categorie.objects.all(),
 
 								})
+							# raise e
 						else:
 							return redirect('liste_produits_vendeur', message_success="Ajout éffectué avec succès")
 
