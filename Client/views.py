@@ -1089,8 +1089,9 @@ class Vendeur:
 							})
 					else:
 						try:
-
-							prix = int(form.get('prix_vendeur'))*int((1+ categorie.commission/100.0))
+							print(form.get('prix_vendeur'))
+							prix = int(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
+							prix = int(prix)
 							produit = models.Produit.objects.create(
 								libelle = form.get('libelle'),
 								categorie = categorie,
