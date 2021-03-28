@@ -420,14 +420,14 @@ class Recherche:
 
 	def trier_produits(request, vue=None, requete=None):
 
-		def pagination(produits, taille):
+		def pagination(produits, taille=20):
 
 			paginator = Paginator(produits, taille)
 			nombre_page = request.GET.get('page')
 			page_obj = paginator.get_page(nombre_page)
 
 			return page_obj
-			
+
 		render_template = "resultat_recherche_grid.html"
 
 		if vue is not None:
@@ -464,7 +464,7 @@ class Recherche:
 					produits = list(produits)
 					random.shuffle(produits)
 
-					produits = pagination(produits, 20)
+					produits = pagination(produits, 2)
 					return render(request, render_template,{
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -477,7 +477,7 @@ class Recherche:
 					produits = list(produits)
 					random.shuffle(produits)
 
-					produits = pagination(produits, 20)
+					produits = pagination(produits, 2)
 					return render(request, render_template,{
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -489,7 +489,7 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
-			produits = pagination(produits, 20)
+			produits = pagination(produits, 2)
 			return render(request, render_template,{
 				'produits': produits,
 				'nbre_produits': len(produits),
@@ -508,14 +508,14 @@ class Recherche:
 					produits = list(produits.filter(Q(libelle__icontains=requete)))
 					random.shuffle(produits)
 
-					produits = pagination(produits, 20)
+					produits = pagination(produits, 2)
 					return render(request, render_template, {
 						'produits':produits,
 						'nbre_produits': len(produits),
 						'requete': requete
 						})
 				else:
-					produits = pagination(produits, 20)
+					produits = pagination(produits, 2)
 					return render(request, render_template, {
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -525,7 +525,7 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
-			produits = pagination(produits, 20)
+			produits = pagination(produits, 2)
 			return render(request, render_template,{
 				'produits': produits,
 				'nbre_produits': len(produits),
