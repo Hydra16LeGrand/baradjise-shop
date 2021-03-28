@@ -91,7 +91,7 @@
 						{% if requete %}
 					    <input type="text" class="form-control" style="width:55%;"  value="{{ requete }}" name="requete" required>
 						{% else %}
-						<input type="text" class="form-control" style="width:55%;" placeholder="Chercher un produit ou une categorie" name="requete" required>
+						<input type="text" class="form-control" style="width:55%;" placeholder="Chercher un produit ici" name="requete" required>
 						{% endif %}
 					    <div class="input-group-append">
 					      <button class="btn btn-primary" type="submit">
@@ -183,7 +183,7 @@
 				{% if requete %}
 			    <input type="text" class="form-control"  value="{{ requete }}" name="requete" required>
 				{% else %}
-				<input type="text" class="form-control" placeholder="Chercher un produit ou une categorie" name="requete" required>
+				<input type="text" class="form-control" placeholder="Chercher un produit ici" name="requete" required>
 				{% endif %}
 			    <div class="input-group-append">
 			      <button class="btn btn-primary" type="submit">
@@ -214,8 +214,8 @@
 		          </div>
 		        </li>
 		        <li class="nav-item"> <a class="nav-link" href="{% url 'accueil' %}">Accueil</a>  </li>
-		        <li class="nav-item"> <a class="nav-link" href="{% url 'rechercher_produit' 'list' 'None' %}">Liste</a>  </li>
-		        <li class="nav-item"> <a class="nav-link" href="{% url 'rechercher_produit' 'grid' 'None' %}">Grille</a>  </li>
+		        <li class="nav-item"> <a class="nav-link" href="{% url 'trier_produits' 'list' %}">Liste</a>  </li>
+		        <li class="nav-item"> <a class="nav-link" href="{% url 'trier_produits' 'grid' %}">Grille</a>  </li>
 		      </ul>
 
 		      <ul class="navbar-nav">

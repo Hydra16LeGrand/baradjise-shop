@@ -32,17 +32,21 @@
 							<div class="filter-content collapse show" id="collapse_3" style="">
 								<div class="card-body">
 									<!-- <input type="range" class="custom-range" min="0" max="100" name=""> -->
-									<form method="post" action="{% url 'rechercher_produit' vue requete %}">
+									{% if requete %}
+									<form method="post" action="{% url 'trier_produits' 'grid' requete %}">
+									{% else %}
+									<form method="post" action="{% url 'trier_produits' %}">
+									{% endif %}
 										{% csrf_token %}
 										<div class="form-row">
 												
 												<div class="form-group col-md-6">
 												  <label>Min</label>
-												  <input class="form-control" placeholder="0" min="0" type="number" name="prix_min">
+												  <input class="form-control" placeholder="0" min="0" type="number" name="prix_min" value="{{prix_min}}">
 												</div>
 												<div class="form-group text-right col-md-6">
 												  <label>Max</label>
-												  <input class="form-control" placeholder="100000" min="0" type="number" name="prix_max">
+												  <input class="form-control" placeholder="100000" min="0" type="number" name="prix_max" value="{{prix_max}}">
 												</div>
 										</div> <!-- form-row.// -->
 										<button type="submit" class="btn btn-block btn-primary">Filtrer</button>
@@ -56,22 +60,28 @@
 				<main class="col-md-9 col-xl-9 col-12 col-sm-12">
 					<br>
 					<header class="border-bottom mb-4 pb-3">
-							<div class="form-inline">
-								<span class="mr-md-auto b">{{ nbre_produits }} article(s) trouvé(s) </span>
-								<div class="btn-group"  style="padding-left: 40%;">
-									{% if requete %}
-									<a href="{% url 'rechercher_produit' 'list' requete %}" class="btn btn-outline-secondary" data-toggle="tooltip" title="List view"> 
-										<i class="fa fa-bars"></i></a>
-									<a href="{% url 'rechercher_produit' 'grid' requete %}" class="btn  btn-outline-secondary active" data-toggle="tooltip" title="Grid view"> 
-										<i class="fa fa-th"></i></a>
-									{% else %}
-									<a href="{% url 'rechercher_produit' 'list' 'None' %}" class="btn btn-outline-secondary" data-toggle="tooltip" title="List view"> 
-										<i class="fa fa-bars"></i></a>
-									<a href="{% url 'rechercher_produit' 'grid' 'None' %}" class="btn  btn-outline-secondary active" data-toggle="tooltip" title="Grid view"> 
-										<i class="fa fa-th"></i></a>
-									{% endif %}
+							
+								<div class="row">
+									<div class="col-md-11 col-11 col-sm-11 col-lg-11, col-xl-11">
+										<span class="mr-md-auto b">{{ nbre_produits }} article(s) trouvé(s) </span>
+									</div>
+									<div class="col-md col col-sm col-xl col-lg text-right">
+										<div class="btn-group" >
+											{% if requete %}
+											<a href="{% url 'trier_produits' 'list' requete %}" class="btn btn-outline-secondary" data-toggle="tooltip" title="List view"> 
+												<i class="fa fa-bars"></i></a>
+											<a href="{% url 'trier_produits' 'grid' requete %}" class="btn  btn-outline-secondary active" data-toggle="tooltip" title="Grid view"> 
+												<i class="fa fa-th"></i></a>
+											{% else %}
+											<a href="{% url 'trier_produits' 'list' %}" class="btn btn-outline-secondary" data-toggle="tooltip" title="List view"> 
+												<i class="fa fa-bars"></i></a>
+											<a href="{% url 'trier_produits' 'grid' %}" class="btn  btn-outline-secondary active" data-toggle="tooltip" title="Grid view"> 
+												<i class="fa fa-th"></i></a>
+											{% endif %}
+										</div>
+									</div>
 								</div>
-							</div>
+							
 					</header><!-- sect-heading -->
 
 					
@@ -125,7 +135,7 @@
 					{% endfor %}
 					</div>
 
-					<div class="row">
+					<div class="row text-center">
 						<nav aria-label="Page de navigation">
 						  <ul class="pagination">
 						  	{% if produits.has_previous %}

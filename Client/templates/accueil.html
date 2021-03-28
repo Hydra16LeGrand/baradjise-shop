@@ -105,7 +105,7 @@
 <div class="container">
 
 	<header class="section-heading">
-		<a href="{% url 'rechercher_produit' 'list' 'None' %}" class="btn btn-outline-primary float-right">Tout voir</a>
+		<a href="{% url 'tous_les_produits' %}" class="btn btn-outline-primary float-right">Tout voir</a>
 		<h3 class="section-title">Produits populaires</h3>
 	</header><!-- sect-heading -->
 
@@ -146,7 +146,7 @@
 		{% endfor %}
 	</div> <!-- row.// --><br>
 		<div class="text-center">
-			<a class="btn btn-outline-secondary " href="{% url 'rechercher_produit' 'grid' 'None' %}">Voir d'autres produits</a>
+			<a class="btn btn-outline-secondary " href="{% url 'tous_les_produits' %}">Voir d'autres produits</a>
 		</div>
 
 	</div> <!-- col.// -->

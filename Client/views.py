@@ -9,6 +9,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 import random
 import pyrebase
 from django.core.mail import send_mail
+from django.core.cache import cache
 
 # import firebase_admin
 
@@ -415,164 +416,139 @@ class Panier:
 
 class Recherche:
 
-	# Les autres methodes de recherches seront redirigees ici
-	def recherche(request, vue, requete=None):
-		
-		# On teste si la requete viens de tous_les_produits
-		if requete == 'None':
+	
+
+	def trier_produits(request, vue=None, requete=None):
+
+		def pagination(produits, taille):
+
+			paginator = Paginator(produits, taille)
+			nombre_page = request.GET.get('page')
+			page_obj = paginator.get_page(nombre_page)
+
+			return page_obj
 			
-			produits = models.Produit.objects.filter(status=1).exclude(quantite=0)
-			# On verifie si un formulaire de prix est transmis
-			if request.method == 'POST':
-				form = request.POST
-				# Si un prix minimum et maximum sont saisis:
-				if not form.get('prix_min') == '' and not form.get('prix_max') =='':
-					produits = produits.filter(Q(prix__range(form.get('prix_min'), form.get('prix_max'))))
-				elif not form.get('prix_max')=='' and form.get('prix_min')=='':
-					produits = produits.filter(prix__lte=form.get('prix_max'))
-				elif not form.get('prix_min')=='' and form.get('prix_max')=='':
-					produits = produits.filter(prix__gte=form.get('prix_min'))
+		render_template = "resultat_recherche_grid.html"
 
+		if vue is not None:
+			if vue == 'list':
+				cache.set('vue', 'list')
+				render_template = "resultat_recherche.html"
 		else:
-
-			# On teste si la requete viens de la methode rechercher_categorie
-			try:
-				categorie = models.Categorie.objects.get(nom=requete)
-			except Exception as e:
-				# On cherche a savoir si le formulaire de prix a ete transmis
-				if request.method == 'POST':
-					
-					form = request.POST
-					# Si ce n'est pas le cas, on teste si la requete viens de la methode rechercher_boutique
-					try:
-						user = User.objects.get(username=requete)
-						vendeur = models.Vendeur.objects.get(user=user)
-					except Exception as e:
-						# Sinon la recherche viens de barre_recherche
-						# On fais des verifications sur les prix egalement
-						
-						if not form.get('prix_min') and not form.get('prix_max'):
-							produits = models.Produit.objects.filter(
-								(Q(libelle__icontains=requete)|Q(description__icontains=requete))&Q(prix__range=(form.get('prix_min'))), 
-								form.get('prix_max')).exclude(quantite=0)
-						elif not form.get('prix_max') and form.get('prix_min'):
-							produits = models.Produit.objects.filter(
-								(Q(libelle__icontains=requete)|
-								Q(description__icontains=requete))&
-								Q(prix__lte=form.get('prix_max'))&
-								Q(status=1))
-						elif not form.get('prix_min') and form.get('prix_max'):
-							
-							produits = models.Produit.objects.filter(
-								(Q(libelle__icontains=requete)|
-								Q(description__icontains=requete))&
-								Q(prix__gte=form.get('prix_min'))&
-								Q(status=1))
-						else:
-							
-							produits = models.Produit.objects.filter(
-								(Q(libelle__icontains=requete)|
-								Q(description__icontains=requete))&
-								Q(status=1))
-					else:
-						produits = models.Produit.objects.filter(vendeur=vendeur).exclude(quantite=0)
-						if not form.get('prix_min') == '' and not form.get('prix_max') =='':
-							produits = produits.filter(Q(prix__range(form.get('prix_min'), form.get('prix_max'))))
-						elif not form.get('prix_max')=='' and form.get('prix_min')=='':
-							produits = produits.filter(prix__lte=form.get('prix_max'))
-						elif not form.get('prix_min')=='' and form.get('prix_max')=='':
-							produits = produits.filter(prix__gte=form.get('prix_min'))
-				# Si le formulaire na pas ete transmis, on ne fais pas de verifications sur les prix
-				else:
-					try:
-						user = User.objects.get(username=requete)
-						vendeur = models.Vendeur.objects.get(user=user)
-					except Exception as e:
-						produits = models.Produit.objects.filter(
-							Q(libelle__icontains=requete)|
-							Q(description__icontains=requete)
-							).exclude(quantite=0)
-					else:
-						produits = models.Produit.objects.filter(vendeur=vendeur).exclude(quantite=0)
-
-			# Si la requete viens belle et bien de rechercher_categorie
+			if cache.get('vue'):
+				vue = cache.get('vue')
 			else:
-				# On verifie si un formulaire de prix est transmis
-				if request.method == 'POST':
-					form = request.POST
-					
-					# Si un prix minimum et maximum sont saisis:
-					if not form.get('prix_min') and not form.get('prix_max'):
-						# On reccupere les produits avec les conditions ci dessous
-						produits = models.Produit.objects.filter(
+				cache.set('vue', 'grid')
+				vue = cache.get('vue')
 
-							(Q(libelle__icontains=requete)|
-							Q(categorie=categorie)|
-							Q(description__icontains=requete))&
-							Q(prix__range=(form.get('prix_min'), form.get('prix_max')))&
-							Q(status=1))
+			if vue == 'list':
+				render_template = "resultat_recherche.html"
 
-					elif not form.get('prix_max') and form.get('prix_min'):
-						produits = models.Produit.objects.filter(
+		produits = models.Produit.objects.all().exclude(status=0, quantite=0)
+		if request.method == 'POST':
 
-							(Q(libelle__icontains=requete)|
-							Q(categorie=categorie)|
-							Q(description__icontains=requete))&
-							Q(prix__lte=form.get('prix_max'))&
-							Q(status=1))
+			if request.POST.get('prix_min'):
+				produits = produits.filter(Q(prix__gte=int(request.POST.get('prix_min'))))
 
-					elif not form.get('prix_min') and form.get('prix_max'):
-						
-						produits = models.Produit.objects.filter(
+			if request.POST.get('prix_max'):
+				produits = produits.filter(Q(prix__lte=int(request.POST.get('prix_max'))))
 
-							(Q(libelle__icontains=requete)|
-							Q(categorie=categorie)|
-							Q(description__icontains=requete))|
-							Q(prix__gte=form.get('prix_min'))&
-							Q(status=1))
-						
-					else:
-						produits = models.Produit.objects.filter(
-							(Q(libelle__icontains=requete)|
-								Q(categorie=categorie)|
-								Q(description__icontains=requete))&
-							Q(status=1))
-					produits = produits.exclude(quantite=0)
-				# Sinon on ne fais pas de verifications sur les prix
+			produits = produits.exclude(quantite=0, status=0)
+			
+			if requete is not None:
+
+				try:
+					categorie = models.Categorie.objects.get(cle=requete)
+				except Exception as e:
+					produits = produits.filter(Q(libelle__icontains=requete))
+					produits = list(produits)
+					random.shuffle(produits)
+
+					produits = pagination(produits, 20)
+					return render(request, render_template,{
+						'produits': produits,
+						'nbre_produits': len(produits),
+						'prix_min': request.POST.get('prix_min'),
+						'prix_max': request.POST.get('prix_max'),
+						'requete': requete
+						})
 				else:
-					produits = models.Produit.objects.filter(
-						Q(libelle__icontains=requete)|
-						Q(libelle__icontains=categorie.nom)|
-						Q(categorie=categorie)|
-						Q(description__icontains=requete)).exclude(quantite=0)
-		# Preparation du rendu de la vue
-		produits = produits.exclude(status=0)
-		produits = list(produits)
-		produits = random.sample(produits, len(produits))
+					produits = produits.filter(categorie=categorie)
+					produits = list(produits)
+					random.shuffle(produits)
 
-		paginator = Paginator(produits, 12)
-		nombre_page = request.GET.get('page')
-		page_obj = paginator.get_page(nombre_page)
-		# print("Vue :",vue)
-		if vue == 'list':
-			return render(request, "resultat_recherche.html", {'produits':page_obj,'vue':vue,'requete':requete, 'nbre_produits':len(produits)})
+					produits = pagination(produits, 20)
+					return render(request, render_template,{
+						'produits': produits,
+						'nbre_produits': len(produits),
+						'prix_min': request.POST.get('prix_min'),
+						'prix_max': request.POST.get('prix_max'),
+						'requete': categorie.cle
+						})
+			print("requete3 :", requete)
+			produits = list(produits)
+			random.shuffle(produits)
+
+			produits = pagination(produits, 20)
+			return render(request, render_template,{
+				'produits': produits,
+				'nbre_produits': len(produits),
+				'prix_min': request.POST.get('prix_min'),
+				'prix_max': request.POST.get('prix_max'),
+				})
+
 		else:
-			return render(request, "resultat_recherche_grid.html", {'produits':page_obj,'vue':vue,'requete':requete, 'nbre_produits':len(produits)})
+			if requete is not None:
+				try:
+					categorie = models.Categorie.objects.get(cle=requete)
+					produits = produits.filter(categorie=categorie).exclude(status=0, quantite=0)
+					produits = list(produits)
+					random.shuffle(produits)
+				except:
+					produits = list(produits.filter(Q(libelle__icontains=requete)))
+					random.shuffle(produits)
+
+					produits = pagination(produits, 20)
+					return render(request, render_template, {
+						'produits':produits,
+						'nbre_produits': len(produits),
+						'requete': requete
+						})
+				else:
+					produits = pagination(produits, 20)
+					return render(request, render_template, {
+						'produits': produits,
+						'nbre_produits': len(produits),
+						'requete': requete
+						})
+
+			produits = list(produits)
+			random.shuffle(produits)
+
+			produits = pagination(produits, 20)
+			return render(request, render_template,{
+				'produits': produits,
+				'nbre_produits': len(produits),
+				})
 
 	# Methode a utilise pour la barre de recherche
 	def barre_recherche(request):
 
 		if request.method == 'POST':
 			form = request.POST
-			produits = models.Produit.objects.filter(
-				Q(libelle__icontains=form.get('requete'))|
-				Q(description__icontains=form.get('requete'))&
-				Q(status=1)
-				).exclude(quantite=0)
+			produits = models.Produit.objects.filter(Q(libelle__icontains=form.get('requete'))).exclude(quantite=0, status=0)
+			produits = list(produits)
+			random.shuffle(produits)
 
-			return redirect('rechercher_produit', 'list', form.get('requete'))
+			return render(request, "resultat_recherche_grid.html", {
+				'produits': produits,
+				'nbre_produits': len(produits),
+				'requete': form.get('requete')
+				})
+
+
 		else:
-			return redirect('accueil')
+			return redirect('trier_produits')
 
 	# methode de recherche de categorie
 	def rechercher_categorie(request, categorie):
@@ -580,9 +556,9 @@ class Recherche:
 		try:
 			categorie = models.Categorie.objects.get(cle=categorie)
 		except Exception as e:
-			return redirect('rechercher_produit', 'grid', categorie)
+			return redirect('trier_produits')
 		else:
-			return redirect('rechercher_produit', 'grid', categorie.nom)
+			return redirect('trier_produits', None, categorie.cle)
 
 	# Methode permettant de rendre la boutique du vendeur
 	def rechercher_boutique(request, vendeur):
@@ -600,7 +576,8 @@ class Recherche:
 			else:
 				try:
 					produits = list(produits)
-					produits = random.sample(produits, len(produits))
+					# produits = random.sample(produits, len(produits))
+					random.shuffle(produits)
 
 					paginator = Paginator(produits, 20)
 					nombre_page = request.GET.get('page')
@@ -613,12 +590,20 @@ class Recherche:
 						'vendeur': vendeur,
 						'nbre_produits':len(produits)
 						})
-			# return redirect('rechercher_produit', 'list', user.username)
 
 	# methode de renvois de tous les produits
 	def tous_les_produits(request):
 
-		return redirect('rechercher_produit', 'list')
+		produits = models.Produit.objects.all().exclude(status=0, quantite=0)
+
+		produits = list(produits)
+		random.shuffle(produits)
+
+		return render(request, "resultat_recherche_grid.html",{
+			'produits': produits,
+			'nbre_produits': len(produits)
+			})
+
 
 def dashboard_client(request):
 
@@ -1191,7 +1176,7 @@ class Vendeur:
 						else:
 							try:
 								prix = int(form.get('prix_vendeur'))*(1+ categorie.commission/100.0)
-
+								# prix = int(prix)
 								produit_a_modifier.libelle = form.get('libelle')
 								produit_a_modifier.categorie = categorie
 								produit_a_modifier.prix_vendeur = form.get('prix_vendeur')

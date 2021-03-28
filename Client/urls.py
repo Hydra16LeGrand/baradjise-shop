@@ -31,12 +31,13 @@ urlpatterns = [
 	path('mon_compte/mes_commandes/', views.mes_commandes, name='mes_commandes'),
 	path('mon_compte/mes_commandes/?<str:message_success>?/', views.mes_commandes, name='mes_commandes'),
 
-	path('rechercher-produit/<str:vue>/', views.Recherche.recherche, name='rechercher_produit'),
-	path('rechercher-produit/<str:vue>/<str:requete>', views.Recherche.recherche, name='rechercher_produit'),
 	path('rechercher-categorie/<str:categorie>/', views.Recherche.rechercher_categorie, name='rechercher_categorie'),
 	path('rechercher-boutique/<str:vendeur>/', views.Recherche.rechercher_boutique, name='rechercher_boutique'),
 	path('barre-recherche/', views.Recherche.barre_recherche, name='barre_recherche'),
-	path('autre-produit', views.Recherche.tous_les_produits, name='tous_les_produits'),
+	path('tri-articles/', views.Recherche.trier_produits, name='trier_produits'),
+	path('tri-articles/<str:vue>/', views.Recherche.trier_produits, name='trier_produits'),
+	path('tri-articles/<str:vue>/<str:requete>/', views.Recherche.trier_produits, name='trier_produits'),
+	path('articles/', views.Recherche.tous_les_produits, name='tous_les_produits'),
 
 	path('mon_compte/changer-infos-user/', views.Compte.changer_infos_user, name='changer_infos_user'),
 	path('mon_compte/changer-profil-client/', views.Compte.changer_profil_user, name='changer_profil_user'),
