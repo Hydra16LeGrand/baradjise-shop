@@ -464,7 +464,7 @@ class Recherche:
 					produits = list(produits)
 					random.shuffle(produits)
 
-					produits = pagination(produits, 2)
+					produits = pagination(produits, 20)
 					return render(request, render_template,{
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -477,7 +477,7 @@ class Recherche:
 					produits = list(produits)
 					random.shuffle(produits)
 
-					produits = pagination(produits, 2)
+					produits = pagination(produits, 20)
 					return render(request, render_template,{
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -489,7 +489,7 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
-			produits = pagination(produits, 2)
+			produits = pagination(produits, 20)
 			return render(request, render_template,{
 				'produits': produits,
 				'nbre_produits': len(produits),
@@ -508,14 +508,14 @@ class Recherche:
 					produits = list(produits.filter(Q(libelle__icontains=requete)))
 					random.shuffle(produits)
 
-					produits = pagination(produits, 2)
+					produits = pagination(produits, 20)
 					return render(request, render_template, {
 						'produits':produits,
 						'nbre_produits': len(produits),
 						'requete': requete
 						})
 				else:
-					produits = pagination(produits, 2)
+					produits = pagination(produits, 20)
 					return render(request, render_template, {
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -525,7 +525,7 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
-			produits = pagination(produits, 2)
+			produits = pagination(produits, 20)
 			return render(request, render_template,{
 				'produits': produits,
 				'nbre_produits': len(produits),
