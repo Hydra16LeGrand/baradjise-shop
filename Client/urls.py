@@ -37,6 +37,7 @@ urlpatterns = [
 	path('tri-articles/', views.Recherche.trier_produits, name='trier_produits'),
 	path('tri-articles/<str:vue>/', views.Recherche.trier_produits, name='trier_produits'),
 	path('tri-articles/<str:vue>/<str:requete>/', views.Recherche.trier_produits, name='trier_produits'),
+	path('fonction-budget/<str:boutique>/', views.Recherche.fonc_budget, name='fonc_budget'),
 	path('articles/', views.Recherche.tous_les_produits, name='tous_les_produits'),
 
 	path('mon_compte/changer-infos-user/', views.Compte.changer_infos_user, name='changer_infos_user'),

@@ -416,8 +416,6 @@ class Panier:
 
 class Recherche:
 
-	
-
 	def trier_produits(request, vue=None, requete=None):
 
 		def pagination(produits, taille=20):
@@ -590,6 +588,40 @@ class Recherche:
 						'vendeur': vendeur,
 						'nbre_produits':len(produits)
 						})
+
+	#methode pour les onglets supplementaires
+	def fonc_budget(request, boutique):
+
+		liste = ['Sidiberashop', 'Driptown', 'RO-BOUTIQUE']
+		produits = models.Produit.objects.all().exclude(status=0, quantite=0)
+		if boutique == 'luxe':
+			try:
+				
+				for l in liste:
+					vendeur = models.Vendeur.objects.get(user=User.objects.get(username=l))
+					produits = produits.filter(vendeur=vendeur)
+			except Exception as e:
+				raise e
+			else:
+				return render(request, "resultat_recherche_grid.html", {
+					'produits': produits,
+					'nbre_produits': len(produits)
+					})
+		elif boutique == 'cheap':
+			try:
+				for l in liste:
+					vendeur = models.Vendeur.objects.get(user=User.objects.get(username=l))
+					produits = produits.exclude(vendeur=vendeur)
+			except Exception as e:
+				raise e
+			else:
+				return render(request, "resultat_recherche_grid.html", {
+					'produits': produits,
+					'nbre_produits': len(produits)
+					})
+		else:
+			return redirect('trier_produits')
+			
 
 	# methode de renvois de tous les produits
 	def tous_les_produits(request):
