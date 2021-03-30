@@ -545,7 +545,7 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
-			paginator = Paginator(produits)
+			paginator = Paginator(produits, 60)
 			nombre_page = request.GET.get('page')
 			produits = paginator.get_page(nombre_page)
 			return render(request, "resultat_recherche_grid.html", {
@@ -588,7 +588,7 @@ class Recherche:
 					# produits = random.sample(produits, len(produits))
 					random.shuffle(produits)
 
-					paginator = Paginator(produits)
+					paginator = Paginator(produits, 60)
 					nombre_page = request.GET.get('page')
 					page_obj = paginator.get_page(nombre_page)
 				except Exception as e:
@@ -618,7 +618,7 @@ class Recherche:
 				# produits = random.sample(produits, len(produits))
 				random.shuffle(produits)
 
-				paginator = Paginator(produits)
+				paginator = Paginator(produits, 60)
 				nombre_page = request.GET.get('page')
 				produits = paginator.get_page(nombre_page)
 			except Exception as e:
@@ -639,7 +639,7 @@ class Recherche:
 				# produits = random.sample(produits, len(produits))
 				random.shuffle(produits)
 
-				paginator = Paginator(produits)
+				paginator = Paginator(produits, 60)
 				nombre_page = request.GET.get('page')
 				produits = paginator.get_page(nombre_page)
 			except Exception as e:
