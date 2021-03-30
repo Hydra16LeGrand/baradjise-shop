@@ -442,7 +442,7 @@ class Recherche:
 			if vue == 'list':
 				render_template = "resultat_recherche.html"
 
-		produits = models.Produit.objects.all().exclude(status=0, quantite=0)
+		produits = models.Produit.objects.all().exclude(Q(status=0) | Q(quantite=0))
 		if request.method == 'POST':
 
 			if request.POST.get('prix_min'):
@@ -451,7 +451,7 @@ class Recherche:
 			if request.POST.get('prix_max'):
 				produits = produits.filter(Q(prix__lte=int(request.POST.get('prix_max'))))
 
-			produits = produits.exclude(quantite=0, status=0)
+			produits = produits.exclude(Q(status=0) | Q(quantite=0))
 			
 			if requete is not None:
 
@@ -502,7 +502,7 @@ class Recherche:
 			if requete is not None:
 				try:
 					categorie = models.Categorie.objects.get(cle=requete)
-					produits = produits.filter(categorie=categorie).exclude(status=0, quantite=0)
+					produits = produits.filter(categorie=categorie).exclude(Q(status=0) | Q(quantite=0))
 					produits = list(produits)
 					random.shuffle(produits)
 				except:
@@ -540,7 +540,7 @@ class Recherche:
 
 		if request.method == 'POST':
 			form = request.POST
-			produits = models.Produit.objects.filter(Q(libelle__icontains=form.get('requete'))).exclude(quantite=0, status=0)
+			produits = models.Produit.objects.filter(Q(libelle__icontains=form.get('requete'))).exclude(Q(status=0) | Q(quantite=0))
 			produits = list(produits)
 			random.shuffle(produits)
 
@@ -604,7 +604,7 @@ class Recherche:
 	def fonc_budget(request, boutique):
 
 		liste = ['Sidiberashop', 'Driptown', 'RO-BOUTIQUE']
-		produits = models.Produit.objects.all().exclude(status=0, quantite=0)
+		produits = models.Produit.objects.all().exclude(Q(status=0) | Q(quantite=0))
 		if boutique == 'luxe':
 			try:
 
@@ -656,7 +656,7 @@ class Recherche:
 	# methode de renvois de tous les produits
 	def tous_les_produits(request):
 
-		produits = models.Produit.objects.all().exclude(status=0, quantite=0)
+		produits = models.Produit.objects.all().exclude(Q(status=0) | Q(quantite=0))
 
 		produits = list(produits)
 		random.shuffle(produits)
@@ -1283,7 +1283,8 @@ class Vendeur:
 			else:
 				# On aura besoin des categories dans le template pour le choix de la categorie
 				categories = models.Categorie.objects.all()
-				produit = models.Produit.objects.get(pk = id_produit, vendeur=models.Vendeur.objects.get(user=request.user))
+				user = User.objects.get(username=request.user)
+				produit = models.Produit.objects.get(pk = id_produit, vendeur=models.Vendeur.objects.get(user=user))
 				return render(request, "Vendeur/modifier_produit.html", {'produit': produit, 'categories':categories})
 		else:
 			return redirect('authentification_vendeur')
