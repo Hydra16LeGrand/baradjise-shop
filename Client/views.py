@@ -596,10 +596,11 @@ class Recherche:
 		produits = models.Produit.objects.all().exclude(status=0, quantite=0)
 		if boutique == 'luxe':
 			try:
-				
-				for l in liste:
-					vendeur = models.Vendeur.objects.get(user=User.objects.get(username=l))
-					produits = produits.filter(vendeur=vendeur)
+
+				v1 = models.Vendeur.objects.filter(user=User.objects.get(liste[0]))
+				v2 = models.Vendeur.objects.filter(user=User.objects.get(liste[1]))
+				v3 = models.Vendeur.objects.filter(user=User.objects.get(liste[2]))
+				produits = produits.filter(Q(vendeur=v1) | Q(vendeur=v2) | Q(vendeur=v3))
 			except Exception as e:
 				raise e
 			else:
@@ -621,7 +622,7 @@ class Recherche:
 					})
 		else:
 			return redirect('trier_produits')
-			
+
 
 	# methode de renvois de tous les produits
 	def tous_les_produits(request):
