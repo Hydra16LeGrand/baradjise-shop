@@ -424,7 +424,7 @@ class Recherche:
 			nombre_page = request.GET.get('page')
 			page_obj = paginator.get_page(nombre_page)
 
-			return page_obj
+			return paginator, page_obj
 
 		render_template = "resultat_recherche_grid.html"
 
@@ -462,37 +462,40 @@ class Recherche:
 					produits = list(produits)
 					random.shuffle(produits)
 
-					produits = pagination(produits, 20)
+					paginator, produits = pagination(produits, 20)
 					return render(request, render_template,{
 						'produits': produits,
 						'nbre_produits': len(produits),
 						'prix_min': request.POST.get('prix_min'),
 						'prix_max': request.POST.get('prix_max'),
-						'requete': requete
+						'requete': requete,
+						'paginator': paginator
 						})
 				else:
 					produits = produits.filter(categorie=categorie)
 					produits = list(produits)
 					random.shuffle(produits)
 
-					produits = pagination(produits, 20)
+					paginator, produits = pagination(produits, 20)
 					return render(request, render_template,{
 						'produits': produits,
 						'nbre_produits': len(produits),
 						'prix_min': request.POST.get('prix_min'),
 						'prix_max': request.POST.get('prix_max'),
-						'requete': categorie.cle
+						'requete': categorie.cle,
+						'paginator': paginator
 						})
 			print("requete3 :", requete)
 			produits = list(produits)
 			random.shuffle(produits)
 
-			produits = pagination(produits, 20)
+			paginator, produits = pagination(produits, 20)
 			return render(request, render_template,{
 				'produits': produits,
 				'nbre_produits': len(produits),
 				'prix_min': request.POST.get('prix_min'),
 				'prix_max': request.POST.get('prix_max'),
+				'paginator': paginator
 				})
 
 		else:
@@ -506,27 +509,30 @@ class Recherche:
 					produits = list(produits.filter(Q(libelle__icontains=requete)))
 					random.shuffle(produits)
 
-					produits = pagination(produits, 20)
+					paginator, produits = pagination(produits, 20)
 					return render(request, render_template, {
 						'produits':produits,
 						'nbre_produits': len(produits),
-						'requete': requete
+						'requete': requete,
+						'paginator': paginator
 						})
 				else:
-					produits = pagination(produits, 20)
+					paginator, produits = pagination(produits, 20)
 					return render(request, render_template, {
 						'produits': produits,
 						'nbre_produits': len(produits),
-						'requete': requete
+						'requete': requete,
+						'paginator': paginator
 						})
 
 			produits = list(produits)
 			random.shuffle(produits)
 
-			produits = pagination(produits, 20)
+			paginator, produits = pagination(produits, 20)
 			return render(request, render_template,{
 				'produits': produits,
 				'nbre_produits': len(produits),
+				'paginator': paginator
 				})
 
 	# Methode a utilise pour la barre de recherche
@@ -538,10 +544,14 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
+			paginator = Paginator(produits, 20)
+			nombre_page = request.GET.get('page')
+			produits = paginator.get_page(nombre_page)
 			return render(request, "resultat_recherche_grid.html", {
 				'produits': produits,
 				'nbre_produits': len(produits),
-				'requete': form.get('requete')
+				'requete': form.get('requete'),
+				'paginator': paginator
 				})
 
 
@@ -586,7 +596,8 @@ class Recherche:
 					return render(request, "boutique_vendeur.html", {
 						'produits': page_obj,
 						'vendeur': vendeur,
-						'nbre_produits':len(produits)
+						'nbre_produits':len(produits),
+						'paginator': paginator
 						})
 
 	#methode pour les onglets supplementaires
@@ -614,7 +625,8 @@ class Recherche:
 			else:
 				return render(request, "resultat_recherche_grid.html", {
 					'produits': produits,
-					'nbre_produits': len(produits)
+					'nbre_produits': len(produits),
+					'paginator': paginator
 					})
 		elif boutique == 'cheap':
 			try:
@@ -634,7 +646,8 @@ class Recherche:
 			else:
 				return render(request, "resultat_recherche_grid.html", {
 					'produits': produits,
-					'nbre_produits': len(produits)
+					'nbre_produits': len(produits),
+					'paginator': paginator
 					})
 		else:
 			return redirect('trier_produits')
@@ -648,9 +661,13 @@ class Recherche:
 		produits = list(produits)
 		random.shuffle(produits)
 
+		paginator = Paginator(produits, 20)
+		nombre_page = request.GET.get('page')
+		produits = paginator.get_page(nombre_page)
 		return render(request, "resultat_recherche_grid.html",{
 			'produits': produits,
-			'nbre_produits': len(produits)
+			'nbre_produits': len(produits),
+			'paginator': paginator
 			})
 
 
@@ -1094,6 +1111,7 @@ class Vendeur:
 					'active': "liste_produits_vendeur",
 					'nbre_produits': len(produits),
 					'message_success':message_success,
+					'paginator': paginator
 					})
 
 		else:

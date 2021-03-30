@@ -182,7 +182,7 @@
 								</p>
 							</div><hr>
 							<div class="form-inline">
-								<span class="mr-md-auto b">{{ nbre_produits }} article(s) trouvé(s) </span>
+								<span class="mr-md-auto b">{{ paginator.count }} article(s) trouvé(s) </span>
 								
 							</div>
 					</header><!-- sect-heading -->
@@ -266,7 +266,9 @@
 							    <li class="page-item "><a class="page-link" href="?page={{ produits.previous_page_number }}">Précédent</a></li>
 						    {% endif %}
 
-						    <li class="page-item disabled" style="padding: 8px;">Page {{ produits.number }} </li>
+						    {% if produits.has_other_pages %}
+						    	<li class="page-item disabled" style="padding: 8px;">Page {{ produits.number }}</li>
+						    {% endif %}
 						    {% if produits.has_next %}
 						    <li class="page-item"><a class="page-link" href="?page={{ produits.next_page_number }}">Suivant</a></li>
 						    <li class="page-item"><a class="page-link" href="?page={{ produits.paginator.num_pages }}">Fin</a></li>
