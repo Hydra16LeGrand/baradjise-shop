@@ -112,6 +112,7 @@ class Acces:
 				return render(request, "Client/authentification.html", {'message':"Compte inexistant"})
 			else:
 				user = authenticate(username=form.get('username'), password=form.get('mdp'))
+				print(user)
 				if user is not None:
 					login(request, user)
 					return HttpResponseRedirect(form.get('suivant'))
@@ -418,7 +419,7 @@ class Recherche:
 
 	def trier_produits(request, vue=None, requete=None):
 
-		def pagination(produits, taille=20):
+		def pagination(produits, taille=60):
 
 			paginator = Paginator(produits, taille)
 			nombre_page = request.GET.get('page')
@@ -462,7 +463,7 @@ class Recherche:
 					produits = list(produits)
 					random.shuffle(produits)
 
-					paginator, produits = pagination(produits, 20)
+					paginator, produits = pagination(produits)
 					return render(request, render_template,{
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -476,7 +477,7 @@ class Recherche:
 					produits = list(produits)
 					random.shuffle(produits)
 
-					paginator, produits = pagination(produits, 20)
+					paginator, produits = pagination(produits)
 					return render(request, render_template,{
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -489,7 +490,7 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
-			paginator, produits = pagination(produits, 20)
+			paginator, produits = pagination(produits)
 			return render(request, render_template,{
 				'produits': produits,
 				'nbre_produits': len(produits),
@@ -509,7 +510,7 @@ class Recherche:
 					produits = list(produits.filter(Q(libelle__icontains=requete)))
 					random.shuffle(produits)
 
-					paginator, produits = pagination(produits, 20)
+					paginator, produits = pagination(produits)
 					return render(request, render_template, {
 						'produits':produits,
 						'nbre_produits': len(produits),
@@ -517,7 +518,7 @@ class Recherche:
 						'paginator': paginator
 						})
 				else:
-					paginator, produits = pagination(produits, 20)
+					paginator, produits = pagination(produits)
 					return render(request, render_template, {
 						'produits': produits,
 						'nbre_produits': len(produits),
@@ -528,7 +529,7 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
-			paginator, produits = pagination(produits, 20)
+			paginator, produits = pagination(produits)
 			return render(request, render_template,{
 				'produits': produits,
 				'nbre_produits': len(produits),
@@ -544,7 +545,7 @@ class Recherche:
 			produits = list(produits)
 			random.shuffle(produits)
 
-			paginator = Paginator(produits, 20)
+			paginator = Paginator(produits)
 			nombre_page = request.GET.get('page')
 			produits = paginator.get_page(nombre_page)
 			return render(request, "resultat_recherche_grid.html", {
@@ -587,7 +588,7 @@ class Recherche:
 					# produits = random.sample(produits, len(produits))
 					random.shuffle(produits)
 
-					paginator = Paginator(produits, 20)
+					paginator = Paginator(produits)
 					nombre_page = request.GET.get('page')
 					page_obj = paginator.get_page(nombre_page)
 				except Exception as e:
@@ -617,7 +618,7 @@ class Recherche:
 				# produits = random.sample(produits, len(produits))
 				random.shuffle(produits)
 
-				paginator = Paginator(produits, 20)
+				paginator = Paginator(produits)
 				nombre_page = request.GET.get('page')
 				produits = paginator.get_page(nombre_page)
 			except Exception as e:
@@ -638,7 +639,7 @@ class Recherche:
 				# produits = random.sample(produits, len(produits))
 				random.shuffle(produits)
 
-				paginator = Paginator(produits, 20)
+				paginator = Paginator(produits)
 				nombre_page = request.GET.get('page')
 				produits = paginator.get_page(nombre_page)
 			except Exception as e:

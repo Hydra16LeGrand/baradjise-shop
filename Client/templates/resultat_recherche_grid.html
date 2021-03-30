@@ -162,7 +162,9 @@
 						    {% endif %}
 
 						    {% if produits.has_other_pages %}
-						    	<li class="page-item disabled" style="padding: 8px;">Page {{ produits.number }}</li>
+						    	<li class="page-item disabled" style="padding: 8px;">
+						    		Page {{ produits.number }}/{{ produits.paginator.number_page }}
+						    	</li>
 						    {% endif %}
 						    {% if produits.has_next %}
 						    <li class="page-item"><a class="page-link" href="?page={{ produits.next_page_number }}">Suivant </a></li>
