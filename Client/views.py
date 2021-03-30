@@ -601,6 +601,14 @@ class Recherche:
 				v2 = models.Vendeur.objects.get(user=User.objects.get(liste[1]))
 				v3 = models.Vendeur.objects.get(user=User.objects.get(liste[2]))
 				produits = produits.filter(Q(vendeur=v1) | Q(vendeur=v2) | Q(vendeur=v3))
+
+				produits = list(produits)
+				# produits = random.sample(produits, len(produits))
+				random.shuffle(produits)
+
+				paginator = Paginator(produits, 20)
+				nombre_page = request.GET.get('page')
+				produits = paginator.get_page(nombre_page)
 			except Exception as e:
 				raise e
 			else:
@@ -613,6 +621,14 @@ class Recherche:
 				for l in liste:
 					vendeur = models.Vendeur.objects.get(user=User.objects.get(username=l))
 					produits = produits.exclude(vendeur=vendeur)
+
+				produits = list(produits)
+				# produits = random.sample(produits, len(produits))
+				random.shuffle(produits)
+
+				paginator = Paginator(produits, 20)
+				nombre_page = request.GET.get('page')
+				produits = paginator.get_page(nombre_page)
 			except Exception as e:
 				raise e
 			else:
