@@ -604,7 +604,7 @@ class Recherche:
 	#methode pour les onglets supplementaires
 	def fonc_budget(request, boutique):
 
-		liste = ['Sidiberashop', 'Driptown', 'RO-BOUTIQUE']
+		liste = ['Sidiberashop', 'Driptown', 'RO-BOUTIQUE', 'Mr-le-boss']
 		produits = models.Produit.objects.all().exclude(Q(status=0) | Q(quantite=0))
 		if boutique == 'luxe':
 			try:
@@ -612,7 +612,8 @@ class Recherche:
 				v1 = models.Vendeur.objects.get(user=User.objects.get(username=liste[0]))
 				v2 = models.Vendeur.objects.get(user=User.objects.get(username=liste[1]))
 				v3 = models.Vendeur.objects.get(user=User.objects.get(username=liste[2]))
-				produits = produits.filter(Q(vendeur=v1) | Q(vendeur=v2) | Q(vendeur=v3))
+				v4 = models.Vendeur.objects.get(user=User.objects.get(username=liste[3]))
+				produits = produits.filter(Q(vendeur=v1) | Q(vendeur=v2) | Q(vendeur=v3) | Q(vendeur=v4))
 
 				produits = list(produits)
 				# produits = random.sample(produits, len(produits))
