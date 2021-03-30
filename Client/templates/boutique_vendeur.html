@@ -224,7 +224,10 @@
 									{% endif %}
 									<div class="price-wrap text-center">
 										<span class="price h5">{{ produit.prix|parse_int|virgule }} F.CFA </span><br>
-										<del style="color: red;">{{ produit|prix_barre|parse_int|virgule }} F.CFA</del>	
+										<del style="color: red;">{{ produit|prix_barre|parse_int|virgule }} F.CFA</del><br>
+										<span class="clignote" style="font-size: 0.9rem;">
+											Economisez {{produit|prix_barre|prix_economie:produit.prix }} F.CFA 
+										</span>		
 										<!-- <del class="price-old"> $198</del> -->
 									</div> <!-- info-price-detail // -->
 								</div> <!-- info-main.// -->
@@ -343,11 +346,17 @@
 					<i class="fab fa-lg fa-cc-visa"></i>
 					<i class="fab fa-lg fa-cc-paypal"></i>
 				</div>
-				<div class="col-md col-12" style="text-align: center;">
-					<span class="text-muted"> Developped By </span><span class="b"><a href="https://firebasestorage.googleapis.com/v0/b/projet-commerce.appspot.com/o/cv2.0.pdf?alt=media&token=5e7477ed-f3e9-4668-8833-c10111d9b371">Baradji Amara</a></span>
-				</div>
 			</section>
 		</div><!-- //container -->
 	</footer>
 <!-- ========================= FOOTER END // ========================= -->
+<style>
+.clignote {
+  color:orange;
+  animation: clignote 1s linear infinite;
+}
+@keyframes clignote {  
+  50% { opacity: 0; }
+}
+</style>
 </body>

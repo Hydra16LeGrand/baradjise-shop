@@ -4,7 +4,7 @@ from datetime import date
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout
-
+from random import randrange
 register = template.Library()
 
 @register.filter(name='multiplication')
@@ -223,3 +223,20 @@ def taille_detail(liste):
 		iteration.append(i)
 
 	return iteration
+
+@register.filter()
+def etoile_random(rien):
+
+	nbre_etoile = randrange(3, 6)
+	liste = list()
+	print(nbre_etoile)
+	for i in range(nbre_etoile):
+		liste.append(i)
+	print("Ici 1")
+	return liste
+
+
+@register.filter()
+def prix_economie(prix_barre, prix):
+
+	return int(prix_barre-prix)

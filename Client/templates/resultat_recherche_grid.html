@@ -103,7 +103,23 @@
 												{{ produit.libelle|truncatechars:30 }}
 											</a>
 										</h6>
-										
+										<div class="rating-wrap mb-3">
+											<ul class="rating-stars">
+												<li style="width:80%" class="stars-active text-left"> 
+												{% for l in 'rien'|etoile_random %}
+													<i class="fa fa-star"></i>
+												{% endfor %}
+												</li>
+												<li >
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i> 
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star"></i> 
+													<i class="fa fa-star"></i>
+													<i class="fa fa-star" style="visibility: hidden;"></i> 
+												</li>
+											</ul>
+										</div> 
 										<p class="text-warning b">Qté restante: {{ produit.quantite }}</p>
 										{% if 'temp'|promo > 0 %}
 										<p style="color: green;">Livraison gratuite : 
@@ -112,8 +128,10 @@
 										{% endif %}
 										<div class="price-wrap mt-2">
 											<span class="price h5">{{ produit.prix|parse_int|virgule }} F.CFA</span><br>
-											<del style="color: red;">{{ produit|prix_barre|parse_int|virgule }} F.CFA</del>
-											<!-- <del class="price-old">$1980</del> -->
+											<del style="color: red;">{{ produit|prix_barre|parse_int|virgule }} F.CFA</del><br>
+											<span class="clignote b" style="font-size: 0.9rem;">
+												Economisez {{produit|prix_barre|prix_economie:produit.prix|virgule }} F.CFA 
+											</span>	
 										</div> <!-- price-wrap.// -->
 									</div><br>
 									<a href="{% url 'ajouter_envie' produit.id %}?suivant={% url 'ajouter_envie' produit.id %}" class="btn btn-outline-secondary btn-block">

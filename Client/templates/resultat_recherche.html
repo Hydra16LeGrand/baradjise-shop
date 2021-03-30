@@ -99,29 +99,34 @@
 								<div class="info-main text-center">
 									<a href="{% url 'detail_produit' produit.id %}" class="h5 title" style="font-size: 1rem;"> {{ produit.libelle }}  </a>
 									<p>Catégorie : <b>{{ produit.categorie.nom }}</b></p>
-									<p>Vendeur : <b>{{ produit.vendeur.user.username }}</b></p>
-									<!-- <div class="rating-wrap mb-3">
+									<div class="rating-wrap mb-3">
 										<ul class="rating-stars">
-											<li style="width:80%" class="stars-active"> 
-												<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> 
+											<li style="width:80%" class="stars-active text-left"> 
+											{% for l in 'rien'|etoile_random %}
+												<i class="fa fa-star"></i>
+											{% endfor %}
 											</li>
-											<li>
-												<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-												<i class="fa fa-star"></i> <i class="fa fa-star"></i> 
+											<li >
+												<i class="fa fa-star"></i>
 												<i class="fa fa-star"></i> 
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i> 
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star" style="visibility: hidden;"></i> 
 											</li>
 										</ul>
-										<div class="label-rating">7/10</div>
-									</div>  rating-wrap.// -->
+									</div> 
 									<p class="text-warning">Quantité restante :<b> {{ produit.quantite }}</b></p>
+									<p>Vendeur : <b>{{ produit.vendeur.user.username }}</b></p>
 									{% if 'temp'|promo > 0 %}
 									<p style="color: green;">Livraison gratuite : <b >{{ 'temp'|promo }} jours restants</b></p><br>
 									{% endif %}
 									<div class="price-wrap text-center">
 										<span class="price h5">{{ produit.prix|parse_int|virgule }} F.CFA </span><br>
-										<del style="color: red;">{{ produit|prix_barre|parse_int|virgule }} F.CFA</del>	
+										<del style="color: red;">{{ produit|prix_barre|parse_int|virgule }} F.CFA</del><br>
+										<span class="clignote b" style="font-size: 0.9rem;">
+											Economisez {{produit|prix_barre|prix_economie:produit.prix }} F.CFA 
+										</span>	
 										<!-- <del class="price-old"> $198</del> -->
 									</div> <!-- info-price-detail // -->
 								</div> <!-- info-main.// -->
