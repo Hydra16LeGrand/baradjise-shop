@@ -12,14 +12,17 @@ from django.contrib.auth.models import User
 class ProduitAdmin(admin.ModelAdmin):
 	list_display = ("pk","libelle", "prix_vendeur", "prix", "quantite", "status", "image", "vendeur")
 	empty_value_display = '-empty-'
+	list_editable = ["status"]
 
 @admin.register(models.Commande)
 class CommandeAdmin(admin.ModelAdmin):
 	list_display = ("pk","panier", "date", "status", "montant")
+	list_editable = ["status"]
 
 @admin.register(models.Livraison)
 class LivraisonAdmin(admin.ModelAdmin):
 	list_display = ("pk","commande", "livreur", "adresse_livraison", "frais", "date_livraison", "status")
+	list_editable = ("livreur", "status")
 
 @admin.register(models.Livreur)
 class LivreurAdmin(admin.ModelAdmin):
@@ -28,10 +31,12 @@ class LivreurAdmin(admin.ModelAdmin):
 @admin.register(models.Paiement)
 class PaiementAdmin(admin.ModelAdmin):
 	list_display = ("pk","commande", "moyen_paiement", "montant_total", "status")
+	list_editable = ["status"]
 
 @admin.register(models.PanierProduit)
 class PanierProduitAdmin(admin.ModelAdmin):
 	list_display = ("pk","panier", "produit", "commande", "quantite", "date_ajout", "date_modification", "status")
+	
 
 # @admin.register(models.Panier)
 # class Panier(admin.ModelAdmin):
@@ -41,10 +46,6 @@ class PanierProduitAdmin(admin.ModelAdmin):
 class ProduitUser(admin.ModelAdmin):
 	list_display = ("pk","produit", "user")
 
-# @admin.register(models.User)
-# class User(admin.ModelAdmin):
-# 	list_display = ("contact1", "ville", "commune", "quartier", "profil", "produit", "user")
-
 @admin.register(models.Vendeur)
 class Vendeur(admin.ModelAdmin):
 	list_display = ("pk","contact1", "adresse", "user")
@@ -52,11 +53,11 @@ class Vendeur(admin.ModelAdmin):
 
 @admin.register(models.Historique)
 class Historique(admin.ModelAdmin):
-	list_display = ("pk","num_cmd","date_cmd","montant_cmd","libelle", "prix_vendeur", "prix", "quantite", "frais_livraison", "adresse_livraison",
-		"status_livraison","livreur", "moyen_paiement", "montant_total", "status_paiement", "date_paiement", "client", "vendeur")
+	list_display = ("pk","num_cmd", "code_cmd", "date_cmd","montant_cmd","libelle", "prix_vendeur", "prix", "quantite", "frais_livraison", "adresse_livraison",
+		"status_livraison","livreur", "montant_total", "status_paiement", "date_paiement", "client", "vendeur")
 	empty_value_display = '-vide-'
 	list_display_links = ["pk","num_cmd", "montant_cmd"]
-	list_editable = ("status_paiement", "status_livraison", "livreur")
+	list_editable = ("status_paiement", "status_livraison", "livreur", "date_paiement")
 
 @admin.register(models.Categorie)
 class Categorie(admin.ModelAdmin):
