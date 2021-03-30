@@ -597,9 +597,9 @@ class Recherche:
 		if boutique == 'luxe':
 			try:
 
-				v1 = models.Vendeur.objects.get(user=User.objects.get(liste[0]))
-				v2 = models.Vendeur.objects.get(user=User.objects.get(liste[1]))
-				v3 = models.Vendeur.objects.get(user=User.objects.get(liste[2]))
+				v1 = models.Vendeur.objects.get(user=User.objects.get(username=liste[0]))
+				v2 = models.Vendeur.objects.get(user=User.objects.get(username=liste[1]))
+				v3 = models.Vendeur.objects.get(user=User.objects.get(username=liste[2]))
 				produits = produits.filter(Q(vendeur=v1) | Q(vendeur=v2) | Q(vendeur=v3))
 
 				produits = list(produits)
