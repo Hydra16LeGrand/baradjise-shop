@@ -112,7 +112,6 @@ class Acces:
 				return render(request, "Client/authentification.html", {'message':"Compte inexistant"})
 			else:
 				user = authenticate(username=form.get('username'), password=form.get('mdp'))
-				print(user)
 				if user is not None:
 					login(request, user)
 					return HttpResponseRedirect(form.get('suivant'))
@@ -486,7 +485,7 @@ class Recherche:
 						'requete': categorie.cle,
 						'paginator': paginator
 						})
-			print("requete3 :", requete)
+
 			produits = list(produits)
 			random.shuffle(produits)
 

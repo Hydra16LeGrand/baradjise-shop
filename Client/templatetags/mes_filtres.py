@@ -229,10 +229,8 @@ def etoile_random(rien):
 
 	nbre_etoile = randrange(3, 6)
 	liste = list()
-	print(nbre_etoile)
 	for i in range(nbre_etoile):
 		liste.append(i)
-	print("Ici 1")
 	return liste
 
 
