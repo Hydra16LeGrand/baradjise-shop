@@ -780,6 +780,21 @@ class Envie:
 			suivant = request.GET.get('suivant')
 			return redirect("authentification", "Veuillez vous authentifier d\'abord", suivant)
 
+			try:
+				produit = models.Produit.objects.get(pk= id_produit)
+			except Exception as e:
+				raise e
+			else:
+				cache_envies = cache.get('cache_envies', {})
+
+				if len(cache_envies) != 0:
+					taille = len(cache_envies) + 1
+					cache_envies[taille] = produit
+					cache.set('cache_envies', cache_envies)
+				else:
+					cache_envies[1] = produit
+					cache.add('cache_envies', cache_envies)
+
 		else:
 			try:
 				produit = models.Produit.objects.get(pk=id_produit, status=1)
@@ -795,9 +810,9 @@ class Envie:
 						produit_user =  models.ProduitUser.objects.get(produit=produit, user=client)
 					except Exception as e:
 						produit_user = models.ProduitUser.objects.create(produit=produit, user=client)
-						return redirect('lister_envie', "Article ajouté aux souhaits")
+						return redirect('lister_envie', "Article ajouté aux envies")
 					else:
-						return redirect('lister_envie', "Cet article existe déja dans vos souhaits")
+						return redirect('lister_envie', "Cet article existe déja dans vos envies")
 
 	def lister(request, message_success=None):
 

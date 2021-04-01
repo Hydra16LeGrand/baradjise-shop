@@ -101,16 +101,10 @@
 				    </div>
 				</form> <!-- search-wrap .end// -->
 			</div>
-			{% if request.user.is_authenticated %}
-				<div class="col-lg-5 col-xl-4 col-sm-8 col-md-4 col-7">
-			{% else %}
-				<div class="col-3 col-md-2 col-sm-4 col-lg-3 col-xl-2"></div>
-				<div class="col-lg-2 col-xl-2 col-sm-4 col-md-2 col-4">
-			{% endif %}
-						
-				{% if request.user.is_authenticated %}
+			
+			<div class="col-lg-5 col-xl-4 col-sm-8 col-md-4 col-7">
 				<div class="d-flex justify-content-end">
-					<a href="{% url 'lister_envie' %}" title="Mes souhaits" class="widget-header mr-3">
+					<a href="{% url 'lister_envie' %}" title="Mes envies" class="widget-header mr-3">
 						<div class="icon">
 							<i class="icon-sm rounded-circle border fa fa-heart"></i>
 							{% if request|nbre_pu %}
@@ -133,8 +127,6 @@
 						</div>
 					</a>
 					<!-- <span class="badge badge-pill badge-danger notify"></span> -->
-									
-					{% endif %}
 					<div class="widget-header dropdown">
 						{% if request.user.is_authenticated %}
 							<a data-toggle="dropdown" class="dropdown-toggle"  data-offset="20,10" href="{% url 'dashboard_client' %}">
