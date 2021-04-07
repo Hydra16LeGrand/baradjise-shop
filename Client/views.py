@@ -1565,7 +1565,8 @@ class OffreSpeciale:
 			offres = [95, 50, 47, 43, 40, 48, 47, 45, 43, 142]
 			produits = []
 			for offre in offres:
-				produits.append(models.Produit.objects.get(pk=offre).exclude(quantite=0, status=0))
+
+				produits.append(models.Produit.objects.get(pk=offre))
 
 			context = {'produits': produits, 'taille': len(produits)}
 
