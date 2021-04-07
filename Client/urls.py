@@ -71,4 +71,6 @@ urlpatterns = [
 
 	path('mot-de-passe-oublie', views.mot_de_passe_oublie, name='mot_de_passe_oublie'),
 	path('contactez-nous', views.contactez_nous, name='contactez-nous'),
+
+	path('offre-special-ramadan/', views.OffreSpeciale.SpecialRamadan.as_view(), name='special_ramadan'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

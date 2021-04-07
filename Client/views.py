@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.db.models import Q
 from django.core.paginator import Paginator
-from datetime import  date
+from datetime import date
 from django.contrib import auth
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -10,6 +10,9 @@ import random
 import pyrebase
 from django.core.mail import send_mail
 from django.core.cache import cache
+from django.views import View
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # import firebase_admin
 
@@ -1550,3 +1553,20 @@ def handler404(request, exception):
 def handler500(request):
 
 	return render(request, "Errors/500.html", status=500)
+
+
+class OffreSpeciale:
+
+	# @method_decorator(login_required, name='dispatch')
+	class SpecialRamadan(View):
+
+		template_name = "Client/special_ramadan.html"
+		def get(self, request):
+			offres = [95, 50, 47, 43, 40, 48, 47, 45, 43, 142]
+			produits = []
+			for offre in offres:
+				produits.append(models.Produit.objects.get(pk=offre).exclude(quantite=0, status=0))
+
+			context = {'produits': produits, 'taille': len(produits)}
+
+			return render(request, self.template_name, context)
