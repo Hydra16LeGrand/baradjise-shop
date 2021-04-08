@@ -1562,7 +1562,7 @@ class OffreSpeciale:
 
 		template_name = "Client/special_ramadan.html"
 		def get(self, request):
-			offres = [95, 50, 47, 43, 40, 48, 47, 45, 43, 142]
+			offres = [95, 50, 47, 43, 40, 48, 47, 45, 43, 142, 182, 183, 184, 185, 186, 187, 188, 189]
 			produits = []
 			for offre in offres:
 
