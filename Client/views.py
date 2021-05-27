@@ -1571,3 +1571,4 @@ class OffreSpeciale:
 			context = {'produits': produits, 'taille': len(produits)}
 
 			return render(request, self.template_name, context)
+
